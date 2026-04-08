@@ -1,8 +1,194 @@
 ---
-import CodeTabs from '../CodeTabs.astro';
-const props = Astro.props;
+interface TabStep {
+	tool: string;
+	command: string;
+}
+
+interface Tab {
+	id: string;
+	label: string;
+	steps: TabStep[];
+	note: string;
+}
+
+interface Props {
+	tabs?: Tab[];
+	ariaLabel?: string;
+	class?: string;
+}
+
+const defaultTabs: Tab[] = [
+	{
+		id: 'npm',
+		label: 'npm',
+		steps: [
+			{ tool: 'npm', command: 'install -g @gentle-ai/cli' },
+			{ tool: 'cd', command: 'your-project' },
+			{ tool: 'gentle-ai', command: 'init' },
+		],
+		note: '# Project detected: TypeScript/Astro\n# Analysis complete. Ready for implementation.',
+	},
+	{
+		id: 'pnpm',
+		label: 'pnpm',
+		steps: [
+			{ tool: 'pnpm', command: 'add -g @gentle-ai/cli' },
+			{ tool: 'cd', command: 'your-project' },
+			{ tool: 'gentle-ai', command: 'init' },
+		],
+		note: '# Project detected: TypeScript/Astro\n# Analysis complete. Ready for implementation.',
+	},
+	{
+		id: 'bun',
+		label: 'bun',
+		steps: [
+			{ tool: 'bun', command: 'install -g @gentle-ai/cli' },
+			{ tool: 'cd', command: 'your-project' },
+			{ tool: 'gentle-ai', command: 'init' },
+		],
+		note: '# Project detected: TypeScript/Astro\n# Analysis complete. Ready for implementation.',
+	},
+];
+
+const {
+	tabs = defaultTabs,
+	ariaLabel = 'Command presets',
+	class: className = '',
+} = Astro.props;
 ---
 
-<CodeTabs {...props}>
-	<slot />
-</CodeTabs>
+<div class={`overflow-hidden radius-brutal border-hairline bg-surface-container-low ${className}`} data-code-tabs>
+	<div class="flex border-b-hairline" role="tablist" aria-label={ariaLabel}>
+		{
+			tabs.map((tab, index) => (
+				<button
+					type="button"
+					class:list={[
+						'mono border-r-hairline px-6 py-3 text-xs uppercase tracking-[0.18em] transition-colors last:border-r-0',
+						index === 0
+							? 'bg-surface-container-high text-primary-fixed'
+							: 'text-on-surface-variant hover:bg-surface-container-highest',
+					]}
+					role="tab"
+					aria-selected={index === 0 ? 'true' : 'false'}
+					aria-controls={`code-panel-${tab.id}`}
+					id={`code-tab-${tab.id}`}
+					data-tab-id={tab.id}
+					tabindex={index === 0 ? '0' : '-1'}
+				>
+					{tab.label}
+				</button>
+			))
+		}
+	</div>
+
+	<div class="relative bg-surface-container-lowest p-8 mono text-sm">
+		<button
+			type="button"
+			class="absolute right-8 top-8 text-on-surface-variant transition-colors hover:text-primary"
+			aria-label="Copy installation commands"
+		>
+			<span class="material-symbols-outlined" aria-hidden="true">content_copy</span>
+		</button>
+		{
+			tabs.map((tab, index) => (
+				<div
+					id={`code-panel-${tab.id}`}
+					role="tabpanel"
+					aria-labelledby={`code-tab-${tab.id}`}
+					aria-hidden={index === 0 ? 'false' : 'true'}
+					tabindex="0"
+					class:list={[index === 0 ? 'block' : 'hidden']}
+					data-panel-id={tab.id}
+				>
+					{
+						tab.steps.map((step, stepIndex) => (
+							<div class="mb-3 flex gap-4 last:mb-6">
+								<span class="opacity-30">{stepIndex + 1}</span>
+								<span class="text-tertiary">{step.tool}</span>
+								<span>{step.command}</span>
+							</div>
+						))
+					}
+					<div class="border-t border-outline-variant/40 pt-6 italic text-on-surface-variant">
+						{tab.note.split('\n').map((line) => (
+							<>
+								{line}
+								<br />
+							</>
+						))}
+					</div>
+				</div>
+			))
+		}
+	</div>
+</div>
+
+<script is:inline>
+	function initCodeTabs() {
+		const groups = Array.from(document.querySelectorAll('[data-code-tabs]'));
+
+		groups.forEach((group) => {
+			if (group.dataset.codeTabsInit) return;
+			group.dataset.codeTabsInit = 'true';
+
+			const tabButtons = Array.from(group.querySelectorAll('[data-tab-id]'));
+			const tabPanels = Array.from(group.querySelectorAll('[data-panel-id]'));
+
+			const activate = (tabId) => {
+				tabButtons.forEach((button) => {
+					const selected = button.dataset.tabId === tabId;
+					button.setAttribute('aria-selected', selected ? 'true' : 'false');
+					button.setAttribute('tabindex', selected ? '0' : '-1');
+					button.classList.toggle('bg-surface-container-high', selected);
+					button.classList.toggle('text-primary-fixed', selected);
+					button.classList.toggle('text-on-surface-variant', !selected);
+				});
+
+				tabPanels.forEach((panel) => {
+					const active = panel.dataset.panelId === tabId;
+					panel.setAttribute('aria-hidden', active ? 'false' : 'true');
+					panel.classList.toggle('block', active);
+					panel.classList.toggle('hidden', !active);
+				});
+			};
+
+			const activateByIndex = (index) => {
+				const button = tabButtons[index];
+				if (!button?.dataset.tabId) return;
+				activate(button.dataset.tabId);
+				button.focus();
+			};
+
+			tabButtons.forEach((button) => {
+				button.addEventListener('click', () => {
+					const tabId = button.dataset.tabId;
+					if (tabId) activate(tabId);
+				});
+
+				button.addEventListener('keydown', (event) => {
+					const index = tabButtons.indexOf(button);
+					if (event.key === 'ArrowRight') {
+						event.preventDefault();
+						activateByIndex((index + 1) % tabButtons.length);
+					}
+					if (event.key === 'ArrowLeft') {
+						event.preventDefault();
+						activateByIndex((index - 1 + tabButtons.length) % tabButtons.length);
+					}
+					if (event.key === 'Home') {
+						event.preventDefault();
+						activateByIndex(0);
+					}
+					if (event.key === 'End') {
+						event.preventDefault();
+						activateByIndex(tabButtons.length - 1);
+					}
+				});
+			});
+		});
+	}
+
+	initCodeTabs();
+	document.addEventListener('astro:page-load', initCodeTabs);
+</script>
