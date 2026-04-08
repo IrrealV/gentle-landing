@@ -1,0 +1,169 @@
+<section id="process" data-home-section="process" class="overflow-hidden border-t border-outline-variant bg-surface-container-lowest py-24">
+	<div class="mx-auto max-w-[1200px] px-6">
+		<div data-animate="fade-up" class="mb-8 flex items-center gap-4">
+			<h2 class="mono text-2xl font-bold uppercase tracking-widest"
+				data-label-en="Installation Pipeline"
+				data-label-es="Pipeline de Instalación">Installation Pipeline</h2>
+			<div class="h-px flex-grow bg-outline-variant"></div>
+		</div>
+		<p data-animate="fade-up" class="mono mb-20 max-w-2xl text-sm text-on-surface-variant"
+			data-label-en="From a clean machine to a fully-configured AI environment in minutes. The installer handles every dependency, detects your existing setup, and applies the ecosystem non-destructively."
+			data-label-es="De una máquina limpia a un entorno de IA completamente configurado en minutos. El instalador gestiona cada dependencia, detecta tu configuración existente y aplica el ecosistema de forma no destructiva.">
+			From a clean machine to a fully-configured AI environment in minutes. The installer handles every dependency, detects your existing setup, and applies the ecosystem non-destructively.
+		</p>
+
+		<!--
+			Pipeline: absolute connector line behind, phases on top via CSS grid.
+			Stagger only on the 5 phase cards — not the connectors.
+		-->
+		<div class="relative">
+			<!-- Horizontal connector line (desktop only) -->
+			<div class="absolute top-8 left-0 right-0 hidden h-px border-t border-dashed border-outline-variant md:block" style="z-index: 0;"></div>
+
+			<!-- Phase cards — grid 5 cols, stagger just these 5 -->
+			<div class="relative grid grid-cols-1 gap-8 md:grid-cols-5" data-animate-stagger style="z-index: 1;">
+				<!-- Phase 1 -->
+				<div class="flex flex-col items-center text-center">
+					<div class="mono mb-6 flex h-16 w-16 items-center justify-center border border-primary bg-background text-xl font-bold transition-all duration-300 hover:bg-primary hover:text-on-primary">01</div>
+					<h4 class="mono mb-2 text-xs font-bold uppercase text-primary"
+						data-label-en="System Scan"
+						data-label-es="Escaneo del Sistema">System Scan</h4>
+					<p class="text-[10px] uppercase text-on-surface-variant"
+						data-label-en="Detect OS · Arch · Agents · Deps"
+						data-label-es="Detectar OS · Arch · Agentes · Deps">Detect OS · Arch · Agents · Deps</p>
+				</div>
+
+				<!-- Phase 2 -->
+				<div class="flex flex-col items-center text-center">
+					<div class="mono mb-6 flex h-16 w-16 items-center justify-center border border-secondary bg-background text-xl font-bold transition-all duration-300 hover:bg-secondary hover:text-background">02</div>
+					<h4 class="mono mb-2 text-xs font-bold uppercase text-secondary"
+						data-label-en="Select"
+						data-label-es="Seleccionar">Select</h4>
+					<p class="text-[10px] uppercase text-on-surface-variant"
+						data-label-en="Agents · Persona · Preset"
+						data-label-es="Agentes · Persona · Preset">Agents · Persona · Preset</p>
+				</div>
+
+				<!-- Phase 3 -->
+				<div class="flex flex-col items-center text-center">
+					<div class="mono mb-6 flex h-16 w-16 items-center justify-center border border-tertiary bg-background text-xl font-bold transition-all duration-300 hover:bg-tertiary hover:text-on-tertiary">03</div>
+					<h4 class="mono mb-2 text-xs font-bold uppercase text-tertiary"
+						data-label-en="Install Deps"
+						data-label-es="Instalar Deps">Install Deps</h4>
+					<p class="text-[10px] uppercase text-on-surface-variant"
+						data-label-en="Homebrew · Node 20+ · Git"
+						data-label-es="Homebrew · Node 20+ · Git">Homebrew · Node 20+ · Git</p>
+				</div>
+
+				<!-- Phase 4 -->
+				<div class="flex flex-col items-center text-center">
+					<div class="mono mb-6 flex h-16 w-16 items-center justify-center border border-primary bg-background text-xl font-bold transition-all duration-300 hover:bg-primary hover:text-on-primary">04</div>
+					<h4 class="mono mb-2 text-xs font-bold uppercase text-primary"
+						data-label-en="Configure"
+						data-label-es="Configurar">Configure</h4>
+					<p class="text-[10px] uppercase text-on-surface-variant"
+						data-label-en="Engram · Skills · MCP · GGA"
+						data-label-es="Engram · Skills · MCP · GGA">Engram · Skills · MCP · GGA</p>
+				</div>
+
+				<!-- Phase 5 -->
+				<div class="flex flex-col items-center text-center">
+					<div class="mono mb-6 flex h-16 w-16 items-center justify-center border border-outline bg-background text-xl font-bold transition-all duration-300 hover:border-secondary hover:text-secondary">05</div>
+					<h4 class="mono mb-2 text-xs font-bold uppercase"
+						data-label-en="Verify"
+						data-label-es="Verificar">Verify</h4>
+					<p class="text-[10px] uppercase text-on-surface-variant"
+						data-label-en="Health checks · Ready"
+						data-label-es="Verificación · Listo">Health checks · Ready</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Persona selection — interactive -->
+		<div data-animate="fade-up" class="mt-20 border border-outline-variant bg-surface-container-low p-8">
+			<div class="mono mb-6 text-[10px] uppercase tracking-widest text-on-surface-variant"
+				data-label-en="PERSONA SELECTION — Step 2b of Install Flow"
+				data-label-es="SELECCIÓN DE PERSONA — Paso 2b del Flujo de Instalación">PERSONA SELECTION — Step 2b of Install Flow</div>
+			<div class="grid grid-cols-1 gap-4 md:grid-cols-3" id="persona-grid">
+				<button
+					type="button"
+					data-persona="gentleman"
+					class="persona-card border border-secondary bg-secondary/5 p-6 text-left transition-all duration-200 cursor-pointer"
+					data-selected="true"
+				>
+					<div class="mono mb-2 flex items-center gap-2 text-sm font-bold text-secondary">
+						<span class="persona-icon">★</span> Your own Gentleman!
+					</div>
+					<p class="text-xs text-on-surface-variant">Senior Architect mentor that teaches, challenges, and pushes you to understand concepts before code. Rioplatense Spanish for Spanish input.</p>
+				</button>
+
+				<button
+					type="button"
+					data-persona="neutral"
+					class="persona-card border border-outline-variant p-6 text-left opacity-50 transition-all duration-200 cursor-pointer hover:opacity-80"
+					data-selected="false"
+				>
+					<div class="mono mb-2 flex items-center gap-2 text-sm text-on-surface-variant">
+						<span class="persona-icon">○</span> Neutral
+					</div>
+					<p class="text-xs text-on-surface-variant">Professional, helpful, no personality overlay. Default agent behavior with security-first permissions.</p>
+				</button>
+
+				<button
+					type="button"
+					data-persona="custom"
+					class="persona-card border border-outline-variant p-6 text-left opacity-50 transition-all duration-200 cursor-pointer hover:opacity-80"
+					data-selected="false"
+				>
+					<div class="mono mb-2 flex items-center gap-2 text-sm text-on-surface-variant">
+						<span class="persona-icon">○</span> Custom
+					</div>
+					<p class="text-xs text-on-surface-variant">Bring your own persona text or select from community presets. Injected into agent global instructions.</p>
+				</button>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script is:inline>
+	function initPersonaSelector() {
+		var grid = document.getElementById('persona-grid');
+		if (!grid || grid.dataset.personaInit) return;
+		grid.dataset.personaInit = 'true';
+
+		var cards = Array.from(grid.querySelectorAll('.persona-card'));
+
+		cards.forEach(function(card) {
+			card.addEventListener('click', function() {
+				cards.forEach(function(c) {
+					var icon = c.querySelector('.persona-icon');
+					c.dataset.selected = 'false';
+					c.classList.remove('border-secondary', 'bg-secondary/5', 'border-tertiary', 'bg-tertiary/5', 'opacity-100');
+					c.classList.add('border-outline-variant', 'opacity-50');
+					if (icon) icon.textContent = '○';
+					// Reset text color of title
+					var title = c.querySelector('.persona-icon + *') || c.querySelector('.mono');
+					if (title) {
+						title.parentElement.classList.remove('text-secondary', 'text-tertiary', 'font-bold');
+						title.parentElement.classList.add('text-on-surface-variant');
+					}
+				});
+
+				// Activate clicked card
+				card.dataset.selected = 'true';
+				card.classList.remove('border-outline-variant', 'opacity-50');
+				card.classList.add('border-secondary', 'bg-secondary/5', 'opacity-100');
+				var icon = card.querySelector('.persona-icon');
+				if (icon) icon.textContent = '★';
+				var titleEl = card.querySelector('.mono');
+				if (titleEl) {
+					titleEl.classList.remove('text-on-surface-variant');
+					titleEl.classList.add('text-secondary', 'font-bold');
+				}
+			});
+		});
+	}
+
+	initPersonaSelector();
+	document.addEventListener('astro:page-load', initPersonaSelector);
+</script>

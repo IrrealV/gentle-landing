@@ -1,0 +1,87 @@
+<section id="protocols" data-home-section="features" class="border-y border-outline-variant bg-surface-container-lowest py-24">
+	<div class="mx-auto max-w-[1200px] px-6">
+		<!-- Header -->
+		<div data-animate="fade-up" class="mb-16 flex items-center gap-4">
+			<h2 class="mono text-2xl font-bold uppercase tracking-tighter"
+				data-label-en="Core Protocols"
+				data-label-es="Protocolos Principales">Core Protocols</h2>
+			<div class="h-px flex-grow bg-outline-variant"></div>
+			<span class="mono text-[10px] text-on-surface-variant opacity-50">ECOSYSTEM / v1.0</span>
+		</div>
+
+		<!-- Row 1: Primary protocols -->
+		<div data-animate-stagger class="grid grid-cols-1 gap-0 border border-outline-variant md:grid-cols-3">
+			<!-- SDD -->
+			<div class="group border-b border-outline-variant p-10 transition-colors duration-300 hover:bg-surface-container-low md:border-b-0 md:border-r">
+				<div class="mb-8 flex h-12 w-12 items-center justify-center border border-primary text-primary transition-transform duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary">
+					<span class="material-symbols-outlined" aria-hidden="true">architecture</span>
+				</div>
+				<div class="mono mb-1 text-[10px] uppercase tracking-widest text-secondary opacity-70"
+					data-label-en="WORKFLOW PROTOCOL"
+					data-label-es="PROTOCOLO DE FLUJO">WORKFLOW PROTOCOL</div>
+				<h3 class="mono mb-4 text-lg font-bold text-primary">SDD</h3>
+				<p class="text-sm leading-relaxed text-on-surface-variant"
+					data-i18n-en="Spec-Driven Development. A deterministic &lt;strong class='text-on-surface'&gt;9-phase pipeline&lt;/strong&gt; that forces AI to document requirements and design before touching a single line of code. Explore → Propose → Spec → Design → Tasks → Apply → Verify → Archive."
+					data-i18n-es="Desarrollo Guiado por Especificaciones. Un pipeline determinista de &lt;strong class='text-on-surface'&gt;9 fases&lt;/strong&gt; que fuerza a la IA a documentar requisitos y diseño antes de tocar una línea de código. Explorar → Proponer → Spec → Diseño → Tareas → Aplicar → Verificar → Archivar.">
+					Spec-Driven Development. A deterministic <strong class="text-on-surface">9-phase pipeline</strong> that forces AI to document requirements and design before touching a single line of code. Explore → Propose → Spec → Design → Tasks → Apply → Verify → Archive.
+				</p>
+				<div class="mono mt-6 text-[10px] text-primary opacity-60">9 skills · sdd-agent-team →</div>
+			</div>
+
+			<!-- SKILLS -->
+			<div class="group border-b border-outline-variant p-10 transition-colors duration-300 hover:bg-surface-container-low md:border-b-0 md:border-r">
+				<div class="mb-8 flex h-12 w-12 items-center justify-center border border-tertiary text-tertiary transition-transform duration-300 group-hover:scale-110 group-hover:bg-tertiary group-hover:text-on-tertiary">
+					<span class="material-symbols-outlined" aria-hidden="true">extension</span>
+				</div>
+				<div class="mono mb-1 text-[10px] uppercase tracking-widest text-secondary opacity-70">DOMAIN EXPERTISE</div>
+			<h3 class="mono mb-4 text-lg font-bold text-tertiary">SKILLS</h3>
+				<p class="text-sm leading-relaxed text-on-surface-variant">
+					Loadable expertise modules inject domain constraints directly into any agent. Product architecture, testing strategy, UI patterns, data contracts, and verification playbooks — <strong class="text-on-surface">30+ internal skills</strong> and growing.
+				</p>
+				<div class="mono mt-6 text-[10px] text-tertiary opacity-60">30+ patterns · auto-detected →</div>
+			</div>
+
+			<!-- ENGRAM -->
+			<div class="group p-10 transition-colors duration-300 hover:bg-surface-container-low">
+				<div class="mb-8 flex h-12 w-12 items-center justify-center border border-secondary text-secondary transition-transform duration-300 group-hover:scale-110 group-hover:bg-secondary/20">
+					<span class="material-symbols-outlined" aria-hidden="true">memory</span>
+				</div>
+				<div class="mono mb-1 text-[10px] uppercase tracking-widest text-secondary opacity-70">MEMORY LAYER</div>
+				<h3 class="mono mb-4 text-lg font-bold text-secondary">ENGRAM</h3>
+				<p class="text-sm leading-relaxed text-on-surface-variant">
+					Persistent cross-session memory stored in a local SQLite + FTS5 database. The agent remembers architectural decisions, bug fixes, and conventions — <strong class="text-on-surface">across sessions, machines, and agents</strong>.
+				</p>
+				<div class="mono mt-6 text-[10px] text-secondary opacity-60">SQLite · FTS5 · localhost:7437 →</div>
+			</div>
+		</div>
+
+		<!-- Row 2: Secondary protocols -->
+		<div data-animate-stagger class="mt-px grid grid-cols-1 gap-0 border border-t-0 border-outline-variant md:grid-cols-2">
+			<!-- GGA -->
+			<div class="group border-b border-outline-variant p-10 transition-colors duration-300 hover:bg-surface-container-low md:border-b-0 md:border-r">
+				<div class="mb-8 flex h-12 w-12 items-center justify-center border border-outline text-on-surface-variant transition-transform duration-300 group-hover:scale-110 group-hover:border-secondary group-hover:text-secondary">
+					<span class="material-symbols-outlined" aria-hidden="true">security</span>
+				</div>
+				<div class="mono mb-1 text-[10px] uppercase tracking-widest text-secondary opacity-70">QUALITY GATE</div>
+			<h3 class="mono mb-4 text-lg font-bold">GGA — Guardian Angel</h3>
+				<p class="text-sm leading-relaxed text-on-surface-variant">
+					Zero-dependency Bash CLI that runs AI-powered code review on every <code class="text-secondary">git commit</code>. Validates staged files against team standards in <code>AGENTS.md</code> using internal runtime tiers and local execution profiles.
+				</p>
+				<div class="mono mt-6 text-[10px] text-on-surface-variant opacity-50">pre-commit hook · SHA256 cache · CI mode →</div>
+			</div>
+
+			<!-- MCP -->
+			<div class="group p-10 transition-colors duration-300 hover:bg-surface-container-low">
+				<div class="mb-8 flex h-12 w-12 items-center justify-center border border-outline text-on-surface transition-transform duration-300 group-hover:scale-110 group-hover:border-primary group-hover:text-primary">
+					<span class="material-symbols-outlined" aria-hidden="true">hub</span>
+				</div>
+				<div class="mono mb-1 text-[10px] uppercase tracking-widest text-secondary opacity-70">INTEGRATION LAYER</div>
+			<h3 class="mono mb-4 text-lg font-bold">MCP SERVERS</h3>
+				<p class="text-sm leading-relaxed text-on-surface-variant">
+					Model Context Protocol connects your agent to internal documentation, workflow systems, and custom tooling through a stable integration contract — zero prompt engineering required.
+				</p>
+				<div class="mono mt-6 text-[10px] text-on-surface-variant opacity-50">Docs Hub · Workflow Hub · Internal APIs · Custom →</div>
+			</div>
+		</div>
+	</div>
+</section>

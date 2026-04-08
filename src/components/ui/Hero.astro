@@ -1,0 +1,156 @@
+---
+interface Props {
+	ctaSecondaryHref: `/${string}` | `#${string}`;
+}
+
+const { ctaSecondaryHref } = Astro.props;
+---
+
+<section data-home-section="hero" class="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-12 px-6 pb-24 pt-12 lg:grid-cols-2">
+	<!-- Left column -->
+	<div data-animate="slide-left">
+		<h1 class="mono mb-4 text-4xl font-extrabold leading-[1.1] tracking-tighter text-primary md:text-6xl">
+			<span data-label-en="ONE COMMAND." data-label-es="UN COMANDO.">ONE COMMAND.</span><br />
+			<span class="text-secondary" data-label-en="ANY AGENT." data-label-es="CUALQUIER AGENTE.">ANY AGENT.</span><br />
+			<span class="text-on-surface-variant font-light" data-label-en="ANY OS." data-label-es="CUALQUIER OS.">ANY OS.</span>
+		</h1>
+
+		<p class="mb-4 max-w-xl text-base leading-relaxed text-on-surface-variant"
+			data-label-en="Gentle-AI is the Gentleman AI Ecosystem Configurator. It takes whatever AI coding agent you use and supercharges it with persistent memory, Spec-Driven Development, curated skills, MCP servers, and a persona that teaches — not just completes."
+			data-label-es="Gentle-AI es el Configurador del Ecosistema Gentleman AI. Toma cualquier agente de IA que uses y lo potencia con memoria persistente, Desarrollo Guiado por Especificaciones, skills curadas, servidores MCP, y una persona que enseña — no solo completa.">
+			Gentle-AI is the <strong class="text-on-surface">Gentleman AI Ecosystem Configurator</strong>. It takes whatever AI coding agent you use and supercharges it with persistent memory, Spec-Driven Development, curated skills, MCP servers, and a persona that teaches — not just completes.
+		</p>
+
+		<p class="mono mb-8 text-xs text-on-surface-variant opacity-70"
+			data-label-en="Supports: Gentle-AI Core · Gentle-AI Team · Generic CLI · IDE Extension · Local Runtime"
+			data-label-es="Compatible: Gentle-AI Core · Gentle-AI Team · CLI Genérica · Extensión IDE · Runtime Local">
+			Supports: Gentle-AI Core · Gentle-AI Team · Generic CLI · IDE Extension · Local Runtime
+		</p>
+
+		<!-- GitHub stats — inline island (no SSR import) -->
+		<div id="github-stats" class="flex flex-wrap items-center gap-4">
+			<div class="flex items-center gap-2 border border-outline-variant px-3 py-1.5 transition-colors duration-200 hover:border-primary">
+				<span class="material-symbols-outlined text-secondary" style="font-size: 16px;" aria-hidden="true">star</span>
+				<span class="mono text-xs text-on-surface-variant" id="gh-stars">—</span>
+				<span class="mono text-[10px] uppercase tracking-widest text-on-surface-variant opacity-50">Stars</span>
+			</div>
+			<div class="flex items-center gap-2 border border-outline-variant px-3 py-1.5 transition-colors duration-200 hover:border-secondary">
+				<span class="material-symbols-outlined text-tertiary" style="font-size: 16px;" aria-hidden="true">fork_right</span>
+				<span class="mono text-xs text-on-surface-variant" id="gh-forks">—</span>
+				<span class="mono text-[10px] uppercase tracking-widest text-on-surface-variant opacity-50">Forks</span>
+			</div>
+			<div class="flex items-center gap-2 border border-outline-variant px-3 py-1.5 transition-colors duration-200 hover:border-tertiary">
+				<span class="material-symbols-outlined text-primary" style="font-size: 16px;" aria-hidden="true">new_releases</span>
+				<span class="mono text-xs text-on-surface-variant" id="gh-version">—</span>
+				<span class="mono text-[10px] uppercase tracking-widest text-on-surface-variant opacity-50">Latest</span>
+			</div>
+		</div>
+
+		<div class="mt-8 flex flex-wrap gap-4">
+			<a
+				href={ctaSecondaryHref}
+				class="mono flex items-center gap-2 border border-outline px-8 py-4 text-sm font-bold uppercase transition-colors duration-200 hover:bg-surface-container-low hover:border-primary"
+				data-label-en="Read Architecture"
+				data-label-es="Leer Arquitectura"
+			>
+				<span class="material-symbols-outlined" style="font-size: 18px;" aria-hidden="true">description</span>
+				Read Architecture
+			</a>
+			<a
+				href="#install"
+				class="mono flex items-center gap-2 border border-primary-container bg-primary-container px-8 py-4 text-sm font-bold uppercase text-on-primary transition-all duration-200 hover:bg-secondary hover:border-secondary hover:text-background active:scale-95"
+				data-label-en="Get Started"
+				data-label-es="Comenzar"
+			>
+				<span class="material-symbols-outlined" style="font-size: 18px;" aria-hidden="true">rocket_launch</span>
+				Get Started
+			</a>
+		</div>
+	</div>
+
+	<!-- Terminal mock — matches the real gentle-ai TUI (Bubbletea) -->
+	<div data-animate="slide-right" class="rounded-lg border border-outline-variant bg-surface-container-lowest p-1">
+		<div class="overflow-hidden rounded-md border border-outline-variant bg-surface-container-low">
+			<!-- Window chrome -->
+			<div class="flex items-center gap-2 border-b border-outline-variant bg-surface-container-high px-4 py-2">
+				<div class="h-2.5 w-2.5 bg-window-control-red transition-opacity hover:opacity-70"></div>
+				<div class="h-2.5 w-2.5 bg-window-control-amber transition-opacity hover:opacity-70"></div>
+				<div class="h-2.5 w-2.5 bg-window-control-green transition-opacity hover:opacity-70"></div>
+				<span class="mono ml-4 text-[10px] text-on-surface-variant opacity-50">zsh — gentle-ai</span>
+				<span class="mono ml-auto text-[10px] bg-secondary/20 text-secondary px-2 py-0.5">v1.18.3</span>
+			</div>
+			<!-- Terminal body -->
+			<div class="mono overflow-x-auto p-5 text-sm leading-relaxed">
+				<!-- run command -->
+				<div class="mb-3 text-on-surface-variant">
+					<span class="text-tertiary">$</span> gentle-ai
+				</div>
+
+				<!-- Logo / tagline line -->
+				<div class="mb-1 text-primary font-bold">╔══ gentle-ai ══╗</div>
+				<div class="mb-3 text-on-surface-variant opacity-60 text-xs">AI Gentle Stack · v1.18.3</div>
+
+				<!-- Menu -->
+				<div class="mb-1 text-secondary font-bold text-xs uppercase tracking-widest">Menu</div>
+				<div class="mb-0.5 flex items-center gap-2">
+					<span class="text-primary">▸</span>
+					<span class="text-on-surface bg-primary/10 px-1">Start installation</span>
+				</div>
+				<div class="mb-0.5 text-on-surface-variant opacity-60 pl-4">Upgrade tools (up to date)</div>
+				<div class="mb-0.5 text-on-surface-variant opacity-60 pl-4">Sync configs</div>
+				<div class="mb-0.5 text-on-surface-variant opacity-60 pl-4">Configure models</div>
+				<div class="mb-0.5 text-on-surface-variant opacity-60 pl-4">Create your own Agent</div>
+				<div class="mb-3 text-on-surface-variant opacity-60 pl-4">Quit</div>
+
+				<!-- Help bar -->
+				<div class="flex gap-2 border-t border-outline-variant pt-2">
+					<span class="text-on-surface-variant opacity-40 text-xs">j/k: navigate · enter: select · q: quit</span>
+					<span class="animate-pulse text-on-surface ml-auto">|</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script is:inline>
+	function fetchGithubStats() {
+		var REPO = 'Gentleman-Programming/gentle-ai';
+		var stars = document.getElementById('gh-stars');
+		var forks = document.getElementById('gh-forks');
+		var version = document.getElementById('gh-version');
+		if (!stars || !forks || !version) return;
+
+		Promise.all([
+			fetch('https://api.github.com/repos/' + REPO, { headers: { Accept: 'application/vnd.github.v3+json' } }),
+			fetch('https://api.github.com/repos/' + REPO + '/releases/latest', { headers: { Accept: 'application/vnd.github.v3+json' } })
+		]).then(function(responses) {
+			if (responses[0].ok) {
+				responses[0].json().then(function(repo) {
+					var s = document.getElementById('gh-stars');
+					var f = document.getElementById('gh-forks');
+					if (s) s.textContent = repo.stargazers_count >= 1000
+						? (repo.stargazers_count / 1000).toFixed(1) + 'k'
+						: String(repo.stargazers_count);
+					if (f) f.textContent = String(repo.forks_count);
+				});
+			}
+			if (responses[1].ok) {
+				responses[1].json().then(function(release) {
+					var v = document.getElementById('gh-version');
+					if (v) v.textContent = release.tag_name || 'v0.1.0';
+				});
+			} else {
+				var v = document.getElementById('gh-version');
+				if (v) v.textContent = 'v0.1.0';
+			}
+		}).catch(function() {
+			['gh-stars', 'gh-forks', 'gh-version'].forEach(function(id) {
+				var el = document.getElementById(id);
+				if (el && el.textContent === '—') el.textContent = '…';
+			});
+		});
+	}
+
+	fetchGithubStats();
+	document.addEventListener('astro:page-load', fetchGithubStats);
+</script>

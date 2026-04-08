@@ -1,0 +1,50 @@
+schema: spec-driven
+
+context: |
+  Tech stack: Astro 6.1.4 + Tailwind CSS 4.2.2 + TypeScript
+  Architecture: Component-based Astro islands with CSS Custom Properties
+  Testing: Node.js built-in test runner (node --test)
+  Style: Functional Brutalism — 0-4px radius, hard borders, mono typography
+  Palette: Dual-palette system (Palette A: #06080f, Palette B: #11131b)
+  Fonts: Space Grotesk (headlines), Inter (body), JetBrains Mono (code)
+  Icons: Material Symbols Outlined
+
+strict_tdd: false
+
+testing:
+  strict_tdd_mode: false
+  runner:
+    command: node --test tests/**/*.test.mjs
+    framework: Node.js built-in
+  layers:
+    unit: { available: true, tool: Node.js assert }
+    integration: { available: false, tool: null }
+    e2e: { available: false, tool: null }
+  coverage: { available: false, command: null }
+  quality:
+    linter: { available: false, command: null }
+    type_checker: { available: true, command: tsc --noEmit }
+    formatter: { available: false, command: null }
+
+rules:
+  proposal:
+    - Include rollback plan for risky changes
+    - Identify affected pages and UI components
+  specs:
+    - Use Given/When/Then format for scenarios
+    - Reference stitch/ HTML files as ground truth
+  design:
+    - Document token changes in global.css
+    - Maintain dual-palette compatibility
+  tasks:
+    - Group tasks by page/component
+    - Use hierarchical numbering (1.1, 1.2)
+  apply:
+    - Follow existing component patterns
+    - Respect Functional Brutalism constraints
+  verify:
+    - Run node tests if infrastructure exists
+    - Compare against stitch/ reference HTML
+  archive:
+    - Preserve stitch/ reference files
+    - Document token evolution
