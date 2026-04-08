@@ -1,0 +1,32 @@
+---
+interface Props {
+	title: string;
+	summary: string;
+	icon?: string;
+	href?: string;
+	class?: string;
+}
+
+const { title, summary, icon = 'deployed_code', href, class: className = '' } = Astro.props;
+
+if (href && !href.startsWith('/') && !href.startsWith('#')) {
+	throw new Error(`BentoCard only supports internal links. Received: ${href}`);
+}
+---
+
+<article class={`section-box radius-brutal h-full p-6 ${className}`}>
+	<div class="mb-5 inline-flex h-10 w-10 items-center justify-center border-hairline bg-surface-container text-primary-fixed">
+		<span class="material-symbols-outlined" aria-hidden="true">{icon}</span>
+	</div>
+
+	<h3 class="mono mb-3 text-base uppercase tracking-[0.14em] text-on-surface">{title}</h3>
+	<p class="text-sm leading-relaxed text-on-surface-variant">{summary}</p>
+
+	{
+		href && (
+			<a href={href} class="mono mt-5 inline-flex text-xs uppercase tracking-[0.18em] text-primary hover:text-primary-fixed">
+				Explore
+			</a>
+		)
+	}
+</article>

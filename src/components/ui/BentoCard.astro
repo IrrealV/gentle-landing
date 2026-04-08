@@ -1,0 +1,42 @@
+---
+interface Props {
+	title: string;
+	summary: string;
+	icon?: string;
+	category?: string;
+	href?: string;
+	class?: string;
+}
+
+const {
+	title,
+	summary,
+	icon = 'architecture',
+	category = 'Technical Module',
+	href,
+	class: className = '',
+} = Astro.props;
+
+if (href && !href.startsWith('/') && !href.startsWith('#')) {
+	throw new Error(`BentoCard only supports internal links. Received: ${href}`);
+}
+---
+
+<article class={`group border border-outline-variant bg-surface-container-low p-12 transition-colors hover:border-primary hover:bg-surface-container-high ${className}`}>
+	<div class="mb-6 flex h-12 w-12 items-center justify-center border border-outline-variant bg-surface-container-highest transition-colors group-hover:border-primary">
+		<span class="material-symbols-outlined text-3xl text-primary" aria-hidden="true">{icon}</span>
+	</div>
+
+	<h3 class="mb-4 font-headline text-2xl font-bold tracking-tight text-on-surface">{title}</h3>
+	<p class="mb-6 text-sm leading-relaxed text-on-surface-variant">{summary}</p>
+
+	<div class="font-mono text-xs uppercase tracking-widest text-secondary">{category}</div>
+
+	{
+		href && (
+			<a href={href} class="mt-6 inline-flex font-mono text-xs uppercase tracking-widest text-primary hover:text-primary-fixed">
+				Open module
+			</a>
+		)
+	}
+</article>

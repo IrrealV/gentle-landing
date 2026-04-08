@@ -1,0 +1,49 @@
+---
+interface Props {
+	title?: string;
+	description?: string;
+	badge?: string;
+	class?: string;
+	bodyClass?: string;
+	[key: string]: unknown;
+}
+
+const {
+	title = 'terminal',
+	description = 'Terminal output preview',
+	badge,
+	class: className = '',
+	bodyClass = '',
+	...rest
+} = Astro.props;
+---
+
+<section
+	{...rest}
+	class={`relative overflow-hidden border border-outline-variant bg-surface-container-lowest p-1 ${className}`}
+	role="region"
+	aria-label={description}
+>
+	{
+		badge && (
+			<div class="absolute -right-3 -top-3 bg-secondary px-2 py-1 font-mono text-[10px] font-bold text-on-secondary">
+				{badge}
+			</div>
+		)
+	}
+
+	<div class="overflow-hidden border border-outline-variant bg-surface-container-low">
+		<header class="flex items-center border-b border-outline-variant bg-surface-container-high px-4 py-2">
+			<div class="flex items-center gap-2" aria-hidden="true">
+				<span class="material-symbols-outlined text-[10px] text-window-control-red opacity-80">radio_button_checked</span>
+				<span class="material-symbols-outlined text-[10px] text-window-control-amber opacity-80">radio_button_checked</span>
+				<span class="material-symbols-outlined text-[10px] text-window-control-green opacity-80">radio_button_checked</span>
+			</div>
+			<p class="mono ml-4 text-[10px] uppercase tracking-widest text-on-surface-variant">{title}</p>
+		</header>
+
+		<div class={`mono bg-surface-container-lowest p-6 text-sm leading-relaxed text-on-surface ${bodyClass}`}>
+			<slot />
+		</div>
+	</div>
+</section>

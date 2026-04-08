@@ -1,0 +1,28 @@
+---
+import CodeTabs from './CodeTabs.astro';
+---
+
+<section id="install" data-home-section="install" class="mx-auto max-w-[1200px] px-6 py-24">
+	<div class="grid grid-cols-1 items-start gap-12 lg:grid-cols-5">
+		<div class="lg:col-span-2">
+			<h2 class="mono mb-6 text-3xl font-bold uppercase tracking-tighter leading-tight">Fastest Pipeline in the Void.</h2>
+			<p class="mb-8 text-on-surface-variant">
+				Initialize your project with one command. Gentle-AI maps dependencies and begins structured implementation immediately.
+			</p>
+			<ul class="space-y-4">
+				<li class="mono flex items-center gap-3 text-sm">
+					<span class="material-symbols-outlined text-lg text-primary">check_circle</span>
+					Zero-Config Setup
+				</li>
+				<li class="mono flex items-center gap-3 text-sm">
+					<span class="material-symbols-outlined text-lg text-primary">check_circle</span>
+					Automatic Context Mapping
+				</li>
+			</ul>
+		</div>
+
+		<div class="lg:col-span-3">
+			<CodeTabs />
+		</div>
+	</div>
+</section>

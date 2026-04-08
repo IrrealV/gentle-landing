@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#bdc7d6",
+                    "secondary-fixed-dim": "#e3c45d",
+                    "outline-variant": "#40484c",
+                    "surface-container-high": "#272a32",
+                    "outline": "#8a9296",
+                    "on-error": "#690005",
+                    "tertiary-container": "#a3adbc",
+                    "surface-bright": "#373941",
+                    "on-tertiary-fixed-variant": "#3e4854",
+                    "on-primary-container": "#004659",
+                    "error": "#ffb4ab",
+                    "primary": "#9ad0e6",
+                    "on-primary-fixed": "#001f29",
+                    "on-secondary": "#3c2f00",
+                    "on-tertiary-fixed": "#131c27",
+                    "surface-container-lowest": "#0c0e15",
+                    "background": "#11131b",
+                    "on-secondary-fixed-variant": "#564500",
+                    "surface-container-highest": "#32343d",
+                    "tertiary-fixed": "#d9e3f3",
+                    "primary-fixed-dim": "#99cee5",
+                    "primary-fixed": "#b9eaff",
+                    "surface-tint": "#99cee5",
+                    "on-background": "#e1e2ed",
+                    "surface-container": "#1d1f27",
+                    "on-surface-variant": "#c0c8cc",
+                    "inverse-on-surface": "#2e3038",
+                    "on-primary-fixed-variant": "#0d4d60",
+                    "surface": "#11131b",
+                    "on-tertiary-container": "#37414d",
+                    "error-container": "#93000a",
+                    "tertiary": "#bec8d7",
+                    "surface-dim": "#11131b",
+                    "inverse-surface": "#e1e2ed",
+                    "surface-variant": "#32343d",
+                    "primary-container": "#7fb4ca",
+                    "on-secondary-container": "#ffebb2",
+                    "secondary-fixed": "#ffe07f",
+                    "on-secondary-fixed": "#231b00",
+                    "on-error-container": "#ffdad6",
+                    "on-tertiary": "#27313d",
+                    "surface-container-low": "#191b23",
+                    "on-primary": "#003544",
+                    "inverse-primary": "#2e6579",
+                    "secondary-container": "#806800",
+                    "secondary": "#e3c45d",
+                    "on-surface": "#e1e2ed"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "body": ["Inter"],
+                    "label": ["Space Grotesk"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, .font-headline { font-family: 'Space Grotesk', sans-serif; }
+        .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+        .blueprint-grid {
+            background-image: radial-gradient(circle, #1a1f2e 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<nav class="flex justify-between items-center w-full px-8 py-4 max-w-full bg-[#11131b] border-b border-[#1a1f2e] sticky top-0 z-50">
+<div class="text-xl font-bold tracking-tighter text-[#9ad0e6] font-['Space_Grotesk']">Gentle-AI</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-['Space_Grotesk'] tracking-tight text-[#c0c8cc] font-mono text-xs uppercase tracking-widest hover:bg-[#191b23] hover:text-[#e3c45d] transition-colors duration-200" href="#">Features</a>
+<a class="font-['Space_Grotesk'] tracking-tight text-[#9ad0e6] border-b-2 border-[#9ad0e6] pb-1 hover:bg-[#191b23] transition-colors duration-200" href="{{DATA:SCREEN:SCREEN_10}}">How It Works</a>
+<a class="font-['Space_Grotesk'] tracking-tight text-[#c0c8cc] font-mono text-xs uppercase tracking-widest hover:bg-[#191b23] hover:text-[#e3c45d] transition-colors duration-200" href="{{DATA:SCREEN:SCREEN_6}}">Documentation</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 px-3 py-1 bg-surface-container-low border border-outline-variant hover:bg-[#191b23] cursor-pointer transition-all">
+<span class="material-symbols-outlined text-sm text-[#9ad0e6]">language</span>
+<span class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">EN</span>
+</div>
+<button class="bg-primary-container text-on-primary px-4 py-2 font-headline font-bold text-xs uppercase tracking-widest hover:bg-primary transition-all scale-95 active:scale-90 transition-transform">Connect</button>
+</div>
+</nav>
+<main class="flex-grow">
+<!-- Hero Section -->
+<header class="relative px-8 pt-24 pb-16 border-b border-outline-variant bg-surface overflow-hidden">
+<div class="absolute inset-0 blueprint-grid opacity-20"></div>
+<div class="max-w-7xl mx-auto relative z-10">
+<div class="mono text-secondary text-sm mb-4 tracking-[0.3em] font-bold">SYSTEM_ARCHITECTURE_V2.0</div>
+<h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter leading-none mb-8 text-on-surface uppercase">
+                    Spec-Driven <br/>Development
+                </h1>
+<p class="max-w-2xl text-on-surface-variant text-lg md:text-xl font-body leading-relaxed">
+                    SDD is a structured workflow that forces AI agents to think before coding. Instead of generating code directly from a prompt, the AI follows a deterministic pipeline: understand intent → document requirements → design solution → implement → verify.
+                </p>
+</div>
+</header>
+<!-- Pipeline Diagram -->
+<section class="py-20 bg-surface-container-lowest border-b border-outline-variant">
+<div class="px-8 max-w-7xl mx-auto">
+<div class="flex items-center justify-between mb-12">
+<h2 class="font-headline text-3xl font-bold tracking-tight uppercase">The 7-Phase Pipeline</h2>
+<div class="h-[1px] flex-grow mx-8 bg-outline-variant opacity-30"></div>
+<span class="mono text-xs text-on-surface-variant uppercase">Flow Schematic</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-7 gap-1 mb-12">
+<!-- Phase 1: Proposal -->
+<div class="p-6 bg-surface border border-outline-variant hover:border-primary transition-colors group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 mono text-[10px] text-outline opacity-40">01</div>
+<span class="material-symbols-outlined text-primary mb-4" style="font-variation-settings: 'FILL' 0;">lightbulb</span>
+<h3 class="font-headline font-bold text-sm uppercase mb-2">Proposal</h3>
+<p class="font-body text-xs text-on-surface-variant leading-relaxed">What &amp; Why. Capture intent, scope, and approach.</p>
+<div class="mt-4 h-1 w-0 bg-primary group-hover:w-full transition-all duration-300"></div>
+</div>
+<!-- Phase 2: Spec -->
+<div class="p-6 bg-surface border border-outline-variant hover:border-primary transition-colors group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 mono text-[10px] text-outline opacity-40">02</div>
+<span class="material-symbols-outlined text-primary mb-4" style="font-variation-settings: 'FILL' 1;">description</span>
+<h3 class="font-headline font-bold text-sm uppercase mb-2">Spec</h3>
+<p class="font-body text-xs text-on-surface-variant leading-relaxed">Requirements. Define acceptance scenarios.</p>
+<div class="mt-4 h-1 w-0 bg-primary group-hover:w-full transition-all duration-300"></div>
+</div>
+<!-- Phase 3: Design -->
+<div class="p-6 bg-surface border border-outline-variant hover:border-primary transition-colors group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 mono text-[10px] text-outline opacity-40">03</div>
+<span class="material-symbols-outlined text-primary mb-4" style="font-variation-settings: 'FILL' 0;">architecture</span>
+<h3 class="font-headline font-bold text-sm uppercase mb-2">Design</h3>
+<p class="font-body text-xs text-on-surface-variant leading-relaxed">How. Architecture decisions and file structure.</p>
+<div class="mt-4 h-1 w-0 bg-primary group-hover:w-full transition-all duration-300"></div>
+</div>
+<!-- Phase 4: Tasks -->
+<div class="p-6 bg-surface border border-outline-variant hover:border-primary transition-colors group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 mono text-[10px] text-outline opacity-40">04</div>
+<span class="material-symbols-outlined text-primary mb-4" style="font-variation-settings: 'FILL' 0;">list_alt</span>
+<h3 class="font-headline font-bold text-sm uppercase mb-2">Tasks</h3>
+<p class="font-body text-xs text-on-surface-variant leading-relaxed">Checklist. Discrete, verifiable work units.</p>
+<div class="mt-4 h-1 w-0 bg-primary group-hover:w-full transition-all duration-300"></div>
+</div>
+<!-- Phase 5: Apply -->
+<div class="p-6 bg-surface border border-outline-variant hover:border-primary transition-colors group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 mono text-[10px] text-outline opacity-40">05</div>
+<span class="material-symbols-outlined text-primary mb-4" style="font-variation-settings: 'FILL' 1;">terminal</span>
+<h3 class="font-headline font-bold text-sm uppercase mb-2">Apply</h3>
+<p class="font-body text-xs text-on-surface-variant leading-relaxed">Code. Actual implementation following specs.</p>
+<div class="mt-4 h-1 w-0 bg-primary group-hover:w-full transition-all duration-300"></div>
+</div>
+<!-- Phase 6: Verify -->
+<div class="p-6 bg-surface border border-outline-variant hover:border-primary transition-colors group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 mono text-[10px] text-outline opacity-40">06</div>
+<span class="material-symbols-outlined text-primary mb-4" style="font-variation-settings: 'FILL' 0;">verified</span>
+<h3 class="font-headline font-bold text-sm uppercase mb-2">Verify</h3>
+<p class="font-body text-xs text-on-surface-variant leading-relaxed">Check. Confirm implementation matches specs.</p>
+<div class="mt-4 h-1 w-0 bg-primary group-hover:w-full transition-all duration-300"></div>
+</div>
+<!-- Phase 7: Archive -->
+<div class="p-6 bg-surface border border-outline-variant hover:border-primary transition-colors group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 mono text-[10px] text-outline opacity-40">07</div>
+<span class="material-symbols-outlined text-primary mb-4" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<h3 class="font-headline font-bold text-sm uppercase mb-2">Archive</h3>
+<p class="font-body text-xs text-on-surface-variant leading-relaxed">Close. Sync delta specs to main specs.</p>
+<div class="mt-4 h-1 w-0 bg-primary group-hover:w-full transition-all duration-300"></div>
+</div>
+</div>
+<!-- Phase Breakdown Table -->
+<div class="overflow-x-auto border border-outline-variant">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-high border-b border-outline-variant">
+<th class="p-4 mono text-xs uppercase tracking-widest text-primary">Phase</th>
+<th class="p-4 mono text-xs uppercase tracking-widest text-primary">Artifact</th>
+<th class="p-4 mono text-xs uppercase tracking-widest text-primary">Purpose</th>
+</tr>
+</thead>
+<tbody class="text-sm font-body divide-y divide-outline-variant/30">
+<tr class="hover:bg-surface-container transition-colors">
+<td class="p-4 font-bold uppercase">Proposal</td>
+<td class="p-4 mono text-secondary">proposal.md</td>
+<td class="p-4 text-on-surface-variant">Capture intent, scope, and approach. What are we building and why?</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="p-4 font-bold uppercase">Spec</td>
+<td class="p-4 mono text-secondary">spec.md</td>
+<td class="p-4 text-on-surface-variant">Define requirements and acceptance scenarios. What must be true when done?</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="p-4 font-bold uppercase">Design</td>
+<td class="p-4 mono text-secondary">design.md</td>
+<td class="p-4 text-on-surface-variant">Architecture decisions, file structure, data models. How will we build it?</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="p-4 font-bold uppercase">Tasks</td>
+<td class="p-4 mono text-secondary">tasks.md</td>
+<td class="p-4 text-on-surface-variant">Implementation checklist. Discrete, verifiable work units.</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="p-4 font-bold uppercase">Apply</td>
+<td class="p-4 mono text-secondary">Source code</td>
+<td class="p-4 text-on-surface-variant">Actual implementation following specs and design.</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="p-4 font-bold uppercase">Verify</td>
+<td class="p-4 mono text-secondary">Verification report</td>
+<td class="p-4 text-on-surface-variant">Confirm implementation matches specs. Identify gaps.</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="p-4 font-bold uppercase">Archive</td>
+<td class="p-4 mono text-secondary">Closed change</td>
+<td class="p-4 text-on-surface-variant">Sync delta specs to main specs. Mark change complete.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Key Principles Bento Grid -->
+<section class="py-24 px-8 max-w-7xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Large Content Card -->
+<div class="md:col-span-8 bg-surface-container-low border border-outline-variant p-10 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-6">
+<div class="w-2 h-2 bg-secondary"></div>
+<span class="mono text-xs tracking-widest uppercase">Key Principle</span>
+</div>
+<h2 class="text-4xl font-headline font-extrabold uppercase tracking-tight mb-6">No Artifact Skipping</h2>
+<p class="font-body text-on-surface-variant leading-relaxed text-lg mb-8">
+                            The SDD pipeline mandates that no phase can skip artifacts. If Apply produces code that doesn't match Spec, Verify catches it. This creates an audit trail and reduces rework, eliminating the "generate-and-pray" pattern.
+                        </p>
+</div>
+<div class="flex flex-wrap gap-4">
+<div class="px-4 py-2 bg-surface border border-outline-variant mono text-[11px] uppercase tracking-tighter text-primary">Skill-Specific Rules</div>
+<div class="px-4 py-2 bg-surface border border-outline-variant mono text-[11px] uppercase tracking-tighter text-primary">Engram Persistence</div>
+<div class="px-4 py-2 bg-surface border border-outline-variant mono text-[11px] uppercase tracking-tighter text-primary">Specialized Sub-Agents</div>
+</div>
+</div>
+<!-- Side Technical Card -->
+<div class="md:col-span-4 bg-primary-container p-8 flex flex-col justify-end text-on-primary relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-20">
+<span class="material-symbols-outlined text-8xl" style="font-variation-settings: 'wght' 700;">developer_board</span>
+</div>
+<h3 class="font-headline text-2xl font-bold uppercase mb-4 leading-tight">Deterministic Engine</h3>
+<ul class="font-label text-xs space-y-4 uppercase tracking-widest">
+<li class="flex justify-between border-b border-on-primary/20 pb-2">
+<span>Flow Logic</span>
+<span class="font-bold">Linear-Feed</span>
+</li>
+<li class="flex justify-between border-b border-on-primary/20 pb-2">
+<span>Verification</span>
+<span class="font-bold">Mandatory</span>
+</li>
+<li class="flex justify-between border-b border-on-primary/20 pb-2">
+<span>Audit Trail</span>
+<span class="font-bold">Immutable</span>
+</li>
+<li class="flex justify-between border-b border-on-primary/20 pb-2">
+<span>State Sync</span>
+<span class="font-bold">Delta-Driven</span>
+</li>
+</ul>
+</div>
+<!-- Bottom Asymmetric Cards -->
+<div class="md:col-span-5 bg-surface-container-high border border-outline-variant p-8 relative">
+<img alt="Abstract 3D architectural structures with technical grid" class="w-full h-48 object-cover grayscale mb-6 border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0eCA1rzY92vivNulHlvpOAtvIeY2TwEz9FXEOSngQKlmD88Tg4NMKOLHE7CvUeukT1rPydqLCGSpt7sMKNntQ-P7N9JNDvm-vKoOKbYyvWHb_MCZbcjZhiYEk6mVyisMzPcRPIwUZImP1Ro8FwIO0LyRjKufKWyZ6HLtu-0oQrExvN_CVBFs1f52QB4M7kyK0qR_MhTez28Oh3fredEkVq1A3ByF-KowlnkB3ghKSAfCCR0XdzkP2FmwjmiPz8OdKsuP7VUkHqsE"/>
+<h4 class="font-headline font-bold text-xl uppercase mb-4">Phase Logic Integration</h4>
+<p class="font-body text-sm text-on-surface-variant">Each phase produces an artifact that feeds the next. Skills define specific rules, while Engram persists state across sessions for pick-up-and-go development.</p>
+</div>
+<div class="md:col-span-7 bg-[#0c0e15] border border-outline-variant p-8 flex gap-8">
+<div class="w-1/2">
+<div class="mono text-[10px] text-secondary mb-4 uppercase">Terminal.Logs</div>
+<div class="bg-black/50 p-4 rounded font-mono text-[10px] text-green-500/80 leading-relaxed overflow-hidden">
+                            &gt; initializing_pipeline...<br/>
+                            &gt; loading artifact: proposal.md<br/>
+                            &gt; loading artifact: spec.md<br/>
+                            &gt; verifying_diff: 0 discrepancies<br/>
+                            &gt; pipeline_status: STABLE
+                        </div>
+</div>
+<div class="w-1/2 flex flex-col justify-center">
+<h4 class="font-headline font-bold text-xl uppercase mb-4 text-[#7FB4CA]">Self-Healing Cycles</h4>
+<p class="font-body text-sm text-on-surface-variant">Every failure in the Verify phase automatically triggers a task re-decomposition, ensuring the system remains self-correcting and high-performance.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="py-20 px-8 bg-surface-container-low border-t border-outline-variant text-center overflow-hidden relative">
+<div class="absolute inset-0 blueprint-grid opacity-10"></div>
+<div class="relative z-10 max-w-3xl mx-auto">
+<span class="material-symbols-outlined text-secondary text-5xl mb-6">bolt</span>
+<h2 class="text-4xl md:text-5xl font-headline font-extrabold uppercase tracking-tighter mb-8 leading-none">Ready for Architectural Transparency?</h2>
+<div class="flex flex-col md:flex-row gap-4 justify-center">
+<button class="bg-primary text-on-primary px-8 py-4 font-headline font-black uppercase tracking-widest text-sm hover:scale-105 transition-transform duration-200">Start Project Proposal</button>
+<button class="border border-primary text-primary px-8 py-4 font-headline font-black uppercase tracking-widest text-sm hover:bg-primary/10 transition-colors">Read Documentation</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#0c0e15] border-t border-[#1a1f2e] mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-8 py-12 gap-4 max-w-7xl mx-auto">
+<div class="flex flex-col gap-2">
+<div class="font-mono text-xs text-[#c0c8cc]">© 2024 Gentle-AI Technical Monolith</div>
+<div class="font-mono text-[10px] uppercase tracking-widest text-secondary-fixed-dim">SYSTEM NODE: SAN FRANCISCO // CORE-01</div>
+</div>
+<div class="flex flex-wrap gap-6 items-center">
+<a class="font-mono text-xs text-[#c0c8cc] hover:text-[#9ad0e6] underline decoration-dotted opacity-80 hover:opacity-100 transition-opacity" href="#">GitHub</a>
+<a class="font-mono text-xs text-[#c0c8cc] hover:text-[#9ad0e6] underline decoration-dotted opacity-80 hover:opacity-100 transition-opacity" href="{{DATA:SCREEN:SCREEN_6}}">Docs</a>
+<a class="font-mono text-xs text-[#c0c8cc] hover:text-[#9ad0e6] underline decoration-dotted opacity-80 hover:opacity-100 transition-opacity" href="#">Discord</a>
+<a class="font-mono text-xs text-[#c0c8cc] hover:text-[#9ad0e6] underline decoration-dotted opacity-80 hover:opacity-100 transition-opacity" href="#">Status</a>
+<a class="font-mono text-xs text-[#c0c8cc] hover:text-[#9ad0e6] underline decoration-dotted opacity-80 hover:opacity-100 transition-opacity" href="#">Terms</a>
+<div class="font-mono text-[10px] uppercase tracking-widest text-[#c0c8cc] opacity-50 ml-4">v4.8.12-PROD</div>
+</div>
+</div>
+</footer>
+</body></html>

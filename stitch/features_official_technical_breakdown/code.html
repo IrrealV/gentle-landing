@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Features Detail | Gentle-AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary": "#003544",
+                    "inverse-primary": "#2e6579",
+                    "surface": "#11131b",
+                    "surface-container-lowest": "#0c0e15",
+                    "on-secondary": "#3c2f00",
+                    "on-surface-variant": "#c0c8cc",
+                    "secondary-fixed": "#ffe07f",
+                    "surface-container-highest": "#32343d",
+                    "on-secondary-fixed-variant": "#564500",
+                    "secondary-container": "#806800",
+                    "surface-variant": "#32343d",
+                    "on-error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#3e4854",
+                    "tertiary-container": "#a3adbc",
+                    "error": "#ffb4ab",
+                    "outline-variant": "#40484c",
+                    "surface-container-low": "#191b23",
+                    "surface-tint": "#99cee5",
+                    "primary-container": "#7fb4ca",
+                    "on-primary-fixed-variant": "#0d4d60",
+                    "inverse-on-surface": "#2e3038",
+                    "surface-bright": "#373941",
+                    "on-tertiary-fixed": "#131c27",
+                    "background": "#11131b",
+                    "tertiary-fixed-dim": "#bdc7d6",
+                    "on-secondary-container": "#ffebb2",
+                    "surface-container-high": "#272a32",
+                    "on-background": "#e1e2ed",
+                    "on-tertiary": "#27313d",
+                    "on-error": "#690005",
+                    "tertiary": "#bec8d7",
+                    "on-tertiary-container": "#37414d",
+                    "primary": "#9ad0e6",
+                    "error-container": "#93000a",
+                    "surface-container": "#1d1f27",
+                    "inverse-surface": "#e1e2ed",
+                    "secondary": "#e3c45d",
+                    "outline": "#8a9296",
+                    "on-surface": "#e1e2ed",
+                    "on-primary-fixed": "#001f29",
+                    "on-primary-container": "#004659",
+                    "secondary-fixed-dim": "#e3c45d",
+                    "primary-fixed": "#b9eaff",
+                    "on-secondary-fixed": "#231b00",
+                    "surface-dim": "#11131b",
+                    "primary-fixed-dim": "#99cee5",
+                    "tertiary-fixed": "#d9e3f3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "body": ["Inter"],
+                    "label": ["Space Grotesk"]
+            }
+          },
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #11131b; color: #e1e2ed; }
+        h1, h2, h3, .font-headline { font-family: 'Space Grotesk', sans-serif; }
+        .mono { font-family: 'ui-monospace', 'SFMono-Regular', Menlo, Monaco, Consolas, monospace; }
+        .binary-feedback:active { filter: invert(1); }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<nav class="bg-[#11131b] flex items-center justify-between px-8 py-4 max-w-full w-full border-b border-[#1a1f2e] tonal-shift-bg-surface-container-low flat-no-shadows" id="top-nav">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-[#e1e2ed] font-['Space_Grotesk'] uppercase">Gentle-AI</span>
+<div class="hidden md:flex gap-6">
+<a class="text-[#9ad0e6] border-b-2 border-[#9ad0e6] pb-1 font-['Space_Grotesk'] tracking-tighter uppercase font-bold text-sm" href="#features_detail">Features</a>
+<a class="text-[#c0c8cc] hover:text-[#e1e2ed] hover:bg-[#191b23] transition-colors duration-150 font-['Space_Grotesk'] tracking-tighter uppercase font-bold text-sm" href="#">How It Works</a>
+<a class="text-[#c0c8cc] hover:text-[#e1e2ed] hover:bg-[#191b23] transition-colors duration-150 font-['Space_Grotesk'] tracking-tighter uppercase font-bold text-sm" href="#">Docs</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-[#7fb4ca] text-[#003544] px-6 py-2 font-['Space_Grotesk'] uppercase font-bold tracking-tighter hover:bg-[#9ad0e6] transition-colors invert-on-click">Connect</button>
+</div>
+</nav>
+<main class="flex-grow" id="features_detail">
+<!-- Hero Section -->
+<header class="grid grid-cols-1 lg:grid-cols-12 border-b border-outline-variant bg-surface">
+<div class="lg:col-span-7 p-12 flex flex-col justify-end min-h-[409px]">
+<div class="mb-4 inline-flex items-center gap-2 text-secondary font-headline uppercase tracking-widest text-xs">
+<span class="w-8 h-px bg-secondary"></span>
+                    Architectural Deep Dive
+                </div>
+<h1 class="text-6xl md:text-8xl font-bold tracking-tighter uppercase leading-none text-on-surface">CORE STACK<br/><span class="text-primary">INTEGRATION</span></h1>
+</div>
+<div class="lg:col-span-5 border-l border-outline-variant bg-surface-container-low p-12 flex flex-col justify-center">
+<p class="text-on-surface-variant text-lg leading-relaxed max-w-md">
+                    Gentle-AI represents the pinnacle of Functional Brutalism in software design. We leverage low-latency SDD structures, modular Skills, and the Model Context Protocol to deliver unparalleled technical efficiency.
+                </p>
+<div class="mt-8 flex gap-4">
+<button class="px-8 py-3 bg-primary-container text-on-primary font-headline font-bold uppercase binary-feedback">Initialize Stack</button>
+</div>
+</div>
+</header>
+<!-- Technical Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 border-b border-outline-variant">
+<!-- SDD Section -->
+<div class="p-12 border-r border-outline-variant hover:bg-surface-container-low transition-colors group">
+<div class="flex justify-between items-start mb-12">
+<span class="material-symbols-outlined text-4xl text-primary" style="font-variation-settings: 'FILL' 1;">developer_board</span>
+<span class="mono text-xs text-outline tracking-widest">01 // SDD</span>
+</div>
+<h2 class="text-3xl font-bold font-headline mb-6 tracking-tighter uppercase">Spec-Driven Development</h2>
+<p class="text-on-surface-variant mb-8 mono text-sm leading-relaxed">
+                    SDD is a structured workflow that forces AI agents to think before coding. Instead of generating code directly from a prompt, the AI follows a deterministic pipeline: understand intent → document requirements → design solution → implement → verify.
+                </p>
+<div class="bg-surface-container-lowest p-6 border border-outline-variant mb-8">
+<div class="flex items-center gap-2 mb-4">
+<div class="w-2 h-2 bg-secondary rounded-full"></div>
+<span class="mono text-[10px] uppercase text-outline">Workflow Pipeline</span>
+</div>
+<div class="mono text-[10px] text-primary flex flex-col gap-1 uppercase">
+<span>Proposal → Spec → Design</span>
+<span>Tasks → Apply → Verify</span>
+<span>Archive</span>
+</div>
+</div>
+<button class="flex items-center gap-4 group-hover:text-primary transition-colors font-headline font-bold uppercase tracking-tighter text-sm">
+                    View Pipeline Details <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<!-- Skills Section -->
+<div class="p-12 border-r border-outline-variant hover:bg-surface-container-low transition-colors group">
+<div class="flex justify-between items-start mb-12">
+<span class="material-symbols-outlined text-4xl text-secondary" style="font-variation-settings: 'FILL' 1;">extension</span>
+<span class="mono text-xs text-outline tracking-widest">02 // SKILLS</span>
+</div>
+<h3 class="text-3xl font-bold font-headline mb-4 tracking-tighter uppercase">Loadable Skills</h3>
+<p class="text-on-surface-variant mb-8 text-sm leading-relaxed">
+                    Skills are curated, loadable instruction sets that inject domain-specific knowledge into AI agents on demand. Instead of generic AI behavior, skills make the agent behave like a specialist in your stack.
+                </p>
+<ul class="space-y-3 mono text-[11px] text-outline-variant uppercase">
+<li class="flex items-center gap-2 text-on-surface"><span class="w-1.5 h-1.5 bg-primary"></span> Stack Skills (React-19, .NET)</li>
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-outline"></span> Workflow Skills (SDD-Propose)</li>
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-outline"></span> Tool Skills (Docker, GitHub)</li>
+</ul>
+<div class="mt-8 border-t border-outline-variant pt-4">
+<p class="text-[10px] text-outline uppercase">Personality modules for your CLI</p>
+</div>
+</div>
+<!-- MCP Section -->
+<div class="p-12 hover:bg-surface-container-low transition-colors group">
+<div class="flex justify-between items-start mb-12">
+<span class="material-symbols-outlined text-4xl text-on-surface" style="font-variation-settings: 'FILL' 1;">hub</span>
+<span class="mono text-xs text-outline tracking-widest">03 // MCP</span>
+</div>
+<h3 class="text-3xl font-bold font-headline mb-4 tracking-tighter uppercase">Model Context Protocol</h3>
+<p class="text-on-surface-variant mb-8 text-sm leading-relaxed">
+                    MCP uses a client-server architecture where the AI agent is the client and external services (Postgres, Context7, GitHub) expose servers via a standard JSON schema interface.
+                </p>
+<div class="space-y-4">
+<div class="border border-outline-variant p-4 bg-surface-container-lowest">
+<h4 class="mono text-[10px] text-primary uppercase mb-2">Common Integrations</h4>
+<div class="grid grid-cols-2 gap-2 mono text-[9px] text-outline uppercase">
+<div class="border border-outline-variant px-2 py-1">Context7 Docs</div>
+<div class="border border-outline-variant px-2 py-1">Engram Memory</div>
+<div class="border border-outline-variant px-2 py-1">DB Queries</div>
+<div class="border border-outline-variant px-2 py-1">GitHub API</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- System Diagram / Visualization -->
+<section class="grid grid-cols-1 lg:grid-cols-12 border-b border-outline-variant">
+<div class="lg:col-span-8 p-12 bg-surface-container-low border-r border-outline-variant relative overflow-hidden min-h-[500px] flex items-center justify-center">
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<div class="w-full h-full" style="background-image: radial-gradient(#8a9296 1px, transparent 1px); background-size: 32px 32px;"></div>
+</div>
+<!-- Mock Diagram -->
+<div class="relative z-10 w-full max-w-2xl border border-outline p-8 bg-surface-container-lowest shadow-2xl">
+<div class="flex justify-between mb-8">
+<div class="border border-primary px-4 py-2 mono text-xs text-primary uppercase">Inbound_Stream</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline">sync_alt</span>
+<div class="border border-secondary px-4 py-2 mono text-xs text-secondary uppercase">Process_Core</div>
+</div>
+<div class="border border-outline px-4 py-2 mono text-xs text-outline uppercase">Outbound_Log</div>
+</div>
+<div class="grid grid-cols-3 gap-4">
+<div class="h-32 border border-outline-variant flex items-center justify-center mono text-[10px] text-outline text-center p-2">SDD_HANDLER<br/>V.2.0</div>
+<div class="h-32 border border-primary-container bg-primary-container/10 flex items-center justify-center mono text-[10px] text-primary text-center p-2">MCP_STATE<br/>BUFFER</div>
+<div class="h-32 border border-outline-variant flex items-center justify-center mono text-[10px] text-outline text-center p-2">SKILL_ENGINE<br/>EXECUTOR</div>
+</div>
+<div class="mt-8 border-t border-outline-variant pt-4 flex justify-end">
+<span class="mono text-[10px] text-outline-variant uppercase tracking-tighter">System Topology Visualizer // Real-time telemetry disabled</span>
+</div>
+</div>
+</div>
+<div class="lg:col-span-4 p-12 flex flex-col justify-center">
+<h2 class="text-4xl font-bold font-headline mb-6 tracking-tighter uppercase">Functional<br/>Architecture</h2>
+<p class="text-on-surface-variant mb-12 text-sm leading-relaxed">
+                    By strictly adhering to a monolithic grid system, Gentle-AI ensures that every data point and interaction is predictable, observable, and highly performant. This isn't just design; it's engineering for the eyes.
+                </p>
+<div class="space-y-6">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary">analytics</span>
+<div>
+<h4 class="font-headline font-bold uppercase text-xs tracking-widest mb-1">Performance Benchmarks</h4>
+<p class="text-xs text-outline">Detailed audit of SDD vs JSON-RPC overhead.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-secondary">security</span>
+<div>
+<h4 class="font-headline font-bold uppercase text-xs tracking-widest mb-1">Security Isolation</h4>
+<p class="text-xs text-outline">MCP protocols utilize hardware-level sandboxing.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA / Technical Pull -->
+<section class="p-24 bg-surface text-center">
+<h2 class="text-5xl md:text-7xl font-bold font-headline mb-8 tracking-tighter uppercase">Ready to <span class="text-primary">Deploy?</span></h2>
+<div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+<button class="w-full md:w-auto px-12 py-4 bg-primary text-on-primary font-headline font-bold uppercase tracking-tighter border border-primary binary-feedback">Get Started Now</button>
+<button class="w-full md:w-auto px-12 py-4 bg-transparent text-primary font-headline font-bold uppercase tracking-tighter border border-primary hover:bg-primary-container/10 transition-colors">Review Documentation</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#0c0e15] flex flex-col md:flex-row justify-between items-center px-12 py-10 w-full border-t border-[#1a1f2e] mt-auto tonal-shift-recessed flat-no-shadows" id="footer">
+<div class="mb-6 md:mb-0">
+<span class="text-sm font-bold text-[#e1e2ed] font-mono tracking-widest uppercase">Gentle-AI Architectures</span>
+<p class="text-[10px] text-[#c0c8cc] font-mono mt-2 tracking-widest uppercase">© 2024 GENTLE-AI ARCHITECTURES. ALL RIGHTS RESERVED.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-[#c0c8cc] font-mono text-xs uppercase tracking-widest hover:text-[#9ad0e6] underline decoration-dotted transition-colors" href="#">Status</a>
+<a class="text-[#c0c8cc] font-mono text-xs uppercase tracking-widest hover:text-[#9ad0e6] underline decoration-dotted transition-colors" href="#">GitHub</a>
+<a class="text-[#c0c8cc] font-mono text-xs uppercase tracking-widest hover:text-[#9ad0e6] underline decoration-dotted transition-colors" href="#">API/Docs</a>
+<a class="text-[#c0c8cc] font-mono text-xs uppercase tracking-widest hover:text-[#9ad0e6] underline decoration-dotted transition-colors" href="#">Terms</a>
+</div>
+</footer>
+</body></html>

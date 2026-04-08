@@ -1,0 +1,126 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BentoCard from '../components/BentoCard.astro';
+
+const featureCards = [
+	{
+		title: 'Spec-Driven Development',
+		summary:
+			'Deterministic pipeline that documents intent and requirements before implementation, reducing delivery drift.',
+		icon: 'developer_board',
+		category: 'Workflow Protocol',
+		href: '/how-it-works',
+	},
+	{
+		title: 'Loadable Skills',
+		summary:
+			'Curated specialist modules for stack constraints, workflow rules, and tooling orchestration.',
+		icon: 'extension',
+		category: 'Domain Expertise',
+		href: '/docs#logic-modules',
+	},
+	{
+		title: 'Context Protocol',
+		summary:
+			'Stable integrations for docs, repositories, and runtime services with clear interface boundaries.',
+		icon: 'hub',
+		category: 'Integration Fabric',
+		href: '/docs#system-overview',
+	},
+];
+---
+
+<Layout title="Features | GENTLE-AI">
+	<Navbar currentPath="/features" />
+
+	<main id="features_detail" class="flex-grow bg-surface-container-lowest pt-20">
+		<header class="grid grid-cols-1 border-b border-outline-variant bg-surface lg:grid-cols-12">
+			<div class="flex min-h-[409px] flex-col justify-end p-12 lg:col-span-7">
+				<div class="mb-4 inline-flex items-center gap-2 font-headline text-xs uppercase tracking-widest text-secondary">
+					<span class="h-px w-8 bg-secondary"></span>
+					Architectural Deep Dive
+				</div>
+				<h1 class="text-6xl font-bold uppercase leading-none tracking-tighter text-on-surface md:text-8xl">
+					CORE STACK<br /><span class="text-primary">INTEGRATION</span>
+				</h1>
+			</div>
+
+			<div class="flex flex-col justify-center border-l border-outline-variant bg-surface-container-low p-12 lg:col-span-5">
+				<p class="max-w-md text-lg leading-relaxed text-on-surface-variant">
+					Functional Brutalism applied to product systems: deterministic workflow, modular capabilities, and
+					stable operational contracts.
+				</p>
+				<div class="mt-8 flex gap-4">
+					<a href="/configurator" class="binary-feedback bg-primary-container px-8 py-3 font-headline font-bold uppercase text-on-primary">
+						Initialize Stack
+					</a>
+				</div>
+			</div>
+		</header>
+
+		<section class="grid grid-cols-1 border-b border-outline-variant md:grid-cols-3">
+			{featureCards.map((card, index) => <BentoCard {...card} class={index < 2 ? 'border-r border-outline-variant' : ''} />)}
+		</section>
+
+		<section class="grid grid-cols-1 border-b border-hairline lg:grid-cols-12">
+			<div class="flex min-h-[500px] items-center justify-center overflow-x-auto border-r border-outline-variant bg-surface-container-low p-12 lg:col-span-8">
+				<div class="relative z-10 w-full max-w-2xl border border-outline bg-surface-container-lowest p-8 shadow-2xl">
+					<h3 class="mb-6 mono text-xs leading-relaxed uppercase text-on-surface-variant">System Architecture Diagram</h3>
+					<div class="mb-8 flex justify-between">
+						<div class="mono border border-primary px-4 py-2 text-xs uppercase text-primary">Inbound_Stream</div>
+						<div class="flex items-center gap-4">
+							<span class="material-symbols-outlined text-outline">sync_alt</span>
+							<div class="mono border border-secondary px-4 py-2 text-xs uppercase text-secondary">Process_Core</div>
+						</div>
+						<div class="mono border border-outline px-4 py-2 text-xs uppercase text-outline">Outbound_Log</div>
+					</div>
+
+					<div class="grid grid-cols-3 gap-4">
+						<div class="mono flex h-32 items-center justify-center border border-outline-variant p-2 text-center text-[10px] uppercase text-outline">
+							SDD_HANDLER<br />V.2.0
+						</div>
+						<div class="mono flex h-32 items-center justify-center border border-primary-container bg-primary-container/10 p-2 text-center text-[10px] uppercase text-primary">
+							STATE<br />BUFFER
+						</div>
+						<div class="mono flex h-32 items-center justify-center border border-outline-variant p-2 text-center text-[10px] uppercase text-outline">
+							SKILL_ENGINE<br />EXECUTOR
+						</div>
+					</div>
+
+					<div class="mt-8 flex justify-end border-t border-outline-variant pt-4">
+						<span class="mono text-[10px] uppercase tracking-tighter text-outline-variant">
+							System Topology Visualizer // Real-time telemetry disabled
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="flex flex-col justify-center p-12 lg:col-span-4">
+				<h2 class="mb-6 text-4xl font-bold uppercase tracking-tighter">Functional<br />Architecture</h2>
+				<p class="mb-12 text-sm leading-relaxed text-on-surface-variant">
+					Every interaction and data path follows strict structural rules for readability and observability.
+				</p>
+				<div class="space-y-6">
+					<div class="flex gap-4">
+						<span class="material-symbols-outlined text-primary">analytics</span>
+						<div>
+							<h4 class="mb-1 text-xs font-bold uppercase tracking-widest">Performance Benchmarks</h4>
+							<p class="text-xs text-outline">Detailed comparison of deterministic workflow overhead.</p>
+						</div>
+					</div>
+					<div class="flex gap-4">
+						<span class="material-symbols-outlined text-secondary">security</span>
+						<div>
+							<h4 class="mb-1 text-xs font-bold uppercase tracking-widest">Isolation Model</h4>
+							<p class="text-xs text-outline">Bounded interfaces preserve predictable behavior across modules.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<Footer />
+</Layout>

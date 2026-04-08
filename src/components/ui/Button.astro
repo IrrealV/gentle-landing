@@ -1,0 +1,33 @@
+---
+type Variant = 'primary' | 'secondary' | 'tertiary';
+
+interface Props {
+	variant?: Variant;
+	type?: 'button' | 'submit' | 'reset';
+	disabled?: boolean;
+	class?: string;
+}
+
+const {
+	variant = 'primary',
+	type = 'button',
+	disabled = false,
+	class: className = '',
+} = Astro.props;
+
+const baseClasses =
+	'inline-flex items-center justify-center border px-4 py-2 font-mono text-xs font-medium uppercase tracking-wide transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-wave disabled:cursor-not-allowed disabled:opacity-60';
+
+const variantClasses = {
+	primary: 'border-primary-container bg-primary-container text-surface hover:brightness-95',
+	secondary: 'border-border-subtle bg-transparent text-text-light hover:border-primary-wave hover:text-primary-wave',
+	tertiary:
+		'border-transparent bg-transparent px-1 text-text-light underline decoration-border-subtle underline-offset-4 hover:text-primary-wave hover:decoration-primary-wave',
+};
+
+const classes = `${baseClasses} ${variantClasses[variant]} ${className}`;
+---
+
+<button type={type} disabled={disabled} class={classes}>
+	<slot />
+</button>

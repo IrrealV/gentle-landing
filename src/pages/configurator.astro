@@ -1,0 +1,237 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import CodeTabs from '../components/ui/CodeTabs.astro';
+import TerminalWindow from '../components/TerminalWindow.astro';
+import { agentProfiles, skillProfiles, memoryToggles, configPresets } from '../data/configuratorData';
+
+const presetTabs = configPresets.map((preset) => ({
+	id: preset.id,
+	label: preset.label,
+	steps: preset.commands,
+	note: preset.note,
+}));
+
+const presetsMeta = configPresets.map((preset) => ({
+	id: preset.id,
+	description: preset.description,
+	note: preset.note,
+}));
+---
+
+<Layout title="Configurator | GENTLE-AI">
+	<Navbar currentPath="/configurator" />
+
+	<main class="flex-grow bg-[#11131b] pt-20">
+		<div class="grid grid-cols-1 border-hairline md:grid-cols-12">
+			<aside class="flex flex-col gap-12 border-r border-outline-variant bg-surface-container-low p-8 md:col-span-3">
+				<section>
+					<h2 class="mb-6 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant">
+						<span class="h-1.5 w-1.5 bg-secondary"></span>
+						PLATFORM_ID
+					</h2>
+					<div class="space-y-4">
+						<div class="border border-outline-variant bg-surface-container-lowest p-4">
+							<div class="mb-1 flex items-center justify-between">
+								<span class="mono text-[10px] text-on-surface-variant">OS_FAMILY [MOCK]</span>
+								<span class="material-symbols-outlined text-sm text-primary">desktop_windows</span>
+							</div>
+							<div class="text-lg font-bold">macOS Ventura</div>
+						</div>
+						<div class="border border-outline-variant bg-surface-container-lowest p-4">
+							<div class="mb-1 flex items-center justify-between">
+								<span class="mono text-[10px] text-on-surface-variant">ARCH [MOCK]</span>
+								<span class="material-symbols-outlined text-sm text-primary">memory</span>
+							</div>
+							<div class="text-lg font-bold">Apple M2 Max</div>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h2 class="mb-6 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant">
+						<span class="h-1.5 w-1.5 bg-secondary"></span>
+						Memory Controls
+					</h2>
+					<div class="space-y-2">
+						{memoryToggles.map((toggle) => (
+							<button
+								type="button"
+								class="flex w-full items-center justify-between border-b border-outline-variant/30 p-3 text-left hover:bg-surface-container-high transition-colors"
+								data-memory-toggle={toggle.key}
+								data-default-on={toggle.defaultOn ? 'true' : 'false'}
+							>
+								<div>
+									<div class="mono text-sm">{toggle.label.split(' (')[0]}</div>
+									<div class="mono text-[10px] text-on-surface-variant">{toggle.key}</div>
+									<div class="mono text-[10px] text-on-surface-variant">{toggle.defaultOn ? 'default on' : 'default off'}</div>
+								</div>
+								<span
+									class:list={['mono text-[10px]', toggle.defaultOn ? 'text-secondary' : 'opacity-40']}
+									data-toggle-state
+								>
+									{toggle.defaultOn ? 'ACTIVE' : 'NULL'}
+								</span>
+							</button>
+						))}
+					</div>
+				</section>
+			</aside>
+
+			<div class="bg-surface p-8 md:col-span-9 md:p-12">
+				<header class="mb-12">
+					<div class="mb-2 flex items-baseline gap-4">
+						<h1 class="text-4xl font-extrabold uppercase tracking-tighter text-on-surface md:text-6xl">SYSTEM CONFIGURATOR</h1>
+						<span class="mono text-sm text-secondary animate-pulse">● LIVE_SYNC</span>
+					</div>
+					<p class="mono max-w-2xl text-sm text-on-surface-variant">
+						Initializing local runtime profile matrix for static preview and contract validation.
+					</p>
+				</header>
+
+				<div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
+					<section class="space-y-6 border-hairline p-4">
+						<div class="flex items-center justify-between border-b border-outline-variant pb-4">
+							<h2 class="flex items-center gap-2 text-lg font-bold uppercase tracking-widest">
+								<span class="material-symbols-outlined text-primary">diversity_2</span>
+								Agent Catalog
+							</h2>
+							<span class="mono bg-primary/10 px-2 py-1 text-[10px] text-primary">SCAN_COMPLETE</span>
+						</div>
+
+						<div class="grid grid-cols-1 gap-2">
+							{agentProfiles.map((agent) => (
+								<div class:list={[
+									'flex items-center justify-between p-4 bg-surface-container-low hover:bg-surface-container-high transition-all',
+									agent.status === 'beta' ? 'border-l-2 border-secondary' : 'border-l-2 border-primary',
+								]}>
+									<div class="flex items-center gap-4">
+										<div class="flex h-10 w-10 items-center justify-center border border-outline-variant bg-surface-container-highest">
+											<span class="material-symbols-outlined" class:list={[agent.status === 'beta' ? 'text-secondary' : 'text-primary']}>terminal</span>
+										</div>
+										<div>
+											<div class="font-bold text-sm">{agent.name}</div>
+											<div class="mono text-[10px] text-on-surface-variant">{agent.role}</div>
+										</div>
+									</div>
+									<span class:list={[
+										'mono px-2 py-1 text-[10px] border',
+										agent.status === 'beta'
+											? 'text-secondary border-secondary/30 bg-secondary/5'
+											: 'text-primary border-primary/30 bg-primary/5',
+									]}>
+										{agent.status === 'beta' ? 'BETA_SYNC' : 'DETECTED'}
+									</span>
+								</div>
+							))}
+						</div>
+
+						<div class="border-t border-outline-variant pt-6">
+							<h3 class="mb-4 text-sm font-bold uppercase tracking-widest text-secondary">Skill Registry</h3>
+							<div class="grid grid-cols-1 gap-2">
+								{skillProfiles.map((skill) => (
+									<div class="flex items-center justify-between border border-outline-variant bg-surface-container-lowest p-3">
+										<div>
+											<div class="mono text-xs text-on-surface">{skill.name}</div>
+											<div class="mono text-[10px] text-on-surface-variant">{skill.trigger}</div>
+										</div>
+										<span class="mono text-[10px] uppercase text-primary">{skill.scope}</span>
+									</div>
+								))}
+							</div>
+						</div>
+					</section>
+
+					<section class="space-y-6" data-configurator-presets>
+						<div class="flex items-center justify-between border-b border-outline-variant pb-4">
+							<h2 class="flex items-center gap-2 text-lg font-bold uppercase tracking-widest">
+								<span class="material-symbols-outlined text-secondary">shield_spark</span>
+								Project Initialization
+							</h2>
+							<div class="flex gap-1"><span class="h-2 w-2 bg-error"></span><span class="h-2 w-2 bg-secondary"></span><span class="h-2 w-2 bg-primary"></span></div>
+						</div>
+
+						<CodeTabs tabs={presetTabs} ariaLabel="Configurator presets" />
+
+						<div class="border border-outline-variant bg-surface-container-low p-4">
+							<p class="mono text-[10px] uppercase tracking-widest text-on-surface-variant">Preset Summary</p>
+							<p class="mt-2 text-sm text-on-surface" data-preset-summary>
+								{presetsMeta[0]?.description}
+							</p>
+						</div>
+
+						<TerminalWindow title="gentle-ai/init-process" description="Project initialization output" class="h-[420px]" bodyClass="overflow-y-auto custom-scrollbar h-[360px] space-y-2">
+							<div class="flex gap-2"><span class="text-primary">$</span><span class="text-on-surface">/sdd-init</span></div>
+							<div class="text-on-surface-variant">[STATUS] Local preview only</div>
+							<div class="text-on-surface-variant">[SYSTEM] Detecting stack and testing capabilities...</div>
+							<div class="text-secondary">[SYSTEM] Loading constraints and page contracts...</div>
+							<div class="text-on-surface-variant">Local preview only. No external side effects.</div>
+							<div class="mt-2 flex items-center gap-2 text-primary"><span>✔</span><span>Context registered successfully.</span></div>
+							<div class="mt-4 w-full bg-surface-container-high h-1"><div class="h-full w-[85%] bg-primary"></div></div>
+							<div class="text-on-surface-variant">Indexing [#######################---] 85%</div>
+							<div class="mt-4 text-primary">gentle-ai@localhost:~# <span class="animate-pulse">_</span></div>
+						</TerminalWindow>
+					</section>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<Footer />
+</Layout>
+
+<script define:vars={{ presetsMeta }}>
+	const initConfiguratorState = () => {
+		const root = document.querySelector('[data-configurator-presets]');
+		if (!(root instanceof HTMLElement)) return;
+		if (root.dataset.initialized === 'true') return;
+		root.dataset.initialized = 'true';
+
+		const toggles = Array.from(document.querySelectorAll('[data-memory-toggle]'));
+
+		toggles.forEach((toggle) => {
+			if (!(toggle instanceof HTMLButtonElement)) return;
+			const stateNode = toggle.querySelector('[data-toggle-state]');
+			if (!(stateNode instanceof HTMLElement)) return;
+
+			let currentOn = toggle.dataset.defaultOn === 'true';
+
+			const syncToggle = () => {
+				stateNode.textContent = currentOn ? 'ACTIVE' : 'NULL';
+				stateNode.classList.toggle('text-secondary', currentOn);
+				stateNode.classList.toggle('opacity-40', !currentOn);
+			};
+
+			syncToggle();
+
+			toggle.addEventListener('click', () => {
+				currentOn = !currentOn;
+				syncToggle();
+			});
+		});
+
+		const summaryNode = document.querySelector('[data-preset-summary]');
+		const tabButtons = Array.from(document.querySelectorAll('[data-code-tabs] [data-tab-id]'));
+
+		if (!(summaryNode instanceof HTMLElement) || tabButtons.length === 0) return;
+
+		const syncPresetSummary = (tabId) => {
+			const preset = presetsMeta.find((item) => item.id === tabId);
+			summaryNode.textContent = preset?.description ?? presetsMeta[0]?.description ?? '';
+		};
+
+		const initiallySelected = tabButtons.find(
+			(tab) => tab.getAttribute('aria-selected') === 'true',
+		)?.dataset.tabId;
+		syncPresetSummary(initiallySelected ?? tabButtons[0]?.dataset.tabId ?? '');
+
+		tabButtons.forEach((tab) => {
+			tab.addEventListener('click', () => {
+				syncPresetSummary(tab.dataset.tabId ?? '');
+			});
+		});
+	};
+
+	document.addEventListener('astro:page-load', initConfiguratorState);
+</script>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SYSTEM CONFIGURATOR | Gentle-AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-background": "#e1e2ed",
+                      "surface-container-highest": "#32343d",
+                      "tertiary": "#bec8d7",
+                      "on-tertiary-fixed-variant": "#3e4854",
+                      "surface": "#11131b",
+                      "outline": "#8a9296",
+                      "on-surface": "#e1e2ed",
+                      "on-error-container": "#ffdad6",
+                      "on-tertiary": "#27313d",
+                      "surface-container": "#1d1f27",
+                      "on-primary-container": "#004659",
+                      "inverse-on-surface": "#2e3038",
+                      "on-secondary-fixed-variant": "#564500",
+                      "secondary-fixed-dim": "#e3c45d",
+                      "on-tertiary-fixed": "#131c27",
+                      "on-secondary-fixed": "#231b00",
+                      "on-surface-variant": "#c0c8cc",
+                      "on-secondary-container": "#ffebb2",
+                      "surface-dim": "#11131b",
+                      "primary-fixed": "#b9eaff",
+                      "tertiary-container": "#a3adbc",
+                      "on-secondary": "#3c2f00",
+                      "background": "#11131b",
+                      "error-container": "#93000a",
+                      "on-primary-fixed": "#001f29",
+                      "error": "#ffb4ab",
+                      "primary-fixed-dim": "#99cee5",
+                      "outline-variant": "#40484c",
+                      "secondary-container": "#806800",
+                      "on-tertiary-container": "#37414d",
+                      "on-primary": "#003544",
+                      "secondary": "#e3c45d",
+                      "on-primary-fixed-variant": "#0d4d60",
+                      "inverse-primary": "#2e6579",
+                      "secondary-fixed": "#ffe07f",
+                      "surface-container-high": "#272a32",
+                      "primary-container": "#7fb4ca",
+                      "surface-container-lowest": "#0c0e15",
+                      "surface-bright": "#373941",
+                      "surface-variant": "#32343d",
+                      "inverse-surface": "#e1e2ed",
+                      "tertiary-fixed-dim": "#bdc7d6",
+                      "on-error": "#690005",
+                      "surface-container-low": "#191b23",
+                      "tertiary-fixed": "#d9e3f3",
+                      "primary": "#9ad0e6",
+                      "surface-tint": "#99cee5"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "headline": ["Space Grotesk"],
+                      "body": ["Inter"],
+                      "label": ["Space Grotesk"],
+                      "mono": ["JetBrains Mono"]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-shift-bg-surface-container-low { background-color: #191b23; }
+        .tonal-shift-recessed { background-color: #0c0e15; }
+        .flat-no-shadows { box-shadow: none; }
+        .invert-on-click:active { filter: invert(1); }
+        .binary-state-feedback:active { opacity: 0.7; }
+        
+        /* Custom Terminal Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0c0e15; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #32343d; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary min-h-screen flex flex-col">
+<!-- TopNavBar Component -->
+<nav class="bg-[#11131b] text-[#9ad0e6] font-['Space_Grotesk'] tracking-tighter uppercase font-bold w-full border-b border-[#1a1f2e] tonal-shift-bg-surface-container-low flat-no-shadows flex items-center justify-between px-8 py-4 max-w-full sticky top-0 z-50">
+<div class="flex items-center gap-2">
+<span class="text-xl font-bold tracking-tighter text-[#e1e2ed]">Gentle-AI</span>
+<span class="text-[10px] font-mono bg-surface-container-highest px-1 py-0.5 rounded ml-2 border border-outline-variant text-secondary-fixed-dim">v0.8.4-PRO</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-[#c0c8cc] hover:text-[#e1e2ed] hover:bg-[#191b23] transition-colors duration-150 px-3 py-1" href="#">Features</a>
+<a class="text-[#c0c8cc] hover:text-[#e1e2ed] hover:bg-[#191b23] transition-colors duration-150 px-3 py-1" href="#">How It Works</a>
+<a class="text-[#c0c8cc] hover:text-[#e1e2ed] hover:bg-[#191b23] transition-colors duration-150 px-3 py-1" href="#">Docs</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary-container text-on-primary px-6 py-2 text-sm hover:bg-on-surface hover:text-surface transition-all duration-200 invert-on-click">
+                Connect
+            </button>
+</div>
+</nav>
+<!-- Main Content Grid -->
+<main class="flex-grow grid grid-cols-1 md:grid-cols-12 gap-0">
+<!-- Sidebar: Config Overview -->
+<aside class="md:col-span-3 border-r border-outline-variant bg-surface-container-low p-8 flex flex-col gap-12">
+<section>
+<h2 class="font-headline text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-6 flex items-center gap-2">
+<span class="w-1.5 h-1.5 bg-secondary"></span>
+                    PLATFORM_ID
+                </h2>
+<div class="space-y-4">
+<div class="p-4 border border-outline-variant bg-surface-container-lowest">
+<div class="flex items-center justify-between mb-1">
+<span class="font-mono text-[10px] text-on-surface-variant">OS_FAMILY</span>
+<span class="material-symbols-outlined text-sm text-primary">desktop_windows</span>
+</div>
+<div class="font-headline text-lg font-bold">macOS Ventura</div>
+</div>
+<div class="p-4 border border-outline-variant bg-surface-container-lowest">
+<div class="flex items-center justify-between mb-1">
+<span class="font-mono text-[10px] text-on-surface-variant">ARCH</span>
+<span class="material-symbols-outlined text-sm text-primary">memory</span>
+</div>
+<div class="font-headline text-lg font-bold">Apple M2 Max</div>
+</div>
+</div>
+</section>
+<section>
+<h2 class="font-headline text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-6 flex items-center gap-2">
+<span class="w-1.5 h-1.5 bg-secondary"></span>
+                    INSTALL_VECTOR
+                </h2>
+<div class="space-y-2">
+<div class="flex items-center justify-between p-3 border-b border-outline-variant/30 hover:bg-surface-container-high transition-colors">
+<span class="font-mono text-sm">Homebrew</span>
+<span class="text-[10px] font-mono text-secondary">ACTIVE</span>
+</div>
+<div class="flex items-center justify-between p-3 border-b border-outline-variant/30 opacity-40">
+<span class="font-mono text-sm">Scoop</span>
+<span class="text-[10px] font-mono">NULL</span>
+</div>
+<div class="flex items-center justify-between p-3 border-b border-outline-variant/30 opacity-40">
+<span class="font-mono text-sm">Go / Bin</span>
+<span class="text-[10px] font-mono">NULL</span>
+</div>
+</div>
+</section>
+<div class="mt-auto pt-8">
+<div class="p-6 bg-surface-container-highest border border-primary/20 relative overflow-hidden group">
+<div class="relative z-10">
+<h3 class="font-headline text-sm font-bold mb-2 text-primary">NODE_STATUS</h3>
+<p class="font-body text-xs text-on-surface-variant leading-relaxed">
+                            System verified for GENTLE-AI ARCHITECTURES. All telemetry pipelines operational.
+                        </p>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-8xl" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Center Canvas: System Configurator -->
+<div class="md:col-span-9 p-8 md:p-12 bg-surface">
+<header class="mb-12">
+<div class="flex items-baseline gap-4 mb-2">
+<h1 class="font-headline text-4xl md:text-6xl font-extrabold tracking-tighter uppercase text-on-surface">
+                        SYSTEM CONFIGURATOR
+                    </h1>
+<span class="font-mono text-sm text-secondary animate-pulse">● LIVE_SYNC</span>
+</div>
+<p class="font-mono text-sm text-on-surface-variant max-w-2xl">
+                    Initializing neural interface for multi-agent orchestration. Scanning local environment for compatible LLM interfaces and development tools.
+                </p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- Agent Detection Section -->
+<section class="space-y-6">
+<div class="flex items-center justify-between border-b border-outline-variant pb-4">
+<h2 class="font-headline text-lg font-bold flex items-center gap-2 uppercase tracking-widest">
+<span class="material-symbols-outlined text-primary">diversity_2</span>
+                            Agent Detection
+                        </h2>
+<span class="font-mono text-[10px] bg-primary/10 text-primary px-2 py-1">SCAN_COMPLETE</span>
+</div>
+<div class="grid grid-cols-1 gap-2">
+<!-- Agent Items -->
+<div class="flex items-center justify-between p-4 bg-surface-container-low border-l-2 border-primary hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-primary">terminal</span>
+</div>
+<div>
+<div class="font-headline font-bold text-sm">Claude Code</div>
+<div class="font-mono text-[10px] text-on-surface-variant">TASK_TOOL: Sub-agents, output styles</div>
+</div>
+</div>
+<span class="font-mono text-[10px] text-primary border border-primary/30 px-2 py-1 bg-primary/5">DETECTED</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-low border-l-2 border-primary hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-primary">code</span>
+</div>
+<div>
+<div class="font-headline font-bold text-sm">OpenCode</div>
+<div class="font-mono text-[10px] text-on-surface-variant">PATH: ~/.config/opencode/skills/</div>
+</div>
+</div>
+<span class="font-mono text-[10px] text-primary border border-primary/30 px-2 py-1 bg-primary/5">DETECTED</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-low border-l-2 border-primary hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-primary">api</span>
+</div>
+<div>
+<div class="font-headline font-bold text-sm">Gemini CLI</div>
+<div class="font-mono text-[10px] text-on-surface-variant">PATH: ~/.gemini/agents/</div>
+</div>
+</div>
+<span class="font-mono text-[10px] text-primary border border-primary/30 px-2 py-1 bg-primary/5">DETECTED</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-low border-l-2 border-primary hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-primary">edit_square</span>
+</div>
+<div>
+<div class="font-headline font-bold text-sm">Cursor</div>
+<div class="font-mono text-[10px] text-on-surface-variant">PATH: ~/.cursor/agents/</div>
+</div>
+</div>
+<span class="font-mono text-[10px] text-primary border border-primary/30 px-2 py-1 bg-primary/5">DETECTED</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-low border-l-2 border-primary hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-primary">extension</span>
+</div>
+<div>
+<div class="font-headline font-bold text-sm">VS Code Copilot</div>
+<div class="font-mono text-[10px] text-on-surface-variant">MODE: runSubagent (Parallel)</div>
+</div>
+</div>
+<span class="font-mono text-[10px] text-primary border border-primary/30 px-2 py-1 bg-primary/5">DETECTED</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-low border-l-2 border-primary hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-primary">history_edu</span>
+</div>
+<div>
+<div class="font-headline font-bold text-sm">Codex</div>
+<div class="font-mono text-[10px] text-on-surface-variant">CONFIG: CLI-native, TOML</div>
+</div>
+</div>
+<span class="font-mono text-[10px] text-primary border border-primary/30 px-2 py-1 bg-primary/5">DETECTED</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-low border-l-2 border-primary hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-primary">air</span>
+</div>
+<div>
+<div class="font-headline font-bold text-sm">Windsurf</div>
+<div class="font-mono text-[10px] text-on-surface-variant">FEATURES: Plan Mode, Code Mode</div>
+</div>
+</div>
+<span class="font-mono text-[10px] text-primary border border-primary/30 px-2 py-1 bg-primary/5">DETECTED</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-low border-l-2 border-secondary hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-secondary">flare</span>
+</div>
+<div>
+<div class="font-headline font-bold text-sm">Antigravity</div>
+<div class="font-mono text-[10px] text-on-surface-variant">SYSTEM: Solo-agent + Mission Control</div>
+</div>
+</div>
+<span class="font-mono text-[10px] text-secondary border border-secondary/30 px-2 py-1 bg-secondary/5">BETA_SYNC</span>
+</div>
+</div>
+</section>
+<!-- Project Initialization (Terminal) -->
+<section class="space-y-6">
+<div class="flex items-center justify-between border-b border-outline-variant pb-4">
+<h2 class="font-headline text-lg font-bold flex items-center gap-2 uppercase tracking-widest">
+<span class="material-symbols-outlined text-secondary">shield_spark</span>
+                            Project Initialization
+                        </h2>
+<div class="flex gap-1">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+</div>
+</div>
+<!-- Terminal Window -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-sm overflow-hidden flex flex-col h-[520px] shadow-2xl">
+<div class="bg-surface-container-high px-4 py-2 flex items-center justify-between border-b border-outline-variant">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-xs">folder_open</span>
+<span class="font-mono text-[10px] uppercase tracking-widest text-on-surface-variant">gentle-ai/init-process</span>
+</div>
+<span class="font-mono text-[10px] text-on-surface-variant">tty -- 80x24</span>
+</div>
+<div class="p-6 font-mono text-sm overflow-y-auto flex-grow custom-scrollbar space-y-2">
+<div class="flex gap-2">
+<span class="text-primary">$</span>
+<span class="text-on-surface">/sdd-init</span>
+</div>
+<div class="text-on-surface-variant mt-2">[SYSTEM] Detecting stack and testing capabilities...</div>
+<div class="text-secondary mt-1">[SYSTEM] Activating Strict TDD Mode...</div>
+<div class="flex items-center gap-2 text-primary mt-4">
+<span>✔</span>
+<span>Context registered successfully.</span>
+</div>
+<div class="flex gap-2 mt-4">
+<span class="text-primary">$</span>
+<span class="text-on-surface">skill-registry</span>
+</div>
+<div class="text-on-surface-variant mt-2">[SYSTEM] Scanning installed skills &amp; project conventions...</div>
+<div class="text-on-surface-variant">[SYSTEM] Found: 42 generic skills in ~/.config/gentle-ai/skills/</div>
+<div class="flex items-center gap-2 text-primary">
+<span>✔</span>
+<span>Skill 'Rust-Backend-Optimizer' indexed.</span>
+</div>
+<div class="flex items-center gap-2 text-primary">
+<span>✔</span>
+<span>Skill 'Tailwind-Architect' indexed.</span>
+</div>
+<div class="text-on-surface-variant mt-4">[SYSTEM] Building skill-registry...</div>
+<div class="w-full bg-surface-container-high h-1 my-2">
+<div class="bg-primary h-full w-[85%]"></div>
+</div>
+<div class="text-on-surface-variant">Indexing [#######################---] 85%</div>
+<div class="text-primary mt-6">gentle-ai@localhost:~# <span class="animate-pulse">_</span></div>
+</div>
+</div>
+<!-- Action Footer -->
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="flex-1 bg-secondary text-on-secondary font-headline font-bold uppercase tracking-widest py-4 text-xs hover:bg-on-surface hover:text-surface transition-all binary-state-feedback">
+                            Deploy Architecture
+                        </button>
+<button class="flex-1 border border-primary text-primary font-headline font-bold uppercase tracking-widest py-4 text-xs hover:bg-primary hover:text-on-primary transition-all binary-state-feedback">
+                            Reset Sequence
+                        </button>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer Component -->
+<footer class="bg-[#0c0e15] text-[#9ad0e6] font-mono text-xs uppercase tracking-widest w-full border-t border-[#1a1f2e] mt-auto tonal-shift-recessed flat-no-shadows flex flex-col md:flex-row justify-between items-center px-12 py-10">
+<div class="flex items-center gap-4 mb-4 md:mb-0">
+<span class="text-sm font-bold text-[#e1e2ed]">GENTLE-AI ARCHITECTURES</span>
+<span class="text-[8px] text-outline">LOC: 37.7749° N, 122.4194° W</span>
+</div>
+<div class="flex gap-8 mb-4 md:mb-0">
+<a class="text-[#c0c8cc] hover:text-[#9ad0e6] underline decoration-dotted" href="#">Status</a>
+<a class="text-[#c0c8cc] hover:text-[#9ad0e6] underline decoration-dotted" href="#">GitHub</a>
+<a class="text-[#c0c8cc] hover:text-[#9ad0e6] underline decoration-dotted" href="#">API/Docs</a>
+<a class="text-[#c0c8cc] hover:text-[#9ad0e6] underline decoration-dotted" href="#">Terms</a>
+</div>
+<div class="text-[#c0c8cc] opacity-50 text-[10px]">
+            © 2024 GENTLE-AI ARCHITECTURES. ALL RIGHTS RESERVED.
+        </div>
+</footer>
+</body></html>

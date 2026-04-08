@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#2e3038",
+                    "error": "#ffb4ab",
+                    "secondary-fixed": "#ffe07f",
+                    "on-tertiary-container": "#37414d",
+                    "on-secondary": "#3c2f00",
+                    "background": "#06080f",
+                    "surface-container": "#1d1f27",
+                    "surface-container-high": "#272a32",
+                    "error-container": "#93000a",
+                    "on-primary-container": "#004659",
+                    "tertiary-container": "#a3adbc",
+                    "on-error-container": "#ffdad6",
+                    "on-tertiary": "#27313d",
+                    "surface-container-low": "#191b23",
+                    "tertiary-fixed": "#d9e3f3",
+                    "tertiary": "#bec8d7",
+                    "surface-variant": "#32343d",
+                    "on-primary-fixed": "#001f29",
+                    "on-surface": "#e1e2ed",
+                    "surface-dim": "#11131b",
+                    "on-error": "#690005",
+                    "outline-variant": "#1a1f2e",
+                    "primary": "#7FB4CA",
+                    "surface": "#06080f",
+                    "secondary-fixed-dim": "#e3c45d",
+                    "primary-container": "#7FB4CA",
+                    "on-secondary-fixed-variant": "#564500",
+                    "on-background": "#F3F6F9",
+                    "surface-container-lowest": "#0c0e15",
+                    "surface-tint": "#7FB4CA",
+                    "inverse-primary": "#2e6579",
+                    "on-primary": "#003544",
+                    "primary-fixed-dim": "#7FB4CA",
+                    "on-tertiary-fixed-variant": "#3e4854",
+                    "outline": "#8892A0",
+                    "surface-bright": "#373941",
+                    "on-tertiary-fixed": "#131c27",
+                    "on-secondary-container": "#ffebb2",
+                    "inverse-surface": "#e1e2ed",
+                    "secondary": "#E0C15A",
+                    "tertiary-fixed-dim": "#bdc7d6",
+                    "primary-fixed": "#b9eaff",
+                    "on-secondary-fixed": "#231b00",
+                    "secondary-container": "#806800",
+                    "on-primary-fixed-variant": "#0d4d60",
+                    "surface-container-highest": "#32343d",
+                    "on-surface-variant": "#8892A0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "4px",
+                    "xl": "4px",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk", "sans-serif"],
+                    "body": ["Inter", "sans-serif"],
+                    "label": ["monospace"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { background-color: #06080f; color: #F3F6F9; font-family: 'Inter', sans-serif; }
+        .font-mono { font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-card { background: rgba(25, 27, 35, 0.7); backdrop-filter: blur(12px); border: 1px solid #1a1f2e; }
+        .text-glow { text-shadow: 0 0 15px rgba(127, 180, 202, 0.4); }
+    </style>
+</head>
+<body class="antialiased">
+<!-- Top Navigation -->
+<nav class="bg-[#06080f] border-b border-[#1a1f2e] fixed top-0 w-full z-50 flex justify-between items-center px-8 py-4 max-w-full">
+<div class="flex items-center gap-2">
+<span class="text-xl font-bold tracking-tighter text-[#7FB4CA] font-['Space_Grotesk'] uppercase">Gentle-AI</span>
+</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-[#7FB4CA] border-b-2 border-[#7FB4CA] pb-1 font-['Space_Grotesk'] tracking-tight text-on-surface hover:text-[#E0C15A] transition-colors duration-200" href="#features">Features</a>
+<a class="text-[#8892A0] font-mono text-xs uppercase tracking-widest hover:text-[#E0C15A] transition-colors duration-200" href="#how-it-works">How It Works</a>
+<a class="text-[#8892A0] font-mono text-xs uppercase tracking-widest hover:text-[#E0C15A] transition-colors duration-200" href="#">Documentation</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1 px-2 py-1 bg-surface-container-high rounded border border-outline-variant hover:text-[#E0C15A] transition-colors duration-200 cursor-pointer">
+<span class="material-symbols-outlined text-sm">language</span>
+<span class="text-xs font-mono">EN</span>
+</div>
+<button class="bg-[#7FB4CA] text-[#003544] font-mono px-4 py-2 text-xs uppercase tracking-widest hover:bg-[#E0C15A] transition-all duration-200 scale-95 active:scale-90">
+                Connect
+            </button>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="pt-32 pb-20 px-6 max-w-7xl mx-auto border-x border-[#1a1f2e]">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div class="space-y-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-low border border-primary/20 text-primary font-mono text-xs">
+<span class="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
+                    v2.4.0 STABLE RELEASE
+                </div>
+<h1 class="text-5xl md:text-7xl font-headline font-bold leading-none tracking-tighter text-glow">
+                    GENTLE-AI: <span class="text-primary-container">AI THAT UNDERSTANDS YOUR CODEBASE.</span><br/>
+<span class="text-on-surface-variant font-light uppercase">NOT JUST YOUR PROMPT.</span>
+</h1>
+<p class="text-on-surface-variant font-mono text-lg max-w-xl">
+                    One command. Any agent. Supercharged with persistent memory and Spec-Driven Development. 
+                    <span class="block mt-4 text-sm opacity-80">Supported: Claude Code, OpenCode, Gemini CLI, Cursor, Copilot, Codex, Windsurf, Antigravity.</span>
+</p>
+<div class="flex gap-4">
+<a class="bg-primary-container text-on-primary font-mono px-8 py-3 hover:bg-[#E0C15A] hover:text-background transition-all flex items-center gap-2" href="https://github.com/Gentleman-Programming/gentle-ai">
+                        GITHUB
+                        <span class="material-symbols-outlined text-sm">terminal</span>
+</a>
+<a class="border border-primary text-primary font-mono px-8 py-3 hover:bg-primary/10 transition-all text-center" href="#">
+                        DOCS
+                    </a>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant p-1 relative">
+<div class="absolute -top-3 -right-3 bg-secondary text-on-secondary text-[10px] font-mono px-2 py-1 font-bold">LIVE_TERMINAL</div>
+<div class="p-6 font-mono text-sm leading-relaxed min-h-[300px]">
+<div class="flex gap-2 mb-4">
+<div class="w-3 h-3 bg-red-500 opacity-50"></div>
+<div class="w-3 h-3 bg-yellow-500 opacity-50"></div>
+<div class="w-3 h-3 bg-green-500 opacity-50"></div>
+</div>
+<div class="text-[#8892A0]">$ gentai --init</div>
+<div class="text-primary mt-1">Initializing ecosystem configurator...</div>
+<div class="text-on-surface-variant mt-1">Detecting stack: React, TypeScript, Vitest found.</div>
+<div class="text-on-surface-variant mt-1">Loading skills: react-19, go-testing, sdd-propose.</div>
+<div class="text-[#8892A0]">$ gentai generate --spec sdd/user-auth.yaml</div>
+<div class="text-secondary mt-2">┌ SDD Pipeline Active</div>
+<div class="text-secondary">├ Phase: PROPOSAL [DONE]</div>
+<div class="text-secondary">├ Phase: SPEC [IN PROGRESS]</div>
+<div class="text-secondary">└ Generating type-safe interfaces...</div>
+<div class="animate-pulse inline-block w-2 h-5 bg-primary ml-1 align-middle"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Features Bento Grid -->
+<section class="border-y border-[#1a1f2e] bg-surface-container-low" id="features">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#1a1f2e]">
+<div class="p-12 hover:bg-surface-container-high transition-colors group">
+<div class="w-12 h-12 bg-surface-container-highest border border-outline-variant flex items-center justify-center mb-6 group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">architecture</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4 tracking-tight">SDD</h3>
+<p class="text-on-surface-variant text-sm font-body leading-relaxed mb-6">Spec-Driven Development eliminates "generate-and-pray." A structured 7-phase pipeline ensures AI writes specs before touching a single line of code.</p>
+<div class="text-xs font-mono text-secondary uppercase tracking-widest">Workflow Protocol</div>
+</div>
+<div class="p-12 hover:bg-surface-container-high transition-colors group">
+<div class="w-12 h-12 bg-surface-container-highest border border-outline-variant flex items-center justify-center mb-6 group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">psychology</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4 tracking-tight">SKILLS</h3>
+<p class="text-on-surface-variant text-sm font-body leading-relaxed mb-6">Inject domain-specific behaviors on demand. From PostgreSQL optimization to React 19 server patterns, load the expertise your task requires.</p>
+<div class="text-xs font-mono text-secondary uppercase tracking-widest">Domain Expertise</div>
+</div>
+<div class="p-12 hover:bg-surface-container-high transition-colors group">
+<div class="w-12 h-12 bg-surface-container-highest border border-outline-variant flex items-center justify-center mb-6 group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">history</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4 tracking-tight">ENGRAM</h3>
+<p class="text-on-surface-variant text-sm font-body leading-relaxed mb-6">Persistent memory that survives session restarts. Engram stores observations and architectural decisions in a local SQLite database for cross-agent recall.</p>
+<div class="text-xs font-mono text-secondary uppercase tracking-widest">Memory Layer</div>
+</div>
+</div>
+</section>
+<!-- Centerpiece: Documentation Box -->
+<section class="py-24 px-6 max-w-7xl mx-auto border-x border-[#1a1f2e]" id="how-it-works">
+<div class="mb-12">
+<h2 class="text-3xl font-headline font-bold mb-2 uppercase">How it operates</h2>
+<div class="h-1 w-24 bg-primary"></div>
+</div>
+<div class="flex flex-col md:flex-row border border-outline-variant min-h-[600px]">
+<!-- Sidebar -->
+<aside class="w-full md:w-64 bg-surface-container-low border-r border-outline-variant">
+<div class="p-4 border-b border-outline-variant bg-surface-container-high">
+<span class="font-mono text-[10px] text-on-surface-variant uppercase tracking-tighter">Documentation / Root</span>
+</div>
+<nav class="p-2 space-y-1">
+<button class="w-full text-left p-3 font-mono text-sm bg-primary/10 text-primary border-l-2 border-primary flex justify-between items-center">
+                        SDD Pipeline
+                        <span class="material-symbols-outlined text-xs">chevron_right</span>
+</button>
+<button class="w-full text-left p-3 font-mono text-sm text-on-surface-variant hover:bg-surface-container-high transition-colors">Agent Ecosystem</button>
+<button class="w-full text-left p-3 font-mono text-sm text-on-surface-variant hover:bg-surface-container-high transition-colors">Skills Library</button>
+<button class="w-full text-left p-3 font-mono text-sm text-on-surface-variant hover:bg-surface-container-high transition-colors">Engram Memory</button>
+<button class="w-full text-left p-3 font-mono text-sm text-on-surface-variant hover:bg-surface-container-high transition-colors">MCP Servers</button>
+</nav>
+</aside>
+<!-- Content Area -->
+<main class="flex-1 bg-surface-container-lowest p-8 overflow-x-auto">
+<div class="max-w-3xl">
+<h3 class="font-headline text-2xl font-bold mb-6 text-primary">Spec-Driven Development Pipeline</h3>
+<p class="text-on-surface-variant mb-10 font-body leading-relaxed">
+                        The SDD Pipeline is a deterministic 7-phase immutable workflow. It forces AI agents to document requirements and design solutions before generating any implementation code.
+                    </p>
+<!-- Pipeline Diagram -->
+<div class="font-mono text-xs sm:text-sm leading-tight text-secondary-fixed-dim whitespace-pre border-y border-outline-variant/30 py-8">
+  ┌──────────┐      ┌────────┐      ┌────────┐
+  │ PROPOSAL │ ───▶ │  SPEC  │ ───▶ │ DESIGN │
+  └──────────┘      └────────┘      └────────┘
+                                         │
+                                         ▼
+  ┌──────────┐      ┌────────┐      ┌────────┐
+  │ ARCHIVE  │ ◀─── │ VERIFY │ ◀─── │ TASKS  │
+  └──────────┘      └────────┘      └────────┘
+          ▲                              │
+          └─────────── [ APPLY ] ────────┘
+
+                    </div>
+<div class="mt-12 space-y-6">
+<div class="flex gap-6">
+<span class="font-mono text-primary text-lg">01</span>
+<div>
+<h4 class="font-headline font-bold text-on-surface uppercase">Proposal phase</h4>
+<p class="text-sm text-on-surface-variant">Capture intent, scope, and approach. Define what we are building and why before any code is touched.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<span class="font-mono text-primary text-lg">02</span>
+<div>
+<h4 class="font-headline font-bold text-on-surface uppercase">Verification Engine</h4>
+<p class="text-sm text-on-surface-variant">Automated reports confirm that the applied implementation matches the original spec and design artifacts perfectly.</p>
+</div>
+</div>
+</div>
+<div class="mt-12">
+<a class="inline-block bg-primary-container text-on-primary font-mono px-8 py-3 hover:bg-on-surface hover:text-background transition-all" href="#">LEARN THE ARCHITECTURE</a>
+</div>
+</div>
+</main>
+</div>
+</section>
+<!-- CTO Section -->
+<section class="bg-surface-container-high py-20 border-y border-[#1a1f2e]">
+<div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16">
+<div class="space-y-8">
+<h2 class="text-4xl font-headline font-bold tracking-tight uppercase">Efficiency Gains</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="p-6 bg-surface-container-lowest border border-outline-variant">
+<div class="text-4xl font-mono text-secondary mb-2">40%</div>
+<div class="text-[10px] font-mono text-on-surface-variant uppercase mb-4 tracking-widest">Rework Reduction</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">Spec-first development methodology significantly reduces implementation errors.</p>
+</div>
+<div class="p-6 bg-surface-container-lowest border border-outline-variant">
+<div class="text-4xl font-mono text-primary mb-2">~1s</div>
+<div class="text-[10px] font-mono text-on-surface-variant uppercase mb-4 tracking-widest">Prompt Engineering</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">Context-aware AI reduces manual prompt crafting through automated skill loading.</p>
+</div>
+</div>
+<ul class="space-y-4 font-mono text-sm">
+<li class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                        Spec-first reduces rework by 40%
+                    </li>
+<li class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                        Skills ensure consistent team patterns
+                    </li>
+<li class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                        Context-aware AI reduces engineering time
+                    </li>
+</ul>
+</div>
+<div class="space-y-8">
+<h2 class="text-4xl font-headline font-bold tracking-tight uppercase">Integration</h2>
+<p class="text-on-surface-variant font-body">Gentle-AI isn't another chat window. It's a platform-agnostic layer that integrates deeply with your existing CLI agents and CI/CD pipelines.</p>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">terminal</span>
+<span class="font-mono text-sm">Existing CI/CD Pipelines</span>
+</div>
+<span class="text-[10px] font-mono bg-primary-container/20 text-primary px-2 py-1">READY</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">groups</span>
+<span class="font-mono text-sm">Enforced Team Conventions</span>
+</div>
+<span class="text-[10px] font-mono bg-primary-container/20 text-primary px-2 py-1">READY</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">memory</span>
+<span class="font-mono text-sm">Persistent Memory Sync</span>
+</div>
+<span class="text-[10px] font-mono bg-secondary/20 text-secondary px-2 py-1">READY</span>
+</div>
+</div>
+<div class="pt-4">
+<p class="text-xs font-mono text-on-surface-variant italic">Works with Claude Code, OpenCode, Gemini CLI, Cursor, Copilot, Codex, Windsurf, Antigravity.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Get Started Terminal -->
+<section class="py-24 px-6 max-w-4xl mx-auto">
+<div class="text-center mb-12">
+<h2 class="text-3xl font-headline font-bold mb-4 uppercase">Deploy Gentle-AI</h2>
+<p class="text-on-surface-variant font-mono text-sm">Configure your ecosystem in seconds.</p>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant overflow-hidden">
+<div class="flex bg-surface-container-low border-b border-outline-variant">
+<button class="px-6 py-3 font-mono text-xs border-r border-outline-variant bg-surface-container-lowest text-primary">sh (mac/linux)</button>
+<button class="px-6 py-3 font-mono text-xs border-r border-outline-variant text-on-surface-variant hover:text-on-surface">pwsh (windows)</button>
+<button class="px-6 py-3 font-mono text-xs text-on-surface-variant hover:text-on-surface">brew</button>
+</div>
+<div class="p-8 font-mono text-sm relative group">
+<button class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity bg-surface-container-high p-2 border border-outline-variant">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</button>
+<div class="flex gap-4">
+<span class="text-outline-variant select-none">1</span>
+<span class="text-on-surface">curl -fsSL https://gentle-ai.com/install.sh | bash</span>
+</div>
+<div class="flex gap-4 mt-2">
+<span class="text-outline-variant select-none">2</span>
+<span class="text-on-surface">cd your-project-root</span>
+</div>
+<div class="flex gap-4 mt-2">
+<span class="text-outline-variant select-none">3</span>
+<span class="text-secondary">gentai --init</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-[#06080f] border-t border-[#1a1f2e] w-full px-8 py-12 flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex flex-col md:flex-row gap-8 items-center">
+<p class="font-mono text-xs text-[#8892A0]">© 2024 Gentle-AI Ecosystem Configurator</p>
+<nav class="flex gap-6">
+<a class="font-mono text-xs text-[#8892A0] hover:text-[#7FB4CA] underline decoration-dotted transition-opacity" href="https://github.com/Gentleman-Programming/gentle-ai">GitHub</a>
+<a class="font-mono text-xs text-[#8892A0] hover:text-[#7FB4CA] underline decoration-dotted transition-opacity" href="#">Documentation</a>
+<a class="font-mono text-xs text-[#8892A0] hover:text-[#7FB4CA] underline decoration-dotted transition-opacity" href="#">Discord</a>
+<a class="font-mono text-xs text-[#8892A0] hover:text-[#7FB4CA] underline decoration-dotted transition-opacity" href="#">Terms</a>
+</nav>
+</div>
+<div class="flex gap-4">
+<a class="w-10 h-10 border border-outline-variant flex items-center justify-center hover:border-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[#8892A0]">terminal</span>
+</a>
+<div class="w-10 h-10 border border-outline-variant flex items-center justify-center grayscale opacity-60">
+<span class="material-symbols-outlined text-[#8892A0]">lips</span>
+</div>
+</div>
+</footer>
+</body></html>

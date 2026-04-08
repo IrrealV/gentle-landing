@@ -1,0 +1,199 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Sidebar from '../components/Sidebar.astro';
+import CodeTabs from '../components/ui/CodeTabs.astro';
+import TerminalWindow from '../components/TerminalWindow.astro';
+
+const sidebarGroups = [
+	{
+		title: 'Void Logic: Core',
+		items: [
+			{ label: 'System Overview', href: '#system-overview', active: true },
+			{ label: 'Kernel Installation', href: '#kernel-installation' },
+			{ label: 'Void Protocols', href: '#void-protocols' },
+		],
+	},
+	{
+		title: 'Neural Ecosystem',
+		items: [
+			{ label: 'Substrate Hub', href: '#substrate-hub' },
+			{ label: 'Interface Bridge', href: '#interface-bridge' },
+			{ label: 'Runtime Sync', href: '#runtime-sync' },
+		],
+	},
+	{
+		title: 'Logic Modules',
+		items: [
+			{ label: 'Dynamic Skills', href: '#logic-modules' },
+			{ label: 'Memory Shards', href: '#memory-shards' },
+			{ label: 'Vector Latency', href: '#vector-latency' },
+		],
+	},
+];
+
+const docsTabs = [
+	{
+		id: 'init',
+		label: 'init',
+		steps: [
+			{ tool: 'gentle-ai', command: 'sdd init' },
+			{ tool: 'gentle-ai', command: 'sdd spec stitch-rebuild' },
+			{ tool: 'gentle-ai', command: 'sdd design stitch-rebuild' },
+		],
+		note: '# Initialize baseline constraints\n# Prepare required artifacts before implementation',
+	},
+	{
+		id: 'apply',
+		label: 'apply',
+		steps: [
+			{ tool: 'gentle-ai', command: 'sdd tasks stitch-rebuild' },
+			{ tool: 'gentle-ai', command: 'sdd apply stitch-rebuild --phase 5' },
+			{ tool: 'gentle-ai', command: 'sdd verify stitch-rebuild' },
+		],
+		note: '# Execute checklist incrementally\n# Verify each requirement scenario before archive',
+	},
+];
+---
+
+<Layout title="Docs | GENTLE-AI">
+	<Navbar currentPath="/docs" />
+
+	<div class="flex min-h-screen flex-col bg-[#06080f] pt-20">
+		<div class="flex flex-1 overflow-hidden">
+			<Sidebar
+				title="Documentation / Root"
+				groups={sidebarGroups}
+				class="hidden w-72 border-r border-[#1a1f2e] bg-surface-container-low lg:block"
+			/>
+
+			<main class="technical-grid custom-scrollbar flex-1 overflow-y-auto border-hairline">
+				<div class="mx-auto max-w-5xl px-8 py-16">
+					<section class="space-y-8">
+					<section id="system-overview" class="mb-20">
+						<div class="mb-6 inline-block border border-primary px-2 py-1 font-mono text-[10px] uppercase text-primary">
+							v2.4.0 Documentation
+						</div>
+						<h1 class="mb-6 text-6xl font-extrabold uppercase leading-none tracking-tighter text-on-surface">
+							The Technical <span class="text-primary">Monolith</span>
+						</h1>
+						<p class="max-w-2xl text-xl leading-relaxed text-on-surface-variant">
+							Architectural transparency for deterministic delivery systems with strict operational contracts.
+						</p>
+					</section>
+
+					<section id="kernel-installation" class="mb-16">
+						<div class="mb-8 flex items-center gap-4">
+							<span class="text-4xl font-headline font-bold text-outline-variant">01</span>
+							<h2 class="text-3xl font-headline font-bold uppercase tracking-tight">Kernel Installation</h2>
+						</div>
+						<CodeTabs tabs={docsTabs} ariaLabel="Documentation command presets" />
+					</section>
+
+					<section id="void-protocols" class="mb-24">
+						<div class="mb-10 flex items-center gap-4">
+							<span class="text-4xl font-headline font-bold text-outline-variant">02</span>
+							<h2 class="text-3xl font-headline font-bold uppercase tracking-tight">Void Protocols</h2>
+						</div>
+
+						<div class="overflow-x-auto border border-[#1a1f2e] bg-surface-container">
+							<table class="w-full text-left text-sm">
+								<thead>
+									<tr class="border-b border-[#1a1f2e] bg-surface-container-high">
+										<th class="px-6 py-4 font-label text-[10px] uppercase tracking-widest text-[#8892A0]">Agent</th>
+										<th class="px-6 py-4 font-label text-[10px] uppercase tracking-widest text-[#8892A0]">Mode</th>
+										<th class="px-6 py-4 font-label text-[10px] uppercase tracking-widest text-[#8892A0]">Key Capability</th>
+									</tr>
+								</thead>
+								<tbody class="font-mono text-[11px]">
+									<tr class="border-b border-[#1a1f2e]/30 hover:bg-surface-container-highest transition-colors"><td class="px-6 py-4 font-bold text-primary">Terminal Runtime</td><td class="px-6 py-4">Full</td><td class="px-6 py-4 text-on-surface-variant">Task execution and artifact flow</td></tr>
+									<tr class="border-b border-[#1a1f2e]/30 hover:bg-surface-container-highest transition-colors"><td class="px-6 py-4 font-bold text-primary">Editor Bridge</td><td class="px-6 py-4">Full</td><td class="px-6 py-4 text-on-surface-variant">Inline context and diff workflows</td></tr>
+									<tr class="border-b border-[#1a1f2e]/30 hover:bg-surface-container-highest transition-colors"><td class="px-6 py-4 font-bold text-primary">Verification Node</td><td class="px-6 py-4">Mandatory</td><td class="px-6 py-4 text-on-surface-variant">Scenario compliance gates</td></tr>
+								</tbody>
+							</table>
+						</div>
+					</section>
+
+					<section id="memory-shards" class="mb-24">
+						<div class="mb-10 flex items-center gap-4">
+							<span class="text-4xl font-headline font-bold text-outline-variant">03</span>
+							<h2 class="text-3xl font-headline font-bold uppercase tracking-tight">Memory Shards</h2>
+						</div>
+
+						<TerminalWindow title="engram_schema.sql" description="Schema reference" class="border border-[#1a1f2e]">
+							<pre class="code-block overflow-x-auto text-[11px] text-on-surface-variant"><span class="text-secondary">CREATE TABLE</span> observations (
+  id <span class="text-primary-container">INTEGER PRIMARY KEY</span>,
+  type <span class="text-secondary-fixed-dim">TEXT</span>,
+  title <span class="text-secondary-fixed-dim">TEXT</span>,
+  content <span class="text-secondary-fixed-dim">TEXT</span>,
+  project <span class="text-secondary-fixed-dim">TEXT</span>,
+  topic_key <span class="text-secondary-fixed-dim">TEXT</span>,
+  created_at <span class="text-secondary-fixed-dim">DATETIME</span>
+);
+
+<span class="text-secondary">CREATE VIRTUAL TABLE</span> obs_fts
+<span class="text-secondary">USING</span> fts5(content, tokenize=<span class="text-secondary-fixed-dim">'porter'</span>);
+</pre>
+						</TerminalWindow>
+					</section>
+
+					<section id="substrate-hub" class="mb-16">
+						<div class="mb-8 flex items-center gap-4">
+							<span class="text-4xl font-headline font-bold text-outline-variant">04</span>
+							<h2 class="text-3xl font-headline font-bold uppercase tracking-tight">Substrate Hub</h2>
+						</div>
+						<p class="max-w-3xl text-sm leading-relaxed text-on-surface-variant">
+							Centralized substrate contracts coordinate runtime capabilities and documentation scope across modules.
+						</p>
+					</section>
+
+					<section id="interface-bridge" class="mb-16">
+						<div class="mb-8 flex items-center gap-4">
+							<span class="text-4xl font-headline font-bold text-outline-variant">05</span>
+							<h2 class="text-3xl font-headline font-bold uppercase tracking-tight">Interface Bridge</h2>
+						</div>
+						<p class="max-w-3xl text-sm leading-relaxed text-on-surface-variant">
+							Boundary adapters maintain stable input/output contracts between orchestrator flows and specialized skills.
+						</p>
+					</section>
+
+					<section id="runtime-sync" class="mb-16">
+						<div class="mb-8 flex items-center gap-4">
+							<span class="text-4xl font-headline font-bold text-outline-variant">06</span>
+							<h2 class="text-3xl font-headline font-bold uppercase tracking-tight">Runtime Sync</h2>
+						</div>
+						<p class="max-w-3xl text-sm leading-relaxed text-on-surface-variant">
+							Synchronized lifecycle hooks prevent drift between page state, configurator interactions, and verification checks.
+						</p>
+					</section>
+
+					<section id="vector-latency" class="mb-16">
+						<div class="mb-8 flex items-center gap-4">
+							<span class="text-4xl font-headline font-bold text-outline-variant">07</span>
+							<h2 class="text-3xl font-headline font-bold uppercase tracking-tight">Vector Latency</h2>
+						</div>
+						<p class="max-w-3xl text-sm leading-relaxed text-on-surface-variant">
+							Vector index refresh and retrieval windows are bounded to keep deterministic response envelopes during verification.
+						</p>
+					</section>
+
+					<section id="logic-modules" class="pt-12 border-t border-[#1a1f2e]">
+						<h3 class="mb-8 text-center font-label text-xs font-bold uppercase tracking-[0.3em] text-[#8892A0]">
+							System Matrix Specifications
+						</h3>
+						<div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+							<div class="border border-[#1a1f2e] bg-surface-container-low p-4"><div class="mb-1 font-mono text-[10px] uppercase text-[#8892A0]">Contrast Ratio</div><div class="text-xl font-headline font-bold text-primary">7:1 MIN</div></div>
+							<div class="border border-[#1a1f2e] bg-surface-container-low p-4"><div class="mb-1 font-mono text-[10px] uppercase text-[#8892A0]">Grid System</div><div class="text-xl font-headline font-bold text-primary">1PX SOLID</div></div>
+							<div class="border border-[#1a1f2e] bg-surface-container-low p-4"><div class="mb-1 font-mono text-[10px] uppercase text-[#8892A0]">Primary Headings</div><div class="text-xl font-headline font-bold text-primary">SPACE GR.</div></div>
+							<div class="border border-[#1a1f2e] bg-surface-container-low p-4"><div class="mb-1 font-mono text-[10px] uppercase text-[#8892A0]">Transition Speed</div><div class="text-xl font-headline font-bold text-primary">200MS-300MS</div></div>
+						</div>
+					</section>
+					</section>
+				</div>
+			</main>
+		</div>
+
+		<Footer />
+	</div>
+</Layout>
