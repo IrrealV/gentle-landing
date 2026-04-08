@@ -1,0 +1,189 @@
+---
+interface Props {
+	currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+const links = [
+	{ href: '/', labelEn: 'HOME', labelEs: 'INICIO' },
+	{ href: '/features', labelEn: 'FEATURES', labelEs: 'FUNCIONES' },
+	{ href: '/how-it-works', labelEn: 'HOW IT WORKS', labelEs: 'CÓMO FUNCIONA' },
+	{ href: '/docs', labelEn: 'DOCUMENTATION', labelEs: 'DOCUMENTACIÓN' },
+];
+---
+
+<header data-home-section="navbar" class="fixed top-0 z-50 w-full border-b border-outline-variant bg-background">
+	<nav class="flex w-full max-w-full items-center justify-between px-8 py-4">
+		<!-- Logo -->
+		<a href="/" class="flex items-center gap-2" aria-label="Go to home">
+			<span class="flex h-6 w-6 items-center justify-center border border-outline-variant bg-surface-container-low text-primary" aria-hidden="true">
+				<span class="material-symbols-outlined text-sm" style="font-size: 18px;" aria-hidden="true">terminal</span>
+			</span>
+			<span class="font-['Space_Grotesk'] text-xl font-bold uppercase tracking-tighter text-primary">GENTLE-AI</span>
+		</a>
+
+		<!-- Desktop nav with sliding indicator -->
+		<div class="relative hidden items-center md:flex" id="nav-links-container">
+			<!-- Sliding pill indicator -->
+			<div
+				id="nav-indicator"
+				class="pointer-events-none absolute bottom-0 left-0 h-[2px] bg-primary"
+				style="width: 0; opacity: 0;"
+			></div>
+
+			{
+				links.map((link) => {
+					const isActive = currentPath === link.href;
+					return (
+						<a
+							href={link.href}
+							class:list={[
+								'nav-link mono relative px-4 py-1 text-xs font-bold uppercase tracking-widest transition-colors duration-200',
+								isActive ? 'text-primary' : 'text-on-surface-variant hover:text-secondary',
+							]}
+							data-active={isActive ? 'true' : 'false'}
+							data-label-en={link.labelEn}
+							data-label-es={link.labelEs}
+							aria-current={isActive ? 'page' : undefined}
+						>
+							{link.labelEn}
+						</a>
+					);
+				})
+			}
+		</div>
+
+		<!-- Right controls -->
+		<div class="flex items-center gap-3">
+			<!-- Language switcher -->
+			<button
+				id="lang-toggle"
+				class="mono flex cursor-pointer items-center gap-1 border border-outline-variant bg-surface-container-high px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:text-secondary hover:border-secondary"
+				aria-label="Switch language"
+				data-current-lang="en"
+			>
+				<span class="material-symbols-outlined text-sm" style="font-size: 16px;" aria-hidden="true">language</span>
+				<span id="lang-label" class="mono text-xs">EN</span>
+			</button>
+		</div>
+
+		<!-- Mobile hamburger -->
+		<details class="relative md:hidden">
+			<summary class="list-none cursor-pointer text-on-surface-variant" aria-label="Toggle navigation menu">
+				<span class="material-symbols-outlined" style="font-size: 24px;" aria-hidden="true">menu</span>
+			</summary>
+			<div id="mobile-nav-menu" class="absolute right-0 top-full mt-4 w-64 border border-outline-variant bg-surface-container-low">
+				<div class="flex flex-col px-4 py-3">
+					{
+						links.map((link) => {
+							const isActive = currentPath === link.href;
+							return (
+								<a
+									href={link.href}
+									class:list={[
+										'mono border-b border-outline-variant/40 py-3 text-xs font-bold uppercase tracking-widest transition-colors last:border-b-0',
+										isActive ? 'text-primary' : 'text-on-surface-variant hover:text-secondary',
+									]}
+									data-label-en={link.labelEn}
+									data-label-es={link.labelEs}
+								>
+									{link.labelEn}
+								</a>
+							);
+						})
+					}
+				</div>
+			</div>
+		</details>
+	</nav>
+</header>
+
+<script is:inline>
+	function initNavIndicator() {
+		var container = document.getElementById('nav-links-container');
+		var indicator = document.getElementById('nav-indicator');
+		if (!container || !indicator) return;
+		// Guard against double-init
+		if (container.dataset.navInit) return;
+		container.dataset.navInit = 'true';
+
+		var links = Array.from(container.querySelectorAll('.nav-link'));
+		var activeLink = links.find(function(l) { return l.dataset.active === 'true'; }) || null;
+
+		function moveIndicatorTo(el) {
+			if (!el || !container) return;
+			var containerRect = container.getBoundingClientRect();
+			var elRect = el.getBoundingClientRect();
+			indicator.style.width = elRect.width + 'px';
+			indicator.style.transform = 'translateX(' + (elRect.left - containerRect.left) + 'px)';
+		}
+
+		// Snap to active position with no transition
+		indicator.style.transition = 'none';
+		indicator.style.opacity = '0';
+		if (activeLink) moveIndicatorTo(activeLink);
+
+		// After 2 frames: reveal + enable transition
+		requestAnimationFrame(function() {
+			requestAnimationFrame(function() {
+				indicator.style.transition = 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94), width 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+				indicator.style.opacity = '1';
+			});
+		});
+
+		// Move on HOVER (animation is visible before navigation fires)
+		links.forEach(function(link) {
+			link.addEventListener('mouseenter', function() { moveIndicatorTo(link); });
+		});
+		// Snap back to active on mouse-leave from the whole nav
+		container.addEventListener('mouseleave', function() {
+			if (activeLink) moveIndicatorTo(activeLink);
+		});
+	}
+
+	function initLangSwitcher() {
+		var btn = document.getElementById('lang-toggle');
+		var label = document.getElementById('lang-label');
+		if (!btn || !label) return;
+		if (btn.dataset.langInit) return;
+		btn.dataset.langInit = 'true';
+
+		function applyLang(lang) {
+			btn.dataset.currentLang = lang;
+			label.textContent = lang.toUpperCase();
+			document.documentElement.lang = lang;
+			document.documentElement.dataset.lang = lang;
+			// Plain text translations
+			document.querySelectorAll('[data-label-en][data-label-es]').forEach(function(el) {
+				el.textContent = lang === 'es' ? (el.dataset.labelEs || '') : (el.dataset.labelEn || '');
+			});
+			// Rich HTML translations (for elements with nested markup)
+			document.querySelectorAll('[data-i18n-en][data-i18n-es]').forEach(function(el) {
+				el.innerHTML = lang === 'es' ? (el.dataset.i18nEs || '') : (el.dataset.i18nEn || '');
+			});
+		}
+
+		var stored = localStorage.getItem('gentle-lang') || 'en';
+		applyLang(stored);
+
+		btn.addEventListener('click', function() {
+			var current = btn.dataset.currentLang || 'en';
+			var next = current === 'en' ? 'es' : 'en';
+			localStorage.setItem('gentle-lang', next);
+			applyLang(next);
+		});
+	}
+
+	initNavIndicator();
+	initLangSwitcher();
+	document.addEventListener('astro:page-load', function() {
+		// Reset guard so reinit works after navigation
+		var container = document.getElementById('nav-links-container');
+		var btn = document.getElementById('lang-toggle');
+		if (container) delete container.dataset.navInit;
+		if (btn) delete btn.dataset.langInit;
+		initNavIndicator();
+		initLangSwitcher();
+	});
+</script>
