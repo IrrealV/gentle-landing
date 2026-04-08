@@ -1,9 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
+import Navbar from '../components/ui/Navbar.astro';
+import Footer from '../components/ui/Footer.astro';
 import CodeTabs from '../components/ui/CodeTabs.astro';
-import TerminalWindow from '../components/TerminalWindow.astro';
+import TerminalWindow from '../components/ui/TerminalWindow.astro';
 import { agentProfiles, skillProfiles, memoryToggles, configPresets } from '../data/configuratorData';
 
 const presetTabs = configPresets.map((preset) => ({
@@ -23,7 +23,7 @@ const presetsMeta = configPresets.map((preset) => ({
 <Layout title="Configurator | GENTLE-AI">
 	<Navbar currentPath="/configurator" />
 
-	<main class="flex-grow bg-[#11131b] pt-20">
+	<main class="flex-grow bg-background pt-20">
 		<div class="grid grid-cols-1 border-hairline md:grid-cols-12">
 			<aside class="flex flex-col gap-12 border-r border-outline-variant bg-surface-container-low p-8 md:col-span-3">
 				<section>
@@ -35,14 +35,14 @@ const presetsMeta = configPresets.map((preset) => ({
 						<div class="border border-outline-variant bg-surface-container-lowest p-4">
 							<div class="mb-1 flex items-center justify-between">
 								<span class="mono text-[10px] text-on-surface-variant">OS_FAMILY [MOCK]</span>
-								<span class="material-symbols-outlined text-sm text-primary">desktop_windows</span>
+								<span class="material-symbols-outlined text-sm text-primary" aria-hidden="true">desktop_windows</span>
 							</div>
 							<div class="text-lg font-bold">macOS Ventura</div>
 						</div>
 						<div class="border border-outline-variant bg-surface-container-lowest p-4">
 							<div class="mb-1 flex items-center justify-between">
 								<span class="mono text-[10px] text-on-surface-variant">ARCH [MOCK]</span>
-								<span class="material-symbols-outlined text-sm text-primary">memory</span>
+								<span class="material-symbols-outlined text-sm text-primary" aria-hidden="true">memory</span>
 							</div>
 							<div class="text-lg font-bold">Apple M2 Max</div>
 						</div>
@@ -94,7 +94,7 @@ const presetsMeta = configPresets.map((preset) => ({
 					<section class="space-y-6 border-hairline p-4">
 						<div class="flex items-center justify-between border-b border-outline-variant pb-4">
 							<h2 class="flex items-center gap-2 text-lg font-bold uppercase tracking-widest">
-								<span class="material-symbols-outlined text-primary">diversity_2</span>
+								<span class="material-symbols-outlined text-primary" aria-hidden="true">diversity_2</span>
 								Agent Catalog
 							</h2>
 							<span class="mono bg-primary/10 px-2 py-1 text-[10px] text-primary">SCAN_COMPLETE</span>
@@ -108,7 +108,7 @@ const presetsMeta = configPresets.map((preset) => ({
 								]}>
 									<div class="flex items-center gap-4">
 										<div class="flex h-10 w-10 items-center justify-center border border-outline-variant bg-surface-container-highest">
-											<span class="material-symbols-outlined" class:list={[agent.status === 'beta' ? 'text-secondary' : 'text-primary']}>terminal</span>
+											<span class="material-symbols-outlined" class:list={[agent.status === 'beta' ? 'text-secondary' : 'text-primary']} aria-hidden="true">terminal</span>
 										</div>
 										<div>
 											<div class="font-bold text-sm">{agent.name}</div>
@@ -146,7 +146,7 @@ const presetsMeta = configPresets.map((preset) => ({
 					<section class="space-y-6" data-configurator-presets>
 						<div class="flex items-center justify-between border-b border-outline-variant pb-4">
 							<h2 class="flex items-center gap-2 text-lg font-bold uppercase tracking-widest">
-								<span class="material-symbols-outlined text-secondary">shield_spark</span>
+								<span class="material-symbols-outlined text-secondary" aria-hidden="true">shield_spark</span>
 								Project Initialization
 							</h2>
 							<div class="flex gap-1"><span class="h-2 w-2 bg-error"></span><span class="h-2 w-2 bg-secondary"></span><span class="h-2 w-2 bg-primary"></span></div>
@@ -182,11 +182,22 @@ const presetsMeta = configPresets.map((preset) => ({
 </Layout>
 
 <script define:vars={{ presetsMeta }}>
+	let configuratorListenerController;
+
+	const cleanupConfiguratorState = () => {
+		if (configuratorListenerController) {
+			configuratorListenerController.abort();
+			configuratorListenerController = undefined;
+		}
+	};
+
 	const initConfiguratorState = () => {
+		cleanupConfiguratorState();
+		configuratorListenerController = new AbortController();
+		const { signal } = configuratorListenerController;
+
 		const root = document.querySelector('[data-configurator-presets]');
 		if (!(root instanceof HTMLElement)) return;
-		if (root.dataset.initialized === 'true') return;
-		root.dataset.initialized = 'true';
 
 		const toggles = Array.from(document.querySelectorAll('[data-memory-toggle]'));
 
@@ -208,7 +219,7 @@ const presetsMeta = configPresets.map((preset) => ({
 			toggle.addEventListener('click', () => {
 				currentOn = !currentOn;
 				syncToggle();
-			});
+			}, { signal });
 		});
 
 		const summaryNode = document.querySelector('[data-preset-summary]');
@@ -229,9 +240,11 @@ const presetsMeta = configPresets.map((preset) => ({
 		tabButtons.forEach((tab) => {
 			tab.addEventListener('click', () => {
 				syncPresetSummary(tab.dataset.tabId ?? '');
-			});
+			}, { signal });
 		});
 	};
 
 	document.addEventListener('astro:page-load', initConfiguratorState);
+	document.addEventListener('astro:before-swap', cleanupConfiguratorState);
+	document.addEventListener('astro:page-unload', cleanupConfiguratorState);
 </script>

@@ -1,21 +1,27 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
+import Navbar from '../components/ui/Navbar.astro';
+import Footer from '../components/ui/Footer.astro';
 ---
 
 <Layout title="How It Works | GENTLE-AI">
 	<Navbar currentPath="/how-it-works" />
 
-	<main class="flex-grow bg-[#11131b] pt-20">
+	<main data-page-animation="how-it-works" class="flex-grow bg-background pt-20">
 		<header class="relative overflow-hidden border-b border-outline-variant bg-surface px-8 pb-16 pt-24">
 			<div class="blueprint-grid absolute inset-0 opacity-20"></div>
 			<div class="relative z-10 mx-auto max-w-7xl">
-				<div class="mono mb-4 text-sm font-bold tracking-[0.3em] text-secondary">SYSTEM_ARCHITECTURE_V2.0</div>
-				<h1 class="mb-8 text-6xl font-extrabold uppercase leading-none tracking-tighter text-on-surface md:text-8xl">
+				<div class="mono mb-4 text-sm font-bold tracking-[0.3em] text-secondary"
+					data-label-en="SYSTEM_ARCHITECTURE_V2.0"
+					data-label-es="ARQUITECTURA_DEL_SISTEMA_V2.0">SYSTEM_ARCHITECTURE_V2.0</div>
+				<h1 class="mb-8 text-6xl font-extrabold uppercase leading-none tracking-tighter text-on-surface md:text-8xl"
+					data-i18n-en="Spec-Driven <br />Development"
+					data-i18n-es="Desarrollo Guiado <br />por Especificaciones">
 					Spec-Driven <br />Development
 				</h1>
-				<p class="max-w-2xl text-lg leading-relaxed text-on-surface-variant md:text-xl">
+				<p class="max-w-2xl text-lg leading-relaxed text-on-surface-variant md:text-xl"
+					data-label-en="Deterministic workflow that forces intent, requirements, and architecture before implementation."
+					data-label-es="Flujo de trabajo determinista que fuerza intención, requisitos y arquitectura antes de implementar.">
 					Deterministic workflow that forces intent, requirements, and architecture before implementation.
 				</p>
 			</div>
@@ -24,38 +30,146 @@ import Footer from '../components/Footer.astro';
 		<section class="border-b border-outline-variant bg-surface-container-lowest py-20">
 			<div class="mx-auto max-w-7xl px-8">
 				<div class="mb-12 flex items-center justify-between">
-					<h2 class="text-3xl font-bold uppercase tracking-tight">The 7-Phase Pipeline</h2>
+					<h2 class="text-3xl font-bold uppercase tracking-tight"
+						data-label-en="The 7-Phase Pipeline"
+						data-label-es="El Pipeline de 7 Fases">The 7-Phase Pipeline</h2>
 					<div class="mx-8 h-px flex-grow bg-outline-variant opacity-30"></div>
-					<span class="mono text-xs uppercase text-on-surface-variant">Flow Schematic</span>
+					<span class="mono text-xs uppercase text-on-surface-variant"
+						data-label-en="Flow Schematic"
+						data-label-es="Esquema de Flujo">Flow Schematic</span>
 				</div>
 
 				<div class="mb-12 grid grid-cols-1 gap-1 md:grid-cols-7">
-					<article class="group relative overflow-hidden border border-outline-variant bg-surface p-6 transition-colors hover:border-primary"><div class="mono absolute right-0 top-0 p-2 text-[10px] text-outline opacity-40">01</div><span class="material-symbols-outlined mb-4 text-primary">lightbulb</span><h3 class="mb-2 text-sm font-bold uppercase">Proposal</h3><p class="text-xs leading-relaxed text-on-surface-variant">What &amp; Why. Capture intent and approach.</p><div class="mt-4 h-1 w-0 bg-primary transition-all duration-300 group-hover:w-full"></div></article>
-					<article class="group relative overflow-hidden border border-outline-variant bg-surface p-6 transition-colors hover:border-primary"><div class="mono absolute right-0 top-0 p-2 text-[10px] text-outline opacity-40">02</div><span class="material-symbols-outlined mb-4 text-primary" style="font-variation-settings: 'FILL' 1;">description</span><h3 class="mb-2 text-sm font-bold uppercase">Spec</h3><p class="text-xs leading-relaxed text-on-surface-variant">Define requirement scenarios.</p><div class="mt-4 h-1 w-0 bg-primary transition-all duration-300 group-hover:w-full"></div></article>
-					<article class="group relative overflow-hidden border border-outline-variant bg-surface p-6 transition-colors hover:border-primary"><div class="mono absolute right-0 top-0 p-2 text-[10px] text-outline opacity-40">03</div><span class="material-symbols-outlined mb-4 text-primary">architecture</span><h3 class="mb-2 text-sm font-bold uppercase">Design</h3><p class="text-xs leading-relaxed text-on-surface-variant">Architecture and interfaces.</p><div class="mt-4 h-1 w-0 bg-primary transition-all duration-300 group-hover:w-full"></div></article>
-					<article class="group relative overflow-hidden border border-outline-variant bg-surface p-6 transition-colors hover:border-primary"><div class="mono absolute right-0 top-0 p-2 text-[10px] text-outline opacity-40">04</div><span class="material-symbols-outlined mb-4 text-primary">list_alt</span><h3 class="mb-2 text-sm font-bold uppercase">Tasks</h3><p class="text-xs leading-relaxed text-on-surface-variant">Discrete verifiable units.</p><div class="mt-4 h-1 w-0 bg-primary transition-all duration-300 group-hover:w-full"></div></article>
-					<article class="group relative overflow-hidden border border-outline-variant bg-surface p-6 transition-colors hover:border-primary"><div class="mono absolute right-0 top-0 p-2 text-[10px] text-outline opacity-40">05</div><span class="material-symbols-outlined mb-4 text-primary" style="font-variation-settings: 'FILL' 1;">terminal</span><h3 class="mb-2 text-sm font-bold uppercase">Apply</h3><p class="text-xs leading-relaxed text-on-surface-variant">Implement against contracts.</p><div class="mt-4 h-1 w-0 bg-primary transition-all duration-300 group-hover:w-full"></div></article>
-					<article class="group relative overflow-hidden border border-outline-variant bg-surface p-6 transition-colors hover:border-primary"><div class="mono absolute right-0 top-0 p-2 text-[10px] text-outline opacity-40">06</div><span class="material-symbols-outlined mb-4 text-primary">verified</span><h3 class="mb-2 text-sm font-bold uppercase">Verify</h3><p class="text-xs leading-relaxed text-on-surface-variant">Validate scenario compliance.</p><div class="mt-4 h-1 w-0 bg-primary transition-all duration-300 group-hover:w-full"></div></article>
-					<article class="group relative overflow-hidden border border-outline-variant bg-surface p-6 transition-colors hover:border-primary"><div class="mono absolute right-0 top-0 p-2 text-[10px] text-outline opacity-40">07</div><span class="material-symbols-outlined mb-4 text-primary" style="font-variation-settings: 'FILL' 1;">inventory_2</span><h3 class="mb-2 text-sm font-bold uppercase">Archive</h3><p class="text-xs leading-relaxed text-on-surface-variant">Close and sync accepted deltas.</p><div class="mt-4 h-1 w-0 bg-primary transition-all duration-300 group-hover:w-full"></div></article>
+					<article class="group relative overflow-hidden border border-outline-variant bg-surface p-6 transition-colors hover:border-primary">
+						<div class="mono absolute right-0 top-0 p-2 text-[10px] text-outline opacity-40">01</div>
+						<span class="material-symbols-outlined mb-4 text-primary" aria-hidden="true">lightbulb</span>
+						<h3 class="mb-2 text-sm font-bold uppercase"
+							data-label-en="Proposal"
+							data-label-es="Propuesta">Proposal</h3>
+						<p class="text-xs leading-relaxed text-on-surface-variant"
+							data-label-en="What &amp; Why. Capture intent and approach."
+							data-label-es="Qué y Por qué. Captura la intención y el enfoque.">What &amp; Why. Capture intent and approach.</p>
+						<div class="mt-4 h-1 w-0 bg-primary transition-all duration-300 group-hover:w-full"></div>
+					</article>
+					<article class="group relative overflow-hidden border border-outline-variant bg-surface p-6 transition-colors hover:border-primary">
+						<div class="mono absolute right-0 top-0 p-2 text-[10px] text-outline opacity-40">02</div>
+						<span class="material-symbols-outlined mb-4 text-primary" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">description</span>
+						<h3 class="mb-2 text-sm font-bold uppercase"
+							data-label-en="Spec"
+							data-label-es="Spec">Spec</h3>
+						<p class="text-xs leading-relaxed text-on-surface-variant"
+							data-label-en="Define requirement scenarios."
+							data-label-es="Define escenarios de requisitos.">Define requirement scenarios.</p>
+						<div class="mt-4 h-1 w-0 bg-primary transition-all duration-300 group-hover:w-full"></div>
+					</article>
+					<article class="group relative overflow-hidden border border-outline-variant bg-surface p-6 transition-colors hover:border-primary">
+						<div class="mono absolute right-0 top-0 p-2 text-[10px] text-outline opacity-40">03</div>
+						<span class="material-symbols-outlined mb-4 text-primary" aria-hidden="true">architecture</span>
+						<h3 class="mb-2 text-sm font-bold uppercase"
+							data-label-en="Design"
+							data-label-es="Diseño">Design</h3>
+						<p class="text-xs leading-relaxed text-on-surface-variant"
+							data-label-en="Architecture and interfaces."
+							data-label-es="Arquitectura e interfaces.">Architecture and interfaces.</p>
+						<div class="mt-4 h-1 w-0 bg-primary transition-all duration-300 group-hover:w-full"></div>
+					</article>
+					<article class="group relative overflow-hidden border border-outline-variant bg-surface p-6 transition-colors hover:border-primary">
+						<div class="mono absolute right-0 top-0 p-2 text-[10px] text-outline opacity-40">04</div>
+						<span class="material-symbols-outlined mb-4 text-primary" aria-hidden="true">list_alt</span>
+						<h3 class="mb-2 text-sm font-bold uppercase"
+							data-label-en="Tasks"
+							data-label-es="Tareas">Tasks</h3>
+						<p class="text-xs leading-relaxed text-on-surface-variant"
+							data-label-en="Discrete verifiable units."
+							data-label-es="Unidades discretas verificables.">Discrete verifiable units.</p>
+						<div class="mt-4 h-1 w-0 bg-primary transition-all duration-300 group-hover:w-full"></div>
+					</article>
+					<article class="group relative overflow-hidden border border-outline-variant bg-surface p-6 transition-colors hover:border-primary">
+						<div class="mono absolute right-0 top-0 p-2 text-[10px] text-outline opacity-40">05</div>
+						<span class="material-symbols-outlined mb-4 text-primary" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">terminal</span>
+						<h3 class="mb-2 text-sm font-bold uppercase"
+							data-label-en="Apply"
+							data-label-es="Aplicar">Apply</h3>
+						<p class="text-xs leading-relaxed text-on-surface-variant"
+							data-label-en="Implement against contracts."
+							data-label-es="Implementar según contratos.">Implement against contracts.</p>
+						<div class="mt-4 h-1 w-0 bg-primary transition-all duration-300 group-hover:w-full"></div>
+					</article>
+					<article class="group relative overflow-hidden border border-outline-variant bg-surface p-6 transition-colors hover:border-primary">
+						<div class="mono absolute right-0 top-0 p-2 text-[10px] text-outline opacity-40">06</div>
+						<span class="material-symbols-outlined mb-4 text-primary" aria-hidden="true">verified</span>
+						<h3 class="mb-2 text-sm font-bold uppercase"
+							data-label-en="Verify"
+							data-label-es="Verificar">Verify</h3>
+						<p class="text-xs leading-relaxed text-on-surface-variant"
+							data-label-en="Validate scenario compliance."
+							data-label-es="Valida el cumplimiento de escenarios.">Validate scenario compliance.</p>
+						<div class="mt-4 h-1 w-0 bg-primary transition-all duration-300 group-hover:w-full"></div>
+					</article>
+					<article class="group relative overflow-hidden border border-outline-variant bg-surface p-6 transition-colors hover:border-primary">
+						<div class="mono absolute right-0 top-0 p-2 text-[10px] text-outline opacity-40">07</div>
+						<span class="material-symbols-outlined mb-4 text-primary" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">inventory_2</span>
+						<h3 class="mb-2 text-sm font-bold uppercase"
+							data-label-en="Archive"
+							data-label-es="Archivar">Archive</h3>
+						<p class="text-xs leading-relaxed text-on-surface-variant"
+							data-label-en="Close and sync accepted deltas."
+							data-label-es="Cierra y sincroniza los deltas aceptados.">Close and sync accepted deltas.</p>
+						<div class="mt-4 h-1 w-0 bg-primary transition-all duration-300 group-hover:w-full"></div>
+					</article>
 				</div>
 
 				<div class="overflow-x-auto border border-outline-variant">
 					<table class="w-full border-collapse text-left">
 						<thead>
 							<tr class="border-b border-outline-variant bg-surface-container-high">
-								<th class="p-4 mono text-xs uppercase tracking-widest text-primary">Phase</th>
-								<th class="p-4 mono text-xs uppercase tracking-widest text-primary">Artifact</th>
-								<th class="p-4 mono text-xs uppercase tracking-widest text-primary">Purpose</th>
+								<th class="p-4 mono text-xs uppercase tracking-widest text-primary"
+									data-label-en="Phase"
+									data-label-es="Fase">Phase</th>
+								<th class="p-4 mono text-xs uppercase tracking-widest text-primary"
+									data-label-en="Artifact"
+									data-label-es="Artefacto">Artifact</th>
+								<th class="p-4 mono text-xs uppercase tracking-widest text-primary"
+									data-label-en="Purpose"
+									data-label-es="Propósito">Purpose</th>
 							</tr>
 						</thead>
 						<tbody class="divide-y divide-outline-variant/30 text-sm">
-							<tr class="hover:bg-surface-container transition-colors"><td class="p-4 font-bold uppercase">Proposal</td><td class="p-4 mono text-secondary">proposal.md</td><td class="p-4 text-on-surface-variant">Capture intent and scope.</td></tr>
-							<tr class="hover:bg-surface-container transition-colors"><td class="p-4 font-bold uppercase">Spec</td><td class="p-4 mono text-secondary">spec.md</td><td class="p-4 text-on-surface-variant">Define acceptance scenarios.</td></tr>
-							<tr class="hover:bg-surface-container transition-colors"><td class="p-4 font-bold uppercase">Design</td><td class="p-4 mono text-secondary">design.md</td><td class="p-4 text-on-surface-variant">Establish architecture decisions.</td></tr>
-							<tr class="hover:bg-surface-container transition-colors"><td class="p-4 font-bold uppercase">Tasks</td><td class="p-4 mono text-secondary">tasks.md</td><td class="p-4 text-on-surface-variant">Break into verifiable items.</td></tr>
-							<tr class="hover:bg-surface-container transition-colors"><td class="p-4 font-bold uppercase">Apply</td><td class="p-4 mono text-secondary">Source code</td><td class="p-4 text-on-surface-variant">Implement according to contracts.</td></tr>
-							<tr class="hover:bg-surface-container transition-colors"><td class="p-4 font-bold uppercase">Verify</td><td class="p-4 mono text-secondary">Verification report</td><td class="p-4 text-on-surface-variant">Confirm implementation parity.</td></tr>
-							<tr class="hover:bg-surface-container transition-colors"><td class="p-4 font-bold uppercase">Archive</td><td class="p-4 mono text-secondary">Closed change</td><td class="p-4 text-on-surface-variant">Sync final deltas and close.</td></tr>
+							<tr class="hover:bg-surface-container transition-colors">
+								<td class="p-4 font-bold uppercase" data-label-en="Proposal" data-label-es="Propuesta">Proposal</td>
+								<td class="p-4 mono text-secondary">proposal.md</td>
+								<td class="p-4 text-on-surface-variant" data-label-en="Capture intent and scope." data-label-es="Captura la intención y el alcance.">Capture intent and scope.</td>
+							</tr>
+							<tr class="hover:bg-surface-container transition-colors">
+								<td class="p-4 font-bold uppercase">Spec</td>
+								<td class="p-4 mono text-secondary">spec.md</td>
+								<td class="p-4 text-on-surface-variant" data-label-en="Define acceptance scenarios." data-label-es="Define escenarios de aceptación.">Define acceptance scenarios.</td>
+							</tr>
+							<tr class="hover:bg-surface-container transition-colors">
+								<td class="p-4 font-bold uppercase" data-label-en="Design" data-label-es="Diseño">Design</td>
+								<td class="p-4 mono text-secondary">design.md</td>
+								<td class="p-4 text-on-surface-variant" data-label-en="Establish architecture decisions." data-label-es="Establece decisiones de arquitectura.">Establish architecture decisions.</td>
+							</tr>
+							<tr class="hover:bg-surface-container transition-colors">
+								<td class="p-4 font-bold uppercase" data-label-en="Tasks" data-label-es="Tareas">Tasks</td>
+								<td class="p-4 mono text-secondary">tasks.md</td>
+								<td class="p-4 text-on-surface-variant" data-label-en="Break into verifiable items." data-label-es="Descompone en ítems verificables.">Break into verifiable items.</td>
+							</tr>
+							<tr class="hover:bg-surface-container transition-colors">
+								<td class="p-4 font-bold uppercase" data-label-en="Apply" data-label-es="Aplicar">Apply</td>
+								<td class="p-4 mono text-secondary">Source code</td>
+								<td class="p-4 text-on-surface-variant" data-label-en="Implement according to contracts." data-label-es="Implementa según los contratos.">Implement according to contracts.</td>
+							</tr>
+							<tr class="hover:bg-surface-container transition-colors">
+								<td class="p-4 font-bold uppercase" data-label-en="Verify" data-label-es="Verificar">Verify</td>
+								<td class="p-4 mono text-secondary" data-label-en="Verification report" data-label-es="Informe de verificación">Verification report</td>
+								<td class="p-4 text-on-surface-variant" data-label-en="Confirm implementation parity." data-label-es="Confirma la paridad de implementación.">Confirm implementation parity.</td>
+							</tr>
+							<tr class="hover:bg-surface-container transition-colors">
+								<td class="p-4 font-bold uppercase" data-label-en="Archive" data-label-es="Archivar">Archive</td>
+								<td class="p-4 mono text-secondary" data-label-en="Closed change" data-label-es="Cambio cerrado">Closed change</td>
+								<td class="p-4 text-on-surface-variant" data-label-en="Sync final deltas and close." data-label-es="Sincroniza deltas finales y cierra.">Sync final deltas and close.</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>

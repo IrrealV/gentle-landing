@@ -1,8 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
-import BentoCard from '../components/BentoCard.astro';
+import Navbar from '../components/ui/Navbar.astro';
+import Footer from '../components/ui/Footer.astro';
+import BentoCard from '../components/ui/BentoCard.astro';
 
 const featureCards = [
 	{
@@ -35,26 +35,32 @@ const featureCards = [
 <Layout title="Features | GENTLE-AI">
 	<Navbar currentPath="/features" />
 
-	<main id="features_detail" class="flex-grow bg-surface-container-lowest pt-20">
+	<main id="features_detail" data-page-animation="features" class="flex-grow bg-surface-container-lowest pt-20">
 		<header class="grid grid-cols-1 border-b border-outline-variant bg-surface lg:grid-cols-12">
 			<div class="flex min-h-[409px] flex-col justify-end p-12 lg:col-span-7">
 				<div class="mb-4 inline-flex items-center gap-2 font-headline text-xs uppercase tracking-widest text-secondary">
 					<span class="h-px w-8 bg-secondary"></span>
-					Architectural Deep Dive
+					<span data-label-en="Architectural Deep Dive" data-label-es="Análisis Arquitectónico">Architectural Deep Dive</span>
 				</div>
-				<h1 class="text-6xl font-bold uppercase leading-none tracking-tighter text-on-surface md:text-8xl">
+				<h1 class="text-6xl font-bold uppercase leading-none tracking-tighter text-on-surface md:text-8xl"
+					data-i18n-en="CORE STACK<br /><span class='text-primary'>INTEGRATION</span>"
+					data-i18n-es="STACK PRINCIPAL<br /><span class='text-primary'>INTEGRACIÓN</span>">
 					CORE STACK<br /><span class="text-primary">INTEGRATION</span>
 				</h1>
 			</div>
 
 			<div class="flex flex-col justify-center border-l border-outline-variant bg-surface-container-low p-12 lg:col-span-5">
-				<p class="max-w-md text-lg leading-relaxed text-on-surface-variant">
+				<p class="max-w-md text-lg leading-relaxed text-on-surface-variant"
+					data-label-en="Functional Brutalism applied to product systems: deterministic workflow, modular capabilities, and stable operational contracts."
+					data-label-es="Brutalismo Funcional aplicado a sistemas de producto: flujo de trabajo determinista, capacidades modulares y contratos operacionales estables.">
 					Functional Brutalism applied to product systems: deterministic workflow, modular capabilities, and
 					stable operational contracts.
 				</p>
 				<div class="mt-8 flex gap-4">
-					<a href="/configurator" class="binary-feedback bg-primary-container px-8 py-3 font-headline font-bold uppercase text-on-primary">
-						Initialize Stack
+					<a href="/#install" class="binary-feedback bg-primary-container px-8 py-3 font-headline font-bold uppercase text-on-primary"
+						data-label-en="Install Now"
+						data-label-es="Instalar Ahora">
+						Install Now
 					</a>
 				</div>
 			</div>
@@ -67,11 +73,13 @@ const featureCards = [
 		<section class="grid grid-cols-1 border-b border-hairline lg:grid-cols-12">
 			<div class="flex min-h-[500px] items-center justify-center overflow-x-auto border-r border-outline-variant bg-surface-container-low p-12 lg:col-span-8">
 				<div class="relative z-10 w-full max-w-2xl border border-outline bg-surface-container-lowest p-8 shadow-2xl">
-					<h3 class="mb-6 mono text-xs leading-relaxed uppercase text-on-surface-variant">System Architecture Diagram</h3>
+					<h3 class="mb-6 mono text-xs leading-relaxed uppercase text-on-surface-variant"
+						data-label-en="System Architecture Diagram"
+						data-label-es="Diagrama de Arquitectura del Sistema">System Architecture Diagram</h3>
 					<div class="mb-8 flex justify-between">
 						<div class="mono border border-primary px-4 py-2 text-xs uppercase text-primary">Inbound_Stream</div>
 						<div class="flex items-center gap-4">
-							<span class="material-symbols-outlined text-outline">sync_alt</span>
+							<span class="material-symbols-outlined text-outline" aria-hidden="true">sync_alt</span>
 							<div class="mono border border-secondary px-4 py-2 text-xs uppercase text-secondary">Process_Core</div>
 						</div>
 						<div class="mono border border-outline px-4 py-2 text-xs uppercase text-outline">Outbound_Log</div>
@@ -90,7 +98,9 @@ const featureCards = [
 					</div>
 
 					<div class="mt-8 flex justify-end border-t border-outline-variant pt-4">
-						<span class="mono text-[10px] uppercase tracking-tighter text-outline-variant">
+						<span class="mono text-[10px] uppercase tracking-tighter text-outline-variant"
+							data-label-en="System Topology Visualizer // Real-time telemetry disabled"
+							data-label-es="Visualizador de Topología // Telemetría en tiempo real desactivada">
 							System Topology Visualizer // Real-time telemetry disabled
 						</span>
 					</div>
@@ -98,23 +108,35 @@ const featureCards = [
 			</div>
 
 			<div class="flex flex-col justify-center p-12 lg:col-span-4">
-				<h2 class="mb-6 text-4xl font-bold uppercase tracking-tighter">Functional<br />Architecture</h2>
-				<p class="mb-12 text-sm leading-relaxed text-on-surface-variant">
+				<h2 class="mb-6 text-4xl font-bold uppercase tracking-tighter"
+					data-i18n-en="Functional<br />Architecture"
+					data-i18n-es="Arquitectura<br />Funcional">Functional<br />Architecture</h2>
+				<p class="mb-12 text-sm leading-relaxed text-on-surface-variant"
+					data-label-en="Every interaction and data path follows strict structural rules for readability and observability."
+					data-label-es="Cada interacción y ruta de datos sigue reglas estructurales estrictas para legibilidad y observabilidad.">
 					Every interaction and data path follows strict structural rules for readability and observability.
 				</p>
 				<div class="space-y-6">
 					<div class="flex gap-4">
-						<span class="material-symbols-outlined text-primary">analytics</span>
+						<span class="material-symbols-outlined text-primary" aria-hidden="true">analytics</span>
 						<div>
-							<h4 class="mb-1 text-xs font-bold uppercase tracking-widest">Performance Benchmarks</h4>
-							<p class="text-xs text-outline">Detailed comparison of deterministic workflow overhead.</p>
+							<h4 class="mb-1 text-xs font-bold uppercase tracking-widest"
+								data-label-en="Performance Benchmarks"
+								data-label-es="Benchmarks de Rendimiento">Performance Benchmarks</h4>
+							<p class="text-xs text-outline"
+								data-label-en="Detailed comparison of deterministic workflow overhead."
+								data-label-es="Comparación detallada del overhead del flujo determinista.">Detailed comparison of deterministic workflow overhead.</p>
 						</div>
 					</div>
 					<div class="flex gap-4">
-						<span class="material-symbols-outlined text-secondary">security</span>
+						<span class="material-symbols-outlined text-secondary" aria-hidden="true">security</span>
 						<div>
-							<h4 class="mb-1 text-xs font-bold uppercase tracking-widest">Isolation Model</h4>
-							<p class="text-xs text-outline">Bounded interfaces preserve predictable behavior across modules.</p>
+							<h4 class="mb-1 text-xs font-bold uppercase tracking-widest"
+								data-label-en="Isolation Model"
+								data-label-es="Modelo de Aislamiento">Isolation Model</h4>
+							<p class="text-xs text-outline"
+								data-label-en="Bounded interfaces preserve predictable behavior across modules."
+								data-label-es="Las interfaces acotadas preservan el comportamiento predecible entre módulos.">Bounded interfaces preserve predictable behavior across modules.</p>
 						</div>
 					</div>
 				</div>

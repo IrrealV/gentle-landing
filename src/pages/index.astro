@@ -1,19 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro';
-import Hero from '../components/Hero.astro';
-import FeaturesGrid from '../components/FeaturesGrid.astro';
-import GetStarted from '../components/GetStarted.astro';
-import HowItWorks from '../components/HowItWorks.astro';
-import Stats from '../components/Stats.astro';
-import Footer from '../components/Footer.astro';
+import Navbar from '../components/ui/Navbar.astro';
+import Hero from '../components/ui/Hero.astro';
+import FeaturesGrid from '../components/ui/FeaturesGrid.astro';
+import GetStarted from '../components/ui/GetStarted.astro';
+import HowItWorks from '../components/ui/HowItWorks.astro';
+import Stats from '../components/ui/Stats.astro';
+import Footer from '../components/ui/Footer.astro';
 ---
 
 <Layout title="GENTLE-AI | Spec-Driven Development">
 	<Navbar currentPath="/" />
 
 	<main class="pt-24" id="top">
-		<Hero ctaPrimaryHref="#protocols" ctaSecondaryHref="/how-it-works" />
+		<Hero ctaSecondaryHref="/how-it-works" />
 		<FeaturesGrid />
 		<GetStarted />
 		<HowItWorks />
