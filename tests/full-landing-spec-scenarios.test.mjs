@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 
 const srcBase = new URL('../src/', import.meta.url);
 
@@ -13,12 +13,10 @@ const index = readSrc('pages/index.astro');
 const features = readSrc('pages/features.astro');
 const docs = readSrc('pages/docs.astro');
 const howItWorks = readSrc('pages/how-it-works.astro');
-const configurator = readSrc('pages/configurator.astro');
-const navbar = readSrc('components/Navbar.astro');
-const footer = readSrc('components/Footer.astro');
-const codeTabs = readSrc('components/CodeTabs.astro');
+const navbar = readSrc('components/ui/Navbar.astro');
+const footer = readSrc('components/ui/Footer.astro');
+const codeTabs = readSrc('components/ui/CodeTabs.astro');
 const terminalWindow = readSrc('components/ui/TerminalWindow.astro');
-const configuratorData = readSrc('data/configuratorData.ts');
 
 test('design-tokens: consolidated token groups resolve across pages', () => {
 	assert.match(globalCss, /--surface-container-lowest/);
@@ -48,7 +46,7 @@ test('design-tokens: typography roles remain deterministic', () => {
 });
 
 test('design-tokens: material symbols render across shared components', () => {
-	assert.match(layout, /Material\+Symbols\+Outlined/);
+	assert.match(layout, /material-symbols-outlined-latin-400-normal/);
 	assert.match(navbar, /material-symbols-outlined/);
 	assert.match(codeTabs, /material-symbols-outlined/);
 	assert.match(terminalWindow, /material-symbols-outlined/);
@@ -65,8 +63,6 @@ test('design-tokens: hairline utilities are reusable cross-page', () => {
 	assert.match(globalCss, /\.border-b-hairline/);
 	assert.match(globalCss, /\.border-r-hairline/);
 	assert.match(features, /border-hairline/);
-	assert.match(docs, /border-hairline/);
-	assert.match(configurator, /border-hairline/);
 });
 
 test('landing-page: hero and sections keep updated stitch structure', () => {
@@ -93,21 +89,30 @@ test('landing-page: canonical section sequence appears once', () => {
 });
 
 test('landing-page: cross-page CTAs route internally', () => {
-	assert.match(index, /ctaSecondaryHref="\/how-it-works"/);
-	assert.match(index, /ctaPrimaryHref="#protocols"/);
+	assert.match(index, /ctaSecondaryHref="\/docs"/);
 	assert.match(navbar, /href: '\/docs'/);
 	assert.match(navbar, /href: '\/features'/);
-	assert.match(navbar, /href: '\/configurator'/);
+	assert.match(navbar, /href: '\/demo'/);
 });
 
 test('landing-page: all primary navigation links are internal', () => {
+	const allowedCommunityExternal = new Set([
+		'https://github.com/Gentleman-Programming/gentle-ai',
+		'https://discord.gg/gentlemanprogramming',
+	]);
 	const sources = [index, navbar, footer];
 	for (const source of sources) {
 		for (const match of source.matchAll(/href\s*=\s*"([^"]+)"/g)) {
-			assert.equal(match[1].startsWith('/') || match[1].startsWith('#'), true, `External href found: ${match[1]}`);
+			const href = match[1];
+			const isInternal = href.startsWith('/') || href.startsWith('#');
+			const isAllowedExternal = source === footer && allowedCommunityExternal.has(href);
+			assert.equal(isInternal || isAllowedExternal, true, `Unexpected href found: ${href}`);
 		}
 		for (const match of source.matchAll(/href:\s*'([^']+)'/g)) {
-			assert.equal(match[1].startsWith('/') || match[1].startsWith('#'), true, `External data href found: ${match[1]}`);
+			const href = match[1];
+			const isInternal = href.startsWith('/') || href.startsWith('#');
+			const isAllowedExternal = source === footer && allowedCommunityExternal.has(href);
+			assert.equal(isInternal || isAllowedExternal, true, `Unexpected data href found: ${href}`);
 		}
 	}
 });
@@ -115,8 +120,8 @@ test('landing-page: all primary navigation links are internal', () => {
 test('landing-page: former external destinations map to internal placeholders', () => {
 	assert.doesNotMatch(index, /https?:\/\//i);
 	assert.doesNotMatch(navbar, /https?:\/\//i);
-	assert.doesNotMatch(footer, /https?:\/\//i);
-	assert.match(navbar, /href="#"/);
+	assert.match(footer, /https:\/\/github\.com\/Gentleman-Programming\/gentle-ai/);
+	assert.match(footer, /https:\/\/discord\.gg\/gentlemanprogramming/);
 });
 
 test('features-page: feature grid communicates capability groups', () => {
@@ -127,7 +132,7 @@ test('features-page: feature grid communicates capability groups', () => {
 });
 
 test('features-page: architecture diagram remains readable at multiple widths', () => {
-	assert.match(features, /System Architecture Diagram/);
+	assert.match(features, /Post-Install Architecture Diagram/);
 	assert.match(features, /overflow-x-auto/);
 	assert.match(features, /mono text-xs leading-relaxed/);
 });
@@ -148,9 +153,9 @@ test('features-page: feature actions are internal-only', () => {
 });
 
 test('docs-page: sidebar and content regions render together', () => {
-	assert.match(docs, /<Sidebar/);
-	assert.match(docs, /<section class="space-y-8">/);
-	assert.match(docs, /id="system-overview"/);
+	assert.match(docs, /id="docs-sidebar"/);
+	assert.match(docs, /id="docs-content"/);
+	assert.match(docs, /id="sec-system-overview"/);
 });
 
 test('docs-page: sidebar actions stay internal', () => {
@@ -165,78 +170,47 @@ test('docs-page: navbar and footer remain consistent', () => {
 });
 
 test('docs-page: code content uses reusable primitives', () => {
-	assert.match(docs, /<CodeTabs/);
 	assert.match(docs, /<TerminalWindow/);
 });
 
-test('configurator-page: agent and skill catalogs are visible', () => {
-	assert.match(configurator, /Agent Catalog/);
-	assert.match(configurator, /Skill Registry/);
-	assert.match(configurator, /agentProfiles\.map/);
-	assert.match(configurator, /skillProfiles\.map/);
+test('configurator-page: decommission removes page, data, and shell links', () => {
+	assert.equal(existsSync(new URL('pages/configurator.astro', srcBase)), false);
+	assert.equal(existsSync(new URL('data/configuratorData.ts', srcBase)), false);
+	assert.doesNotMatch(navbar, /href: '\/configurator'/);
+	assert.doesNotMatch(footer, /\/configurator/);
 });
 
-test('configurator-page: memory persistence controls are explicit', () => {
-	assert.match(configurator, /Memory Controls/);
-	assert.match(configurator, /memoryToggles\.map/);
-	assert.match(configuratorData, /projectPersistence/);
-	assert.match(configuratorData, /sessionPersistence/);
-	assert.match(configurator, /default on|default off/);
-});
-
-test('configurator-page: config output uses terminal visual model', () => {
-	assert.match(configurator, /<TerminalWindow/);
-	assert.match(configurator, /Local preview only/);
-});
-
-test('configurator-page: multi-profile presets use tabbed primitives', () => {
-	assert.match(configurator, /<CodeTabs/);
+test('landing-page: footer community block exposes only github and discord', () => {
+	assert.match(footer, /const community = \[/);
+	assert.match(footer, /\{ label: 'GitHub', href: 'https:\/\/github\.com\/Gentleman-Programming\/gentle-ai' \}/);
+	assert.match(footer, /\{ label: 'Discord', href: 'https:\/\/discord\.gg\/gentlemanprogramming' \}/);
+	assert.doesNotMatch(footer, /Community Guide|Contribution Workflow|Configuration Center/);
 	assert.match(codeTabs, /role="tablist"/);
 	assert.match(codeTabs, /role="tabpanel"/);
 });
 
-test('configurator-page: tentative behavior is local and non-destructive', () => {
-	assert.match(configurator, /\[STATUS\] Local preview only/);
-	assert.doesNotMatch(configurator, /fetch\(|XMLHttpRequest|https?:\/\//i);
-	assert.match(configurator, /addEventListener\('click'/);
-});
-
-test('configurator-page: links remain internal via shared shell', () => {
-	assert.match(configurator, /<Navbar currentPath="\/configurator"/);
+test('routing: internal navigation relies on default full-page loads', () => {
+	assert.doesNotMatch(layout, /<ClientRouter\s*\/>/);
 	assert.match(navbar, /href: '\/docs'/);
 	assert.match(navbar, /href: '\/features'/);
-	assert.match(footer, /href: '\/how-it-works'/);
-});
-
-test('view-transitions: transition executes on internal route navigation', () => {
-	assert.match(layout, /<ViewTransitions\s*\/>/);
-	assert.match(navbar, /href: '\/docs'/);
-	assert.match(navbar, /href: '\/features'/);
-	assert.match(navbar, /href: '\/configurator'/);
+	assert.match(navbar, /href: '\/demo'/);
 });
 
 test('view-transitions: anchor-only navigation remains functional', () => {
-	assert.match(docs, /href: '#system-overview'/);
-	assert.match(navbar, /href="#"/);
+	assert.match(docs, /data-section=/);
+	assert.match(navbar, /href: '\/docs'/);
 });
 
-test('view-transitions: unsupported browsers can fall back to normal routing', () => {
-	assert.match(layout, /import \{ ViewTransitions \} from 'astro:transitions'/);
+test('routing: navigation does not require ClientRouter or ViewTransition API', () => {
+	assert.doesNotMatch(layout, /import \{ ClientRouter \} from 'astro:transitions'/);
 	assert.doesNotMatch(layout, /if \(!document\.startViewTransition\) throw/);
 	assert.match(navbar, /<a href="\//);
 });
 
 test('view-transitions: shared shell remains stable during transitions', () => {
-	for (const page of [index, features, docs, howItWorks, configurator]) {
+	for (const page of [index, features, docs, howItWorks]) {
 		assert.match(page, /<Layout/);
 		assert.match(page, /<Navbar/);
 		assert.match(page, /<Footer/);
 	}
-});
-
-test('configurator fixture realism: arrays are non-empty and typed', () => {
-	assert.match(configuratorData, /export const agentProfiles:[\s\S]*\[/);
-	assert.match(configuratorData, /export const skillProfiles:[\s\S]*\[/);
-	assert.match(configuratorData, /export const memoryToggles:[\s\S]*\[/);
-	assert.match(configuratorData, /export const configPresets:[\s\S]*\[/);
 });

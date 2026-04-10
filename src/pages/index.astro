@@ -10,10 +10,10 @@ import Footer from '../components/ui/Footer.astro';
 ---
 
 <Layout title="GENTLE-AI | Spec-Driven Development">
-	<Navbar currentPath="/" />
+	<Navbar currentPath="/" variant="marketing" />
 
-	<main class="pt-24" id="top">
-		<Hero ctaSecondaryHref="/how-it-works" />
+	<main class="pt-24" id="top" data-page-animation="home">
+		<Hero ctaSecondaryHref="/docs" />
 		<FeaturesGrid />
 		<GetStarted />
 		<HowItWorks />

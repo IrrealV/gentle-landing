@@ -1,43 +1,42 @@
-# Astro Starter Kit: Minimal
+# gentle-landing
+
+Astro landing site for **GENTLE-AI**.
+
+## What it is
+
+This repo powers the public landing pages for the GENTLE-AI project:
+
+- `/` — product overview
+- `/features` — capability map
+- `/how-it-works` — install → workflow explanation
+- `/docs` — technical documentation
+- `/demo` — browser reconstruction of the interactive TUI
+
+The content is intended to stay aligned with the real `../gentle-ai` project.
+
+## Stack
+
+- Astro
+- TypeScript
+- Static-site generation
+- View Transitions
+
+## Development
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Build & preview
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```sh
+npm run build
+npm run preview
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Notes
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- Keep public copy factual and synced with `../gentle-ai`.
+- The demo is a browser recreation of the real terminal flow, not a video.
+- Prefer small, localized changes to preserve performance and fidelity.

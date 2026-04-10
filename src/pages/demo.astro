@@ -1,0 +1,139 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/ui/Navbar.astro';
+import Footer from '../components/ui/Footer.astro';
+import InteractiveTUI from '../components/ui/InteractiveTUI.astro';
+---
+
+<Layout title="Demo | GENTLE-AI">
+	<Navbar currentPath="/demo" variant="interactive" />
+
+	<!-- Mobile-only honest banner -->
+	<div class="md:hidden sticky top-14 z-40 flex items-center gap-3 border-b border-[#f6c177]/30 bg-[#191724] px-5 py-3">
+		<span class="material-symbols-outlined text-[#f6c177]" style="font-size:18px;">monitor</span>
+		<p
+			class="mono text-xs text-[#f6c177]"
+			data-label-en="This demo is best experienced on desktop with a keyboard."
+			data-label-es="Esta demo se disfruta mejor en escritorio y con teclado."
+		>This demo is best experienced on desktop with a keyboard.</p>
+	</div>
+
+	<div data-page-animation="demo" class="flex min-h-screen flex-col bg-[#06080f] pt-16">
+
+		<!-- Hero header -->
+		<section class="border-b border-[#1a1f2e] px-8 py-16">
+			<div class="mx-auto max-w-6xl">
+				<p
+					class="mono mb-4 text-xs uppercase tracking-[0.22em] text-[#908caa]"
+					data-label-en="Terminal-First Interactive Demo"
+					data-label-es="Demo interactiva orientada a terminal"
+				>Terminal-First Interactive Demo</p>
+				<h1 class="font-['Space_Grotesk'] text-5xl font-extrabold uppercase tracking-tighter text-[#e0def4] md:text-7xl">
+					<span data-label-en="Faithful Bubbletea Demo." data-label-es="Demo fiel de Bubbletea.">Faithful Bubbletea Demo.</span>
+					<span class="text-[#c4a7e7]" data-label-en="In Your Browser." data-label-es="En tu navegador."> In Your Browser.</span>
+				</h1>
+				<p
+					class="mono mt-5 max-w-xl text-sm leading-relaxed text-[#6e6a86]"
+					data-label-en="This is not a video. It is a keyboard-driven browser reconstruction: install history + launch command + representative menu and subscreen states."
+					data-label-es="Esto no es un video. Es una reconstrucción en navegador, controlada por teclado: historial de instalación + comando de arranque + estados representativos de menú y subpantallas."
+				>This is not a video. It is a keyboard-driven browser reconstruction: install history + launch command + representative menu and subscreen states.</p>
+			</div>
+		</section>
+
+		<!-- Main content: TUI + explanation -->
+		<section class="flex-1 px-8 py-16">
+			<div class="mx-auto grid max-w-6xl gap-16 lg:grid-cols-[1fr_340px]">
+
+				<!-- TUI -->
+				<div>
+					<InteractiveTUI />
+				</div>
+
+				<!-- Sidebar explanation -->
+				<aside class="flex flex-col gap-8">
+					<!-- State labels -->
+					<div class="border border-[#1a1f2e] bg-[#0d0f1a] p-6">
+						<p class="mono mb-4 text-xs uppercase tracking-[0.2em] text-[#c4a7e7]"
+							data-label-en="Fidelity Flow"
+							data-label-es="Flujo de fidelidad"
+						>Fidelity Flow</p>
+
+						<div class="space-y-4">
+							<div class="border-l-2 border-[#9ccfd8] pl-4">
+								<p class="mono text-xs font-bold uppercase tracking-widest text-[#e0def4]"
+									data-label-en="01 — Prompt"
+									data-label-es="01 — Prompt"
+								>01 — Prompt</p>
+								<p class="mono mt-1 text-xs text-[#908caa]"
+									data-label-en="Shows install history first, then types gentle-ai in a live terminal context."
+									data-label-es="Muestra primero el historial de instalación y luego escribe gentle-ai en un contexto de terminal en vivo."
+								>Shows install history first, then types gentle-ai in a live terminal context.</p>
+							</div>
+							<div class="border-l-2 border-[#c4a7e7] pl-4">
+								<p class="mono text-xs font-bold uppercase tracking-widest text-[#e0def4]"
+									data-label-en="02 — Welcome Menu"
+									data-label-es="02 — Menú Bubbletea"
+								>02 — Welcome Menu</p>
+								<p class="mono mt-1 text-xs text-[#908caa]"
+									data-label-en="Welcome menu reconstructed in-browser with the same 8-option structure. Navigate with j/k or arrow keys."
+					data-label-es="Menú de bienvenida reconstruido en navegador con la misma estructura de 8 opciones. Navega con j/k o con las flechas."
+				>Welcome menu reconstructed in-browser with the same 8-option structure. Navigate with j/k or arrow keys.</p>
+							</div>
+							<div class="border-l-2 border-[#f6c177] pl-4">
+								<p class="mono text-xs font-bold uppercase tracking-widest text-[#e0def4]"
+									data-label-en="03 — Representative Subscreens"
+									data-label-es="03 — Subpantallas representativas"
+								>03 — Representative Subscreens</p>
+								<p class="mono mt-1 text-xs text-[#908caa]"
+									data-label-en="Each option opens a faithful browser reconstruction of its Bubbletea sub-screen instead of a generic log. Press R to restart from Prompt."
+					data-label-es="Cada opción abre una reconstrucción fiel en navegador de su subpantalla de Bubbletea, en lugar de un log genérico. Pulsa R para reiniciar desde Prompt."
+				>Each option opens a faithful browser reconstruction of its Bubbletea sub-screen instead of a generic log. Press R to restart from Prompt.</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- Keyboard reference -->
+					<div class="border border-[#1a1f2e] bg-[#0d0f1a] p-6">
+						<p class="mono mb-4 text-xs uppercase tracking-[0.2em] text-[#c4a7e7]"
+							data-label-en="Keyboard"
+							data-label-es="Teclado"
+						>Keyboard</p>
+						<div class="space-y-2">
+							{[
+								{ key: '↑ / k', enDesc: 'Move up', esDesc: 'Mover arriba' },
+								{ key: '↓ / j', enDesc: 'Move down', esDesc: 'Mover abajo' },
+								{ key: 'Enter', enDesc: 'Select option', esDesc: 'Seleccionar' },
+								{ key: 'q', enDesc: 'Quit', esDesc: 'Salir' },
+								{ key: 'r', enDesc: 'Restart demo', esDesc: 'Reiniciar demo' },
+							].map(({ key, enDesc, esDesc }) => (
+								<div class="flex items-center justify-between">
+									<span class="mono rounded bg-[#1f1d2e] px-2 py-1 text-xs text-[#c4a7e7]">{key}</span>
+									<span
+										class="mono text-xs text-[#6e6a86]"
+										data-label-en={enDesc}
+										data-label-es={esDesc}
+									>{enDesc}</span>
+								</div>
+							))}
+						</div>
+					</div>
+
+					<!-- CTA -->
+					<a
+						href="/how-it-works"
+						class="mono flex items-center justify-center gap-2 border border-[#c4a7e7] bg-[#c4a7e7]/10 px-6 py-3 text-xs font-bold uppercase tracking-widest text-[#c4a7e7] transition-colors hover:bg-[#c4a7e7]/20"
+					>
+						<span class="material-symbols-outlined" style="font-size:16px;">star</span>
+						<span
+							data-label-en="Read install-to-workflow guide"
+							data-label-es="Leer la guía de instalación a flujo"
+						>Read install-to-workflow guide</span>
+					</a>
+				</aside>
+
+			</div>
+		</section>
+
+		<Footer />
+	</div>
+</Layout>

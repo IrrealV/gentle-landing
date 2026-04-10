@@ -5,24 +5,24 @@ import Footer from '../components/ui/Footer.astro';
 ---
 
 <Layout title="How It Works | GENTLE-AI">
-	<Navbar currentPath="/how-it-works" />
+	<Navbar currentPath="/how-it-works" variant="default" />
 
 	<main data-page-animation="how-it-works" class="flex-grow bg-background pt-20">
 		<header class="relative overflow-hidden border-b border-outline-variant bg-surface px-8 pb-16 pt-24">
 			<div class="blueprint-grid absolute inset-0 opacity-20"></div>
 			<div class="relative z-10 mx-auto max-w-7xl">
 				<div class="mono mb-4 text-sm font-bold tracking-[0.3em] text-secondary"
-					data-label-en="SYSTEM_ARCHITECTURE_V2.0"
-					data-label-es="ARQUITECTURA_DEL_SISTEMA_V2.0">SYSTEM_ARCHITECTURE_V2.0</div>
+					data-label-en="INSTALL_TO_WORKFLOW_V1"
+					data-label-es="INSTALACIÓN_A_FLUJO_V1">INSTALL_TO_WORKFLOW_V1</div>
 				<h1 class="mb-8 text-6xl font-extrabold uppercase leading-none tracking-tighter text-on-surface md:text-8xl"
-					data-i18n-en="Spec-Driven <br />Development"
-					data-i18n-es="Desarrollo Guiado <br />por Especificaciones">
-					Spec-Driven <br />Development
+					data-i18n-en="Install to <br />Workflow"
+					data-i18n-es="Instalación a <br />flujo de trabajo">
+					Install to <br />Workflow
 				</h1>
 				<p class="max-w-2xl text-lg leading-relaxed text-on-surface-variant md:text-xl"
-					data-label-en="Deterministic workflow that forces intent, requirements, and architecture before implementation."
-					data-label-es="Flujo de trabajo determinista que fuerza intención, requisitos y arquitectura antes de implementar.">
-					Deterministic workflow that forces intent, requirements, and architecture before implementation.
+					data-label-en="From the first install command to daily delivery, gentle-ai standardizes how teams configure agents, initialize context, and execute SDD without losing traceability."
+					data-label-es="Desde el primer comando de instalación hasta la entrega diaria, gentle-ai estandariza cómo los equipos configuran agentes, inicializan contexto y ejecutan SDD sin perder trazabilidad.">
+					From the first install command to daily delivery, gentle-ai standardizes how teams configure agents, initialize context, and execute SDD without losing traceability.
 				</p>
 			</div>
 		</header>
@@ -31,12 +31,12 @@ import Footer from '../components/ui/Footer.astro';
 			<div class="mx-auto max-w-7xl px-8">
 				<div class="mb-12 flex items-center justify-between">
 					<h2 class="text-3xl font-bold uppercase tracking-tight"
-						data-label-en="The 7-Phase Pipeline"
-						data-label-es="El Pipeline de 7 Fases">The 7-Phase Pipeline</h2>
+						data-label-en="Install-to-Workflow Pipeline"
+						data-label-es="Pipeline de instalación a flujo de trabajo">Install-to-Workflow Pipeline</h2>
 					<div class="mx-8 h-px flex-grow bg-outline-variant opacity-30"></div>
 					<span class="mono text-xs uppercase text-on-surface-variant"
-						data-label-en="Flow Schematic"
-						data-label-es="Esquema de Flujo">Flow Schematic</span>
+						data-label-en="Execution Sequence"
+						data-label-es="Secuencia de ejecución">Execution Sequence</span>
 				</div>
 
 				<div class="mb-12 grid grid-cols-1 gap-1 md:grid-cols-7">
@@ -44,33 +44,33 @@ import Footer from '../components/ui/Footer.astro';
 						<div class="mono absolute right-0 top-0 p-2 text-[10px] text-outline opacity-40">01</div>
 						<span class="material-symbols-outlined mb-4 text-primary" aria-hidden="true">lightbulb</span>
 						<h3 class="mb-2 text-sm font-bold uppercase"
-							data-label-en="Proposal"
-							data-label-es="Propuesta">Proposal</h3>
+							data-label-en="Install"
+							data-label-es="Instalación">Install</h3>
 						<p class="text-xs leading-relaxed text-on-surface-variant"
-							data-label-en="What &amp; Why. Capture intent and approach."
-							data-label-es="Qué y Por qué. Captura la intención y el enfoque.">What &amp; Why. Capture intent and approach.</p>
+							data-label-en="Install gentle-ai with brew, scoop, or go install according to your OS."
+							data-label-es="Instala gentle-ai con brew, scoop o go install según tu sistema operativo.">Install gentle-ai with brew, scoop, or go install according to your OS.</p>
 						<div class="mt-4 h-1 w-0 bg-primary transition-all duration-300 group-hover:w-full"></div>
 					</article>
 					<article class="group relative overflow-hidden border border-outline-variant bg-surface p-6 transition-colors hover:border-primary">
 						<div class="mono absolute right-0 top-0 p-2 text-[10px] text-outline opacity-40">02</div>
 						<span class="material-symbols-outlined mb-4 text-primary" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">description</span>
 						<h3 class="mb-2 text-sm font-bold uppercase"
-							data-label-en="Spec"
-							data-label-es="Spec">Spec</h3>
+							data-label-en="Run the TUI"
+							data-label-es="Ejecutar la TUI">Run the TUI</h3>
 						<p class="text-xs leading-relaxed text-on-surface-variant"
-							data-label-en="Define requirement scenarios."
-							data-label-es="Define escenarios de requisitos.">Define requirement scenarios.</p>
+							data-label-en="Launch gentle-ai and choose agents, components, and preset with keyboard-first flow."
+							data-label-es="Abre gentle-ai y elige agentes, componentes y preset con un flujo orientado a teclado.">Launch gentle-ai and choose agents, components, and preset with keyboard-first flow.</p>
 						<div class="mt-4 h-1 w-0 bg-primary transition-all duration-300 group-hover:w-full"></div>
 					</article>
 					<article class="group relative overflow-hidden border border-outline-variant bg-surface p-6 transition-colors hover:border-primary">
 						<div class="mono absolute right-0 top-0 p-2 text-[10px] text-outline opacity-40">03</div>
 						<span class="material-symbols-outlined mb-4 text-primary" aria-hidden="true">architecture</span>
 						<h3 class="mb-2 text-sm font-bold uppercase"
-							data-label-en="Design"
-							data-label-es="Diseño">Design</h3>
+							data-label-en="Bootstrap Project"
+							data-label-es="Inicializar proyecto">Bootstrap Project</h3>
 						<p class="text-xs leading-relaxed text-on-surface-variant"
-							data-label-en="Architecture and interfaces."
-							data-label-es="Arquitectura e interfaces.">Architecture and interfaces.</p>
+							data-label-en="Run /sdd-init and skill-registry so the project detects stack rules and testing capabilities."
+							data-label-es="Ejecuta /sdd-init y skill-registry para que el proyecto detecte reglas de stack y capacidades de testing.">Run /sdd-init and skill-registry so the project detects stack rules and testing capabilities.</p>
 						<div class="mt-4 h-1 w-0 bg-primary transition-all duration-300 group-hover:w-full"></div>
 					</article>
 					<article class="group relative overflow-hidden border border-outline-variant bg-surface p-6 transition-colors hover:border-primary">
@@ -141,7 +141,7 @@ import Footer from '../components/ui/Footer.astro';
 								<td class="p-4 text-on-surface-variant" data-label-en="Capture intent and scope." data-label-es="Captura la intención y el alcance.">Capture intent and scope.</td>
 							</tr>
 							<tr class="hover:bg-surface-container transition-colors">
-								<td class="p-4 font-bold uppercase">Spec</td>
+								<td class="p-4 font-bold uppercase" data-label-en="Spec" data-label-es="Spec">Spec</td>
 								<td class="p-4 mono text-secondary">spec.md</td>
 								<td class="p-4 text-on-surface-variant" data-label-en="Define acceptance scenarios." data-label-es="Define escenarios de aceptación.">Define acceptance scenarios.</td>
 							</tr>

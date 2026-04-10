@@ -1,51 +1,83 @@
-# Landing Page Specification
+# Landing Differentiation Specification
 
 ## Purpose
 
-Define the required behavior for the homepage rebuild to match `stitch/gentle_ai_landing_page_real_data` and enforce strict internal-only navigation.
+Define differentiated copy and motion behavior for the landing experience while preserving brand consistency and fidelity to verified `../gentle-ai` documentation.
 
 ## Requirements
 
-### Requirement: Functional Brutalism Visual Parity
+### Requirement: Corrected Change Scope
 
-The system MUST render `/` with Functional Brutalism parity against `stitch/gentle_ai_landing_page_real_data`, using dark layered surfaces, hairline separators, mono-forward uppercase labels, strict grid spacing, and minimal interaction feedback.
+The system MUST apply the `landing-differentiation` change only to:
 
-#### Scenario: Hero and section styling match updated stitch source
-- GIVEN a user opens `/`
-- WHEN the landing page renders from navbar through footer
-- THEN each section SHALL use the updated stitch token hierarchy and divider rhythm
-- AND typography SHALL preserve mono/uppercase emphasis for labels and headings
+- `src/components/ui/Hero.astro`
+- `src/pages/index.astro`
+- `src/pages/features.astro`
+- `src/pages/how-it-works.astro`
+- `src/pages/docs.astro`
+- `src/pages/demo.astro`
+- shared motion/style utilities when required for consistency
 
-#### Scenario: Shared brutalist interactions remain restrained
-- GIVEN buttons, cards, tabs, and terminal shells are visible
-- WHEN the user hovers or focuses actionable elements
-- THEN feedback MUST be limited to subtle color, border, or transform changes
+The system MUST NOT modify `src/pages/configurator.astro` for this change.
 
-### Requirement: Canonical Section Composition
+#### Scenario: Configurator remains out of scope
+- GIVEN the landing-differentiation work is planned or reviewed
+- WHEN affected files are enumerated
+- THEN `src/pages/configurator.astro` SHALL be excluded from edits
+- AND only the declared in-scope files SHALL be eligible for updates
 
-The system MUST compose `/` as Navbar, Hero, Core Protocols grid, Get Started code panel, Procedural Architecture flow, Efficiency/Integration stats, and Footer, while routing cross-page CTAs to internal product pages.
+### Requirement: Hero Color Differentiation Without Structural Change
 
-#### Scenario: Full section sequence is present once
-- GIVEN a user scrolls from top to bottom
-- WHEN traversing `/`
-- THEN each canonical section SHALL appear exactly once in the required order
+The Hero MUST keep the current slogan direction and preserve existing layout and CTA structure, while applying a three-part color treatment using the brand theme colors.
 
-#### Scenario: Cross-page CTAs route internally
-- GIVEN hero and body CTAs referencing docs, features, how-it-works, or configurator
-- WHEN activated
-- THEN each CTA MUST resolve to internal routes (`/docs`, `/features`, `/how-it-works`, `/configurator`) or valid in-page anchors
+#### Scenario: Hero slogan gains color segmentation
+- GIVEN `src/components/ui/Hero.astro` is rendered
+- WHEN the primary slogan is displayed
+- THEN the slogan SHALL be visually segmented across the 3 theme colors
+- AND CTA placement/order SHALL remain unchanged
 
-### Requirement: Internal-Only Navigation Enforcement
+### Requirement: Page-Specific Copy Roles
 
-The system MUST restrict all landing-page navigation targets to internal routes or in-page anchors, including navbar, hero CTAs, section links, and footer links.
+The system MUST assign non-overlapping narrative roles to avoid cloned messaging across pages:
 
-#### Scenario: All primary navigation links are internal
-- GIVEN a user inspects all actionable links on `/`
-- WHEN any link is activated
-- THEN every `href` SHALL start with `/` or `#`
-- AND no `href` SHALL use `http`, `https`, `mailto`, or `tel`
+- Home (`/`): ecosystem configurator positioning + workflow entry + demo entry
+- Features (`/features`): capabilities visible after install
+- How It Works (`/how-it-works`): install-to-workflow explanation
+- Docs (`/docs`): technical manual/reference framing
+- Demo (`/demo`): real TUI fidelity and terminal-first narrative
 
-#### Scenario: Former external destinations map to internal placeholders
-- GIVEN copy mentions docs, GitHub, or community destinations
-- WHEN rendered on landing
-- THEN actions MUST route to internal pages or `#` placeholders only
+#### Scenario: Each page has a distinct copy intent
+- GIVEN a reader visits each in-scope page
+- WHEN headings and lead paragraphs are compared
+- THEN each page SHALL reflect its assigned role
+- AND repeated cross-page slogans SHALL be minimized
+
+### Requirement: Neutral Spanish Translation Policy
+
+All Spanish (`ES`) strings introduced or updated by this change MUST use neutral Spanish suitable for broad technical audiences.
+
+#### Scenario: ES content avoids regional bias
+- GIVEN ES strings are reviewed across in-scope pages
+- WHEN lexical and tonal consistency is checked
+- THEN vocabulary SHALL remain neutral and technical
+- AND meaning SHALL remain equivalent to approved English source copy
+
+### Requirement: Distinct Motion Language Per Page
+
+Motion behavior MUST differentiate pages so they do not feel cloned, while staying consistent with the existing brand motion character.
+
+#### Scenario: Motion patterns are differentiated but coherent
+- GIVEN transitions/animations are observed on in-scope pages
+- WHEN page behavior is compared
+- THEN each page SHALL exhibit a distinct motion emphasis
+- AND shared timing/easing conventions SHALL preserve brand cohesion
+
+### Requirement: Verified-Fidelity Copy Policy
+
+All copy changes MUST remain faithful to verified `../gentle-ai` docs and MUST NOT introduce unsupported capability claims.
+
+#### Scenario: Unsupported claims are rejected
+- GIVEN new or revised marketing/technical copy
+- WHEN content is checked against verified `../gentle-ai` references
+- THEN unsupported statements SHALL be removed or rewritten
+- AND approved wording SHALL prioritize documented behavior

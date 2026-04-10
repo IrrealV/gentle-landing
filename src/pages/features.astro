@@ -6,102 +6,113 @@ import BentoCard from '../components/ui/BentoCard.astro';
 
 const featureCards = [
 	{
-		title: 'Spec-Driven Development',
+		title: 'SDD Operational Pipeline',
+		titleEs: 'Pipeline operacional SDD',
 		summary:
-			'Deterministic pipeline that documents intent and requirements before implementation, reducing delivery drift.',
+			'After installation, teams execute work through proposal, spec, design, tasks, apply, verify, and archive with explicit artifacts per phase.',
+		summaryEs:
+			'Después de la instalación, los equipos ejecutan el trabajo con proposal, spec, design, tasks, apply, verify y archive usando artefactos explícitos por fase.',
 		icon: 'developer_board',
-		category: 'Workflow Protocol',
+		category: 'Delivery Governance',
+		categoryEs: 'Gobernanza de entrega',
 		href: '/how-it-works',
 	},
 	{
-		title: 'Loadable Skills',
+		title: 'Loadable Skill System',
+		titleEs: 'Sistema de habilidades cargables',
 		summary:
-			'Curated specialist modules for stack constraints, workflow rules, and tooling orchestration.',
+			'Installed skills provide reusable patterns for workflows, testing, and stack-specific decisions without changing your existing agent tooling.',
+		summaryEs:
+			'Las habilidades instaladas aportan patrones reutilizables para flujos, testing y decisiones específicas de stack sin cambiar tu tooling actual de agentes.',
 		icon: 'extension',
-		category: 'Domain Expertise',
-		href: '/docs#logic-modules',
+		category: 'Execution Modules',
+		categoryEs: 'Módulos de ejecución',
+		href: '/docs',
 	},
 	{
-		title: 'Context Protocol',
+		title: 'Context and Memory Layer',
+		titleEs: 'Capa de contexto y memoria',
 		summary:
-			'Stable integrations for docs, repositories, and runtime services with clear interface boundaries.',
+			'Engram memory plus MCP integrations keep decisions, discoveries, and references available across sessions and agents.',
+		summaryEs:
+			'La memoria de Engram más integraciones MCP mantienen decisiones, hallazgos y referencias disponibles entre sesiones y agentes.',
 		icon: 'hub',
-		category: 'Integration Fabric',
-		href: '/docs#system-overview',
+		category: 'Cross-Session Context',
+		categoryEs: 'Contexto entre sesiones',
+		href: '/docs',
 	},
 ];
 ---
 
 <Layout title="Features | GENTLE-AI">
-	<Navbar currentPath="/features" />
+	<Navbar currentPath="/features" variant="default" />
 
 	<main id="features_detail" data-page-animation="features" class="flex-grow bg-surface-container-lowest pt-20">
 		<header class="grid grid-cols-1 border-b border-outline-variant bg-surface lg:grid-cols-12">
 			<div class="flex min-h-[409px] flex-col justify-end p-12 lg:col-span-7">
 				<div class="mb-4 inline-flex items-center gap-2 font-headline text-xs uppercase tracking-widest text-secondary">
 					<span class="h-px w-8 bg-secondary"></span>
-					<span data-label-en="Architectural Deep Dive" data-label-es="Análisis Arquitectónico">Architectural Deep Dive</span>
+					<span data-label-en="Post-Install Capability Map" data-label-es="Mapa de capacidades posteriores a la instalación">Post-Install Capability Map</span>
 				</div>
 				<h1 class="text-6xl font-bold uppercase leading-none tracking-tighter text-on-surface md:text-8xl"
-					data-i18n-en="CORE STACK<br /><span class='text-primary'>INTEGRATION</span>"
-					data-i18n-es="STACK PRINCIPAL<br /><span class='text-primary'>INTEGRACIÓN</span>">
-					CORE STACK<br /><span class="text-primary">INTEGRATION</span>
+					data-i18n-en="CAPABILITIES<br /><span class='text-primary'>AFTER INSTALL</span>"
+					data-i18n-es="CAPACIDADES<br /><span class='text-primary'>DESPUÉS DE INSTALAR</span>">
+					CAPABILITIES<br /><span class="text-primary">AFTER INSTALL</span>
 				</h1>
 			</div>
 
 			<div class="flex flex-col justify-center border-l border-outline-variant bg-surface-container-low p-12 lg:col-span-5">
 				<p class="max-w-md text-lg leading-relaxed text-on-surface-variant"
-					data-label-en="Functional Brutalism applied to product systems: deterministic workflow, modular capabilities, and stable operational contracts."
-					data-label-es="Brutalismo Funcional aplicado a sistemas de producto: flujo de trabajo determinista, capacidades modulares y contratos operacionales estables.">
-					Functional Brutalism applied to product systems: deterministic workflow, modular capabilities, and
-					stable operational contracts.
+					data-label-en="Once gentle-ai is installed, this stack adds deterministic workflow control, persistent memory, and skill-driven execution on top of your current agents."
+					data-label-es="Una vez instalado gentle-ai, este stack agrega control de flujo determinista, memoria persistente y ejecución guiada por habilidades sobre tus agentes actuales.">
+					Once gentle-ai is installed, this stack adds deterministic workflow control, persistent memory, and skill-driven execution on top of your current agents.
 				</p>
 				<div class="mt-8 flex gap-4">
 					<a href="/#install" class="binary-feedback bg-primary-container px-8 py-3 font-headline font-bold uppercase text-on-primary"
-						data-label-en="Install Now"
-						data-label-es="Instalar Ahora">
-						Install Now
+						data-label-en="Start Installation"
+						data-label-es="Iniciar instalación">
+						Start Installation
 					</a>
 				</div>
 			</div>
 		</header>
 
 		<section class="grid grid-cols-1 border-b border-outline-variant md:grid-cols-3">
-			{featureCards.map((card, index) => <BentoCard {...card} class={index < 2 ? 'border-r border-outline-variant' : ''} />)}
+			{featureCards.map((card, index) => <BentoCard {...card} linkLabel="Open module" linkLabelEs="Abrir módulo" class={index < 2 ? 'border-r border-outline-variant' : ''} />)}
 		</section>
 
 		<section class="grid grid-cols-1 border-b border-hairline lg:grid-cols-12">
 			<div class="flex min-h-[500px] items-center justify-center overflow-x-auto border-r border-outline-variant bg-surface-container-low p-12 lg:col-span-8">
 				<div class="relative z-10 w-full max-w-2xl border border-outline bg-surface-container-lowest p-8 shadow-2xl">
 					<h3 class="mb-6 mono text-xs leading-relaxed uppercase text-on-surface-variant"
-						data-label-en="System Architecture Diagram"
-						data-label-es="Diagrama de Arquitectura del Sistema">System Architecture Diagram</h3>
+						data-label-en="Post-Install Architecture Diagram"
+						data-label-es="Diagrama de arquitectura posterior a la instalación">Post-Install Architecture Diagram</h3>
 					<div class="mb-8 flex justify-between">
-						<div class="mono border border-primary px-4 py-2 text-xs uppercase text-primary">Inbound_Stream</div>
+						<div class="mono border border-primary px-4 py-2 text-xs uppercase text-primary" data-label-en="Inbound_Stream" data-label-es="Flujo_Entrada">Inbound_Stream</div>
 						<div class="flex items-center gap-4">
 							<span class="material-symbols-outlined text-outline" aria-hidden="true">sync_alt</span>
-							<div class="mono border border-secondary px-4 py-2 text-xs uppercase text-secondary">Process_Core</div>
+							<div class="mono border border-secondary px-4 py-2 text-xs uppercase text-secondary" data-label-en="Process_Core" data-label-es="Núcleo_Proceso">Process_Core</div>
 						</div>
-						<div class="mono border border-outline px-4 py-2 text-xs uppercase text-outline">Outbound_Log</div>
+						<div class="mono border border-outline px-4 py-2 text-xs uppercase text-outline" data-label-en="Outbound_Log" data-label-es="Log_Salida">Outbound_Log</div>
 					</div>
 
 					<div class="grid grid-cols-3 gap-4">
-						<div class="mono flex h-32 items-center justify-center border border-outline-variant p-2 text-center text-[10px] uppercase text-outline">
+						<div class="mono flex h-32 items-center justify-center border border-outline-variant p-2 text-center text-[10px] uppercase text-outline" data-i18n-en="SDD_HANDLER<br />V.2.0" data-i18n-es="GESTOR_SDD<br />V.2.0">
 							SDD_HANDLER<br />V.2.0
 						</div>
-						<div class="mono flex h-32 items-center justify-center border border-primary-container bg-primary-container/10 p-2 text-center text-[10px] uppercase text-primary">
+						<div class="mono flex h-32 items-center justify-center border border-primary-container bg-primary-container/10 p-2 text-center text-[10px] uppercase text-primary" data-i18n-en="STATE<br />BUFFER" data-i18n-es="BUFFER<br />DE ESTADO">
 							STATE<br />BUFFER
 						</div>
-						<div class="mono flex h-32 items-center justify-center border border-outline-variant p-2 text-center text-[10px] uppercase text-outline">
+						<div class="mono flex h-32 items-center justify-center border border-outline-variant p-2 text-center text-[10px] uppercase text-outline" data-i18n-en="SKILL_ENGINE<br />EXECUTOR" data-i18n-es="EJECUTOR<br />DE SKILLS">
 							SKILL_ENGINE<br />EXECUTOR
 						</div>
 					</div>
 
 					<div class="mt-8 flex justify-end border-t border-outline-variant pt-4">
 						<span class="mono text-[10px] uppercase tracking-tighter text-outline-variant"
-							data-label-en="System Topology Visualizer // Real-time telemetry disabled"
-							data-label-es="Visualizador de Topología // Telemetría en tiempo real desactivada">
-							System Topology Visualizer // Real-time telemetry disabled
+							data-label-en="Capability Topology View // Live telemetry not included in landing"
+							data-label-es="Vista de topología de capacidades // La telemetría en vivo no se incluye en la landing">
+							Capability Topology View // Live telemetry not included in landing
 						</span>
 					</div>
 				</div>
@@ -109,34 +120,34 @@ const featureCards = [
 
 			<div class="flex flex-col justify-center p-12 lg:col-span-4">
 				<h2 class="mb-6 text-4xl font-bold uppercase tracking-tighter"
-					data-i18n-en="Functional<br />Architecture"
-					data-i18n-es="Arquitectura<br />Funcional">Functional<br />Architecture</h2>
+					data-i18n-en="Operational<br />Capabilities"
+					data-i18n-es="Capacidades<br />operativas">Operational<br />Capabilities</h2>
 				<p class="mb-12 text-sm leading-relaxed text-on-surface-variant"
-					data-label-en="Every interaction and data path follows strict structural rules for readability and observability."
-					data-label-es="Cada interacción y ruta de datos sigue reglas estructurales estrictas para legibilidad y observabilidad.">
-					Every interaction and data path follows strict structural rules for readability and observability.
+					data-label-en="These capabilities appear only after setup: reproducible execution flow, phase-aware model routing where supported, and traceable project memory."
+					data-label-es="Estas capacidades aparecen solo después de la configuración: flujo de ejecución reproducible, ruteo de modelos por fase donde está disponible y memoria de proyecto trazable.">
+					These capabilities appear only after setup: reproducible execution flow, phase-aware model routing where supported, and traceable project memory.
 				</p>
 				<div class="space-y-6">
 					<div class="flex gap-4">
 						<span class="material-symbols-outlined text-primary" aria-hidden="true">analytics</span>
 						<div>
 							<h4 class="mb-1 text-xs font-bold uppercase tracking-widest"
-								data-label-en="Performance Benchmarks"
-								data-label-es="Benchmarks de Rendimiento">Performance Benchmarks</h4>
+								data-label-en="Workflow Predictability"
+								data-label-es="Previsibilidad del flujo">Workflow Predictability</h4>
 							<p class="text-xs text-outline"
-								data-label-en="Detailed comparison of deterministic workflow overhead."
-								data-label-es="Comparación detallada del overhead del flujo determinista.">Detailed comparison of deterministic workflow overhead.</p>
+								data-label-en="Each phase emits explicit artifacts to reduce delivery drift across sessions."
+								data-label-es="Cada fase genera artefactos explícitos para reducir la deriva de entrega entre sesiones.">Each phase emits explicit artifacts to reduce delivery drift across sessions.</p>
 						</div>
 					</div>
 					<div class="flex gap-4">
 						<span class="material-symbols-outlined text-secondary" aria-hidden="true">security</span>
 						<div>
 							<h4 class="mb-1 text-xs font-bold uppercase tracking-widest"
-								data-label-en="Isolation Model"
-								data-label-es="Modelo de Aislamiento">Isolation Model</h4>
+								data-label-en="Context Integrity"
+								data-label-es="Integridad de contexto">Context Integrity</h4>
 							<p class="text-xs text-outline"
-								data-label-en="Bounded interfaces preserve predictable behavior across modules."
-								data-label-es="Las interfaces acotadas preservan el comportamiento predecible entre módulos.">Bounded interfaces preserve predictable behavior across modules.</p>
+								data-label-en="Engram memory and bounded MCP interfaces keep decision history recoverable and auditable."
+								data-label-es="La memoria de Engram y las interfaces MCP acotadas mantienen el historial de decisiones recuperable y auditable.">Engram memory and bounded MCP interfaces keep decision history recoverable and auditable.</p>
 						</div>
 					</div>
 				</div>

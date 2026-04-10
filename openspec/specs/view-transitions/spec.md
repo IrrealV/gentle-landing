@@ -2,29 +2,29 @@
 
 ## Purpose
 
-Define cross-page transition behavior for internal navigation using Astro View Transitions.
+Define cross-page navigation behavior for internal routes with deterministic full-page reloads.
 
 ## Requirements
 
-### Requirement: Internal Route Transition Continuity
+### Requirement: Internal Route Navigation Continuity
 
-The system MUST apply Astro View Transitions for navigation between internal pages in the landing experience (`/`, `/features`, `/docs`, `/how-it-works`, `/configurator`).
+The system MUST preserve reliable internal navigation between landing routes (`/`, `/features`, `/docs`, `/how-it-works`, `/demo`) without requiring Astro `ClientRouter`.
 
-#### Scenario: Transition executes on internal route navigation
+#### Scenario: Navigation executes on internal route navigation
 - GIVEN a user clicks an internal route link in shared navigation
 - WHEN navigating between supported pages
-- THEN the page change SHALL use View Transition behavior instead of abrupt full redraw
+- THEN the page change SHALL complete via standard browser navigation and render the destination page correctly
 
 #### Scenario: Anchor-only navigation does not break UX
 - GIVEN a user clicks an in-page anchor link
 - WHEN the browser scrolls to target section
 - THEN navigation SHALL remain functional without requiring view-transition animation
 
-### Requirement: Transition Safety and Progressive Fallback
+### Requirement: Navigation Safety and Progressive Fallback
 
-The system MUST preserve correct navigation behavior when View Transitions are unavailable.
+The system MUST preserve correct navigation behavior even when View Transition APIs or Astro `ClientRouter` are unavailable.
 
-#### Scenario: Unsupported browser falls back gracefully
+#### Scenario: Unsupported browser remains functional
 - GIVEN a browser without View Transitions support
 - WHEN internal navigation occurs
 - THEN routing MUST still complete with default Astro navigation behavior

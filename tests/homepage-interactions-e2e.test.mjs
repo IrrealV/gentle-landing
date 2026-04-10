@@ -2,8 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-const codeTabsSource = readFileSync(new URL('../src/components/CodeTabs.astro', import.meta.url), 'utf8');
-const getStartedSource = readFileSync(new URL('../src/components/GetStarted.astro', import.meta.url), 'utf8');
+const codeTabsSource = readFileSync(new URL('../src/components/ui/CodeTabs.astro', import.meta.url), 'utf8');
+const getStartedSource = readFileSync(new URL('../src/components/ui/GetStarted.astro', import.meta.url), 'utf8');
 
 test('get started tabs include interaction hooks for switching', () => {
 	assert.match(codeTabsSource, /addEventListener\('click'/, 'expected click handler for tab activation');

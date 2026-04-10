@@ -5,32 +5,38 @@ const installTabs = [
 	{
 		id: 'quickstart',
 		label: 'quickstart (recommended)',
+		labelEs: 'quickstart (recomendado)',
 		steps: [
+			{ tool: 'gentle-ai', command: 'install --dry-run' },
 			{ tool: 'gentle-ai', command: 'install' },
 			{ tool: 'gentle-ai', command: 'sync' },
-			{ tool: 'gentle-ai', command: 'doctor' },
 		],
-		note: '# Cross-platform quickstart profile\n# Detects OS, shell, and runtime automatically\n# Ready to start with your configured local agent.',
+		note: '# Cross-platform quickstart flow\n# Detects OS, shell, and installed agents\n# Dry-run first, then apply for real.',
+		noteEs: '# Flujo quickstart multiplataforma\n# Detecta OS, shell y agentes instalados\n# Primero dry-run, luego aplicación real.',
 	},
 	{
 		id: 'manual',
 		label: 'manual setup',
+		labelEs: 'configuración manual',
 		steps: [
-			{ tool: 'gentle-ai', command: 'init' },
-			{ tool: 'gentle-ai', command: 'install --preset standard' },
-			{ tool: 'gentle-ai', command: 'verify' },
+			{ tool: 'gentle-ai', command: 'install --agent <agent-id> --preset minimal --dry-run' },
+			{ tool: 'gentle-ai', command: 'install --agent <agent-id> --preset minimal' },
+			{ tool: 'gentle-ai', command: 'version' },
 		],
-		note: '# Step-by-step installation path\n# Use --dry-run first to preview changes\n# Includes local verification before first run.',
+		note: '# Example only: replace <agent-id> with your installed agent\n# Uses valid preset IDs from CLI docs\n# Keeps output predictable for copy/paste.',
+		noteEs: '# Solo ejemplo: reemplaza <agent-id> por tu agente instalado\n# Usa IDs de preset válidos según docs CLI\n# Mantiene salida predecible para copiar/pegar.',
 	},
 	{
 		id: 'team',
-		label: 'team rollout',
+		label: 'team rollout (example)',
+		labelEs: 'despliegue de equipo (ejemplo)',
 		steps: [
-			{ tool: 'gentle-ai', command: 'install --preset full' },
-			{ tool: 'gentle-ai', command: 'sync --all' },
-			{ tool: 'gentle-ai', command: 'verify --report' },
+			{ tool: 'gentle-ai', command: 'install --agent <agent-a>,<agent-b> --preset full-gentleman --dry-run' },
+			{ tool: 'gentle-ai', command: 'install --agent <agent-a>,<agent-b> --preset full-gentleman' },
+			{ tool: 'gentle-ai', command: 'sync --agent <agent-a> --agent <agent-b>' },
 		],
-		note: '# Repeatable team provisioning flow\n# Designed for CI/CD and onboarding automation\n# Produces a configuration report for auditing.',
+		note: '# Example only: replace <agent-a>/<agent-b> with your installed agent IDs\n# Uses non-interactive flags that exist today\n# Ideal for onboarding scripts and CI runners.',
+		noteEs: '# Solo ejemplo: reemplaza <agent-a>/<agent-b> por IDs de agentes instalados\n# Usa flags no interactivos disponibles hoy\n# Ideal para scripts de onboarding y runners CI.',
 	},
 ];
 ---
@@ -39,7 +45,7 @@ const installTabs = [
 	<div class="grid grid-cols-1 items-start gap-12 lg:grid-cols-5">
 		<!-- Left column -->
 		<div class="lg:col-span-2">
-			<div data-animate="slide-left">
+			<div data-animate="slide-left" class="will-animate">
 				<h2 class="mono mb-6 text-3xl font-bold uppercase leading-tight tracking-tighter"
 					data-label-en="From Zero to Championship-Level AI in Minutes."
 					data-label-es="De Cero a IA de Campeonato en Minutos.">
@@ -51,7 +57,7 @@ const installTabs = [
 					One command configures the full Gentleman ecosystem into your existing agents — without touching your API keys or workflows.
 				</p>
 
-				<ul class="space-y-4" data-animate-stagger>
+				<ul class="will-animate space-y-4" data-animate-stagger>
 					<li class="mono flex items-center gap-3 text-sm">
 						<span class="material-symbols-outlined text-lg text-primary" aria-hidden="true">check_circle</span>
 						<span data-label-en="Zero-Config Setup — detects your stack automatically"
@@ -83,21 +89,26 @@ const installTabs = [
 				</ul>
 
 				<div class="mt-8 border border-outline-variant bg-surface-container-lowest p-4">
-					<div class="mono mb-2 text-[10px] uppercase tracking-widest text-secondary">CI / TEAM MODE</div>
+					<div class="mono mb-2 text-[10px] uppercase tracking-widest text-secondary" data-label-en="CI / TEAM MODE" data-label-es="MODO CI / EQUIPO">CI / TEAM MODE</div>
 					<div class="mono text-xs text-on-surface-variant">
 						<span class="text-primary">gentle-ai</span> install \<br />
-						&nbsp;&nbsp;<span class="text-tertiary">--agent</span> core,team \<br />
+						&nbsp;&nbsp;<span class="text-tertiary">--agent</span> &lt;agent-a&gt;,&lt;agent-b&gt; \<br />
 						&nbsp;&nbsp;<span class="text-tertiary">--preset</span> full-gentleman \<br />
 						&nbsp;&nbsp;<span class="text-tertiary">--persona</span> gentleman \<br />
 						&nbsp;&nbsp;<span class="text-tertiary">--dry-run</span>
+					</div>
+					<div class="mono mt-2 text-[10px] text-on-surface-variant opacity-70"
+						data-label-en="Example values — replace agent IDs for your environment."
+						data-label-es="Valores de ejemplo — reemplaza los IDs de agente según tu entorno.">
+						Example values — replace agent IDs for your environment.
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<!-- Right column: tabs -->
-		<div class="lg:col-span-3" data-animate="slide-right">
-			<CodeTabs tabs={installTabs} ariaLabel="Installation method" />
+		<div class="will-animate lg:col-span-3" data-animate="slide-right">
+			<CodeTabs tabs={installTabs} ariaLabel="Installation method" ariaLabelEs="Método de instalación" />
 		</div>
 	</div>
 </section>

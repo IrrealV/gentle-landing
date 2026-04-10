@@ -7,13 +7,16 @@ interface TabStep {
 interface Tab {
 	id: string;
 	label: string;
+	labelEs?: string;
 	steps: TabStep[];
 	note: string;
+	noteEs?: string;
 }
 
 interface Props {
 	tabs?: Tab[];
 	ariaLabel?: string;
+	ariaLabelEs?: string;
 	class?: string;
 }
 
@@ -53,12 +56,13 @@ const defaultTabs: Tab[] = [
 const {
 	tabs = defaultTabs,
 	ariaLabel = 'Command presets',
+	ariaLabelEs = 'Presets de comandos',
 	class: className = '',
 } = Astro.props;
 ---
 
 <div class={`overflow-hidden radius-brutal border-hairline bg-surface-container-low ${className}`} data-code-tabs>
-	<div class="flex border-b-hairline" role="tablist" aria-label={ariaLabel}>
+	<div class="flex border-b-hairline" role="tablist" aria-label={ariaLabel} data-label-en={ariaLabel} data-label-es={ariaLabelEs}>
 		{
 			tabs.map((tab, index) => (
 				<button
@@ -74,6 +78,8 @@ const {
 					aria-controls={`code-panel-${tab.id}`}
 					id={`code-tab-${tab.id}`}
 					data-tab-id={tab.id}
+					data-label-en={tab.label}
+					data-label-es={tab.labelEs ?? tab.label}
 					tabindex={index === 0 ? '0' : '-1'}
 				>
 					{tab.label}
@@ -110,7 +116,11 @@ const {
 							</div>
 						))
 					}
-					<div class="border-t border-outline-variant/40 pt-6 italic text-on-surface-variant">
+					<div
+						class="border-t border-outline-variant/40 pt-6 italic text-on-surface-variant"
+						data-label-en={tab.note}
+						data-label-es={tab.noteEs ?? tab.note}
+					>
 						{tab.note.split('\n').map((line) => (
 							<>
 								{line}

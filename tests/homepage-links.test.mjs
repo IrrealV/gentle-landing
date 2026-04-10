@@ -5,12 +5,16 @@ import { readFileSync } from 'node:fs';
 const base = new URL('../src/', import.meta.url);
 const files = [
 	'pages/index.astro',
-	'components/Navbar.astro',
-	'components/Hero.astro',
-	'components/Footer.astro',
+	'components/ui/Navbar.astro',
+	'components/ui/Hero.astro',
+	'components/ui/Footer.astro',
 ];
 
 const internalHref = (href) => href.startsWith('/') || href.startsWith('#');
+const allowedExternal = new Set([
+	'https://github.com/Gentleman-Programming/gentle-ai',
+	'https://discord.gg/gentlemanprogramming',
+]);
 
 const collectHrefs = (content) => {
 	const hrefs = [];
@@ -33,10 +37,11 @@ test('homepage links only target internal routes or anchors', () => {
 	assert.ok(hrefs.length > 0, 'expected to discover homepage links');
 
 	for (const href of hrefs) {
+		const isAllowedExternal = allowedExternal.has(href);
 		assert.equal(
-			internalHref(href),
+			internalHref(href) || isAllowedExternal,
 			true,
-			`Found non-internal href "${href}". Expected href to start with / or #.`,
+			`Found unexpected href "${href}". Expected internal route/anchor or approved community URL.`,
 		);
 	}
 });

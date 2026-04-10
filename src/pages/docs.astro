@@ -5,19 +5,21 @@ import Footer from '../components/ui/Footer.astro';
 import TerminalWindow from '../components/ui/TerminalWindow.astro';
 
 const sections = [
-	{ id: 'system-overview',     label: 'System Overview',        labelEs: 'Visión General' },
+	{ id: 'system-overview',     label: 'System Manual',          labelEs: 'Manual del sistema' },
 	{ id: 'installation',        label: 'Installation',           labelEs: 'Instalación' },
 	{ id: 'sdd-protocol',        label: 'SDD Protocol',           labelEs: 'Protocolo SDD' },
 	{ id: 'engram-memory',       label: 'Engram — Memory',        labelEs: 'Engram — Memoria' },
 	{ id: 'mcp-servers',         label: 'MCP Servers',            labelEs: 'Servidores MCP' },
 	{ id: 'gga-hook',            label: 'GGA — Guardian Angel',   labelEs: 'GGA — Ángel Guardián' },
-	{ id: 'loadable-skills',     label: 'Loadable Skills',        labelEs: 'Skills Cargables' },
+	{ id: 'loadable-skills',     label: 'Loadable Skills',        labelEs: 'Habilidades cargables' },
 	{ id: 'cli-reference',       label: 'CLI Reference',          labelEs: 'Referencia CLI' },
 ];
+
+const OFFICIAL_README_URL = 'https://github.com/Gentleman-Programming/gentle-ai/blob/main/README.md';
 ---
 
 <Layout title="Docs | GENTLE-AI">
-	<Navbar currentPath="/docs" />
+	<Navbar currentPath="/docs" variant="compact" />
 
 	<!-- Navigation Arrows (Root-level fixed position to escape CSS transform containment bug) -->
 	<button
@@ -35,8 +37,8 @@ const sections = [
 		<span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
 	</button>
 
-	<div data-page-animation="docs" class="flex min-h-screen flex-col bg-background pt-20">
-		<div class="flex flex-1 overflow-hidden" style="height: calc(100vh - 80px);">
+	<div data-page-animation="docs" class="flex min-h-screen flex-col bg-background pt-16">
+		<div class="flex flex-1 overflow-hidden" style="height: calc(100vh - 64px);">
 
 			<!-- Sidebar -->
 			<aside id="docs-sidebar" class="hidden w-64 flex-shrink-0 overflow-y-auto border-r border-outline-variant bg-surface-container-lowest lg:block">
@@ -90,19 +92,31 @@ const sections = [
 							<span id="docs-counter" class="font-mono text-[10px] text-on-surface-variant">1 / {sections.length}</span>
 						</div>
 
+						<div class="docs-sections-stage">
 						<!-- Section 1: System Overview -->
 						<section id="sec-system-overview" class="docs-section active max-w-3xl">
 							<div class="mb-2 font-mono text-xs uppercase tracking-widest text-secondary">01</div>
 							<h1 class="mb-6 text-5xl font-extrabold uppercase leading-none tracking-tighter text-on-surface"
-								data-i18n-en="The Gentleman <span class='text-primary'>Ecosystem</span>"
-								data-i18n-es="El Ecosistema <span class='text-primary'>Gentleman</span>">
-								The Gentleman <span class="text-primary">Ecosystem</span>
+								data-i18n-en="Technical <span class='text-primary'>Manual</span>"
+								data-i18n-es="Manual <span class='text-primary'>técnico</span>">
+								Technical <span class="text-primary">Manual</span>
 							</h1>
 							<p class="mb-8 text-lg leading-relaxed text-on-surface-variant"
-								data-label-en="Gentle-AI is a single CLI that configures your entire AI development environment in one shot. It installs Engram for persistent memory, SDD skills for structured development, MCP servers for external integrations, and a GGA pre-commit hook for AI-powered code review."
-								data-label-es="Gentle-AI es una CLI que configura todo tu entorno de desarrollo IA en un solo paso. Instala Engram para memoria persistente, skills SDD para desarrollo estructurado, servidores MCP para integraciones externas, y un hook GGA pre-commit para revisión de código con IA.">
-								Gentle-AI is a single CLI that configures your entire AI development environment in one shot. It installs Engram for persistent memory, SDD skills for structured development, MCP servers for external integrations, and a GGA pre-commit hook for AI-powered code review.
+								data-label-en="Use this page as the technical reference for installation methods, SDD workflow contracts, persistent memory behavior, and CLI command semantics."
+								data-label-es="Usa esta página como referencia técnica de métodos de instalación, contratos del flujo SDD, comportamiento de memoria persistente y semántica de comandos CLI.">
+								Use this page as the technical reference for installation methods, SDD workflow contracts, persistent memory behavior, and CLI command semantics.
 							</p>
+							<a
+								href={OFFICIAL_README_URL}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="mb-8 inline-flex items-center gap-2 border border-outline-variant bg-surface-container-low px-4 py-2.5 font-mono text-[11px] uppercase tracking-wider text-on-surface-variant transition-all duration-200 hover:border-primary hover:text-primary"
+								data-label-en="Official Upstream README"
+								data-label-es="README oficial (upstream)"
+							>
+								<span class="material-symbols-outlined text-base" aria-hidden="true">open_in_new</span>
+								Official Upstream README
+							</a>
 							<div class="grid grid-cols-2 gap-4 md:grid-cols-4">
 								<div class="border border-outline-variant bg-surface-container-lowest p-4 text-center">
 									<div class="mb-2 text-2xl font-bold text-primary">1</div>
@@ -110,14 +124,14 @@ const sections = [
 										data-label-en="Command" data-label-es="Comando">Command</div>
 								</div>
 								<div class="border border-outline-variant bg-surface-container-lowest p-4 text-center">
-									<div class="mb-2 text-2xl font-bold text-secondary">6+</div>
+								<div class="mb-2 text-2xl font-bold text-secondary">8</div>
 									<div class="font-mono text-[10px] uppercase text-on-surface-variant"
 										data-label-en="Agents" data-label-es="Agentes">Agents</div>
 								</div>
 								<div class="border border-outline-variant bg-surface-container-lowest p-4 text-center">
-									<div class="mb-2 text-2xl font-bold text-primary">30+</div>
-									<div class="font-mono text-[10px] uppercase text-on-surface-variant">Skills</div>
-								</div>
+								<div class="mb-2 text-2xl font-bold text-primary">16</div>
+								<div class="font-mono text-[10px] uppercase text-on-surface-variant" data-label-en="Skills" data-label-es="Habilidades">Skills</div>
+							</div>
 								<div class="border border-outline-variant bg-surface-container-lowest p-4 text-center">
 									<div class="mb-2 text-2xl font-bold text-secondary">∞</div>
 									<div class="font-mono text-[10px] uppercase text-on-surface-variant"
@@ -132,26 +146,26 @@ const sections = [
 							<h1 class="mb-4 text-5xl font-extrabold uppercase leading-none tracking-tighter text-on-surface"
 								data-label-en="Installation" data-label-es="Instalación">Installation</h1>
 							<p class="mb-8 text-lg leading-relaxed text-on-surface-variant"
-								data-label-en="Three ways to install. One result: a fully configured AI ecosystem in under 5 minutes. The interactive TUI guides you through every decision."
-								data-label-es="Tres formas de instalar. Un resultado: un ecosistema IA completamente configurado en menos de 5 minutos. La TUI interactiva te guía en cada decisión.">
-								Three ways to install. One result: a fully configured AI ecosystem in under 5 minutes. The interactive TUI guides you through every decision.
+								data-label-en="Choose the install path that matches your platform. All methods provision the same ecosystem contracts and launch the interactive TUI flow."
+								data-label-es="Elige la vía de instalación que corresponda a tu plataforma. Todos los métodos provisionan los mismos contratos de ecosistema y abren el flujo interactivo de la TUI.">
+								Choose the install path that matches your platform. All methods provision the same ecosystem contracts and launch the interactive TUI flow.
 							</p>
 
-							<TerminalWindow title="brew (recommended)" description="macOS / Linux" class="mb-4 border border-outline-variant">
-								<pre class="code-block text-[12px] text-on-surface-variant">brew tap <span class="text-primary">Gentleman-Programming/tap</span>
+							<TerminalWindow title="brew (recommended)" titleEs="brew (recomendado)" description="macOS / Linux" descriptionEs="macOS / Linux" class="mb-4 border border-outline-variant">
+								<pre class="code-block text-[12px] text-on-surface-variant">brew tap <span class="text-primary">Gentleman-Programming/homebrew-tap</span>
 brew install <span class="text-primary">gentle-ai</span>
-<span class="text-secondary">gentle-ai</span> install</pre>
+<span class="text-secondary">gentle-ai</span></pre>
 							</TerminalWindow>
 
-							<TerminalWindow title="go run (source)" description="Any OS with Go 1.24+" class="mb-4 border border-outline-variant">
-								<pre class="code-block text-[12px] text-on-surface-variant">mkdir <span class="text-primary">gentle-ai</span>
-cd <span class="text-primary">gentle-ai</span>
-go run ./cmd/gentle-ai <span class="text-secondary">install</span></pre>
+							<TerminalWindow title="go install" titleEs="go install" description="Any OS with Go 1.24+" descriptionEs="Cualquier SO con Go 1.24+" class="mb-4 border border-outline-variant">
+								<pre class="code-block text-[12px] text-on-surface-variant">go install <span class="text-primary">github.com/gentleman-programming/gentle-ai/cmd/gentle-ai@latest</span>
+<span class="text-secondary">gentle-ai</span></pre>
 							</TerminalWindow>
 
-							<TerminalWindow title="winget (Windows)" description="Windows 10+" class="border border-outline-variant">
-								<pre class="code-block text-[12px] text-on-surface-variant">winget install <span class="text-primary">GentlemanProgramming.gentle-ai</span>
-<span class="text-secondary">gentle-ai</span> install</pre>
+							<TerminalWindow title="scoop (Windows)" titleEs="scoop (Windows)" description="Windows 10+" descriptionEs="Windows 10+" class="border border-outline-variant">
+								<pre class="code-block text-[12px] text-on-surface-variant">scoop bucket add <span class="text-primary">gentleman</span> https://github.com/Gentleman-Programming/scoop-bucket
+scoop install <span class="text-primary">gentle-ai</span>
+<span class="text-secondary">gentle-ai</span></pre>
 							</TerminalWindow>
 						</section>
 
@@ -161,9 +175,9 @@ go run ./cmd/gentle-ai <span class="text-secondary">install</span></pre>
 							<h1 class="mb-4 text-5xl font-extrabold uppercase leading-none tracking-tighter text-on-surface"
 								data-label-en="SDD Protocol" data-label-es="Protocolo SDD">SDD Protocol</h1>
 							<p class="mb-8 text-lg leading-relaxed text-on-surface-variant"
-								data-label-en="Spec-Driven Development forces intent, requirements, and architecture before a single line of code is written. Seven phases, each with a concrete artifact, prevent implementation drift and knowledge loss."
-								data-label-es="El Desarrollo Guiado por Especificaciones fuerza la intención, los requisitos y la arquitectura antes de escribir una sola línea de código. Siete fases, cada una con un artefacto concreto, previenen la desviación en la implementación.">
-								Spec-Driven Development forces intent, requirements, and architecture before a single line of code is written. Seven phases, each with a concrete artifact, prevent implementation drift and knowledge loss.
+								data-label-en="SDD defines an artifact-driven sequence: clarify intent, formalize scenarios, design architecture, implement, verify, and archive accepted deltas."
+								data-label-es="SDD define una secuencia guiada por artefactos: aclarar intención, formalizar escenarios, diseñar arquitectura, implementar, verificar y archivar deltas aceptados.">
+								SDD defines an artifact-driven sequence: clarify intent, formalize scenarios, design architecture, implement, verify, and archive accepted deltas.
 							</p>
 							<div class="overflow-x-auto border border-outline-variant">
 								<table class="w-full text-left text-sm">
@@ -171,25 +185,25 @@ go run ./cmd/gentle-ai <span class="text-secondary">install</span></pre>
 										<tr class="border-b border-outline-variant bg-surface-container-low">
 											<th class="px-5 py-3 font-mono text-[10px] uppercase tracking-widest text-on-surface-variant"
 												data-label-en="Phase" data-label-es="Fase">Phase</th>
-											<th class="px-5 py-3 font-mono text-[10px] uppercase tracking-widest text-on-surface-variant">Artifact</th>
+											<th class="px-5 py-3 font-mono text-[10px] uppercase tracking-widest text-on-surface-variant" data-label-en="Artifact" data-label-es="Artefacto">Artifact</th>
 											<th class="px-5 py-3 font-mono text-[10px] uppercase tracking-widest text-on-surface-variant"
 												data-label-en="Purpose" data-label-es="Propósito">Purpose</th>
 										</tr>
 									</thead>
 									<tbody class="divide-y divide-outline-variant/50 font-mono text-[11px]">
 										{[
-											['Proposal', 'proposal.md', 'Capture intent and scope'],
-											['Spec', 'spec.md', 'Define acceptance scenarios'],
-											['Design', 'design.md', 'Establish architecture'],
-											['Tasks', 'tasks.md', 'Break into verifiable items'],
-											['Apply', 'Source code', 'Implement contracts'],
-											['Verify', 'verify-report.md', 'Confirm parity'],
-											['Archive', 'Closed change', 'Sync and close'],
-										].map(([phase, art, purpose]) => (
+											{ phase: 'Proposal', phaseEs: 'Propuesta', art: 'proposal.md', artEs: 'proposal.md', purpose: 'Capture intent and scope', purposeEs: 'Capturar intención y alcance' },
+											{ phase: 'Spec', phaseEs: 'Spec', art: 'spec.md', artEs: 'spec.md', purpose: 'Define acceptance scenarios', purposeEs: 'Definir escenarios de aceptación' },
+											{ phase: 'Design', phaseEs: 'Diseño', art: 'design.md', artEs: 'design.md', purpose: 'Establish architecture', purposeEs: 'Establecer arquitectura' },
+											{ phase: 'Tasks', phaseEs: 'Tareas', art: 'tasks.md', artEs: 'tasks.md', purpose: 'Break into verifiable items', purposeEs: 'Dividir en ítems verificables' },
+											{ phase: 'Apply', phaseEs: 'Aplicar', art: 'Source code', artEs: 'Código fuente', purpose: 'Implement contracts', purposeEs: 'Implementar contratos' },
+											{ phase: 'Verify', phaseEs: 'Verificar', art: 'verify-report.md', artEs: 'verify-report.md', purpose: 'Confirm parity', purposeEs: 'Confirmar paridad' },
+											{ phase: 'Archive', phaseEs: 'Archivar', art: 'Closed change', artEs: 'Cambio cerrado', purpose: 'Sync and close', purposeEs: 'Sincronizar y cerrar' },
+										].map((item) => (
 											<tr class="hover:bg-surface-container-low transition-colors">
-												<td class="px-5 py-3 font-bold text-primary">{phase}</td>
-												<td class="px-5 py-3 text-secondary">{art}</td>
-												<td class="px-5 py-3 text-on-surface-variant">{purpose}</td>
+												<td class="px-5 py-3 font-bold text-primary" data-label-en={item.phase} data-label-es={item.phaseEs}>{item.phase}</td>
+												<td class="px-5 py-3 text-secondary" data-label-en={item.art} data-label-es={item.artEs}>{item.art}</td>
+												<td class="px-5 py-3 text-on-surface-variant" data-label-en={item.purpose} data-label-es={item.purposeEs}>{item.purpose}</td>
 											</tr>
 										))}
 									</tbody>
@@ -199,7 +213,7 @@ go run ./cmd/gentle-ai <span class="text-secondary">install</span></pre>
 							<div class="mt-8 mb-4 font-mono text-[10px] uppercase tracking-widest text-on-surface-variant"
 								data-label-en="SDD Phases" data-label-es="Fases SDD">SDD Phases</div>
 							<div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
-								{['sdd-init', 'sdd-explore', 'sdd-propose', 'sdd-spec', 'sdd-design', 'sdd-tasks', 'sdd-apply', 'sdd-verify', 'sdd-archive', 'sdd-onboard', 'sdd-orchestrator'].map(skill => (
+								{['sdd-init', 'sdd-explore', 'sdd-propose', 'sdd-spec', 'sdd-design', 'sdd-tasks', 'sdd-apply', 'sdd-verify', 'sdd-archive', 'sdd-onboard'].map(skill => (
 									<div class="border border-outline-variant bg-surface-container-low px-3 py-2 font-mono text-[10px] uppercase text-on-surface-variant hover:border-primary hover:text-primary transition-colors">{skill}</div>
 								))}
 							</div>
@@ -238,23 +252,21 @@ go run ./cmd/gentle-ai <span class="text-secondary">install</span></pre>
 							<h1 class="mb-4 text-5xl font-extrabold uppercase leading-none tracking-tighter text-on-surface"
 								data-label-en="MCP Servers" data-label-es="Servidores MCP">MCP Servers</h1>
 							<p class="mb-8 text-lg leading-relaxed text-on-surface-variant"
-								data-label-en="Model Context Protocol connects your agent to real-world data and tools through stable, version-safe API contracts. No prompt engineering — just plug and play integration with any external service."
-								data-label-es="Model Context Protocol conecta tu agente con datos y herramientas del mundo real a través de contratos de API estables y seguros en versiones. Sin prompt engineering — integración plug and play con cualquier servicio externo.">
-								Model Context Protocol connects your agent to real-world data and tools through stable, version-safe API contracts. No prompt engineering — just plug and play integration with any external service.
+								data-label-en="By default, gentle-ai wires MCP entries for Context7 (live docs) and Engram (persistent memory). You can add more MCP servers manually in your agent config when needed."
+								data-label-es="Por defecto, gentle-ai configura entradas MCP para Context7 (docs en vivo) y Engram (memoria persistente). Puedes sumar más servidores MCP manualmente en la configuración de tu agente cuando lo necesites.">
+								By default, gentle-ai wires MCP entries for Context7 (live docs) and Engram (persistent memory). You can add more MCP servers manually in your agent config when needed.
 							</p>
 							<div class="space-y-3">
 								{[
-									{ name: 'Docs MCP', desc: 'Serve versioned internal documentation with deterministic retrieval', icon: 'book' },
-									{ name: 'Engram MCP', desc: 'Expose persistent memory to any MCP-compatible agent', icon: 'memory' },
-									{ name: 'Planning MCP', desc: 'Read and write project planning artifacts directly', icon: 'article' },
-									{ name: 'Workflow MCP', desc: 'Track tasks, reviews, and delivery flow internally', icon: 'code' },
-									{ name: 'Custom MCPs', desc: 'Any REST API can be wrapped with the MCP spec', icon: 'extension' },
+									{ name: 'Context7 MCP', nameEs: 'Context7 MCP', desc: 'Live framework and library documentation via @upstash/context7-mcp', descEs: 'Documentación en vivo de frameworks y librerías mediante @upstash/context7-mcp', icon: 'book' },
+									{ name: 'Engram MCP', nameEs: 'Engram MCP', desc: 'Persistent memory tools exposed through the local engram CLI', descEs: 'Herramientas de memoria persistente expuestas por la CLI local de engram', icon: 'memory' },
+									{ name: 'Custom MCPs', nameEs: 'MCPs personalizados', desc: 'Additional servers can be added manually per agent configuration', descEs: 'Se pueden agregar servidores adicionales de forma manual por configuración de agente', icon: 'extension' },
 								].map(item => (
 									<div class="flex items-start gap-4 border border-outline-variant bg-surface-container-lowest p-4">
 										<span class="material-symbols-outlined text-primary mt-0.5" aria-hidden="true">{item.icon}</span>
 										<div>
-											<div class="mb-1 font-mono text-xs font-bold uppercase text-on-surface">{item.name}</div>
-											<div class="text-xs text-on-surface-variant">{item.desc}</div>
+											<div class="mb-1 font-mono text-xs font-bold uppercase text-on-surface" data-label-en={item.name} data-label-es={item.nameEs}>{item.name}</div>
+											<div class="text-xs text-on-surface-variant" data-label-en={item.desc} data-label-es={item.descEs}>{item.desc}</div>
 										</div>
 									</div>
 								))}
@@ -268,19 +280,26 @@ go run ./cmd/gentle-ai <span class="text-secondary">install</span></pre>
 								data-label-en="GGA — Guardian Angel"
 								data-label-es="GGA — Ángel Guardián">GGA — Guardian Angel</h1>
 							<p class="mb-8 text-lg leading-relaxed text-on-surface-variant"
-								data-label-en="A zero-dependency Bash CLI that runs AI-powered code review on every git commit. GGA validates your staged files against team standards defined in AGENTS.md — before the code ever reaches the remote."
-								data-label-es="Una CLI Bash sin dependencias que ejecuta revisión de código con IA en cada git commit. GGA valida tus archivos staged contra los estándares del equipo definidos en AGENTS.md — antes de que el código llegue al remoto.">
-								A zero-dependency Bash CLI that runs AI-powered code review on every git commit. GGA validates your staged files against team standards defined in AGENTS.md — before the code ever reaches the remote.
+								data-label-en="GGA is a zero-dependency Bash CLI for AI-assisted code review. After global install, each repository can explicitly enable its pre-commit hook and validate staged changes against team standards."
+								data-label-es="GGA es una CLI Bash sin dependencias para revisión de código asistida por IA. Después de la instalación global, cada repositorio puede habilitar de forma explícita su hook pre-commit y validar cambios staged contra estándares del equipo.">
+								GGA is a zero-dependency Bash CLI for AI-assisted code review. After global install, each repository can explicitly enable its pre-commit hook and validate staged changes against team standards.
 							</p>
-							<TerminalWindow title=".git/hooks/pre-commit" description="Auto-installed by gentle-ai" class="mb-6 border border-outline-variant">
+							<TerminalWindow title=".git/hooks/pre-commit" description="Enable per repository with gga init + gga install" class="mb-6 border border-outline-variant">
 								<pre class="code-block text-[12px] text-on-surface-variant"><span class="text-secondary">#!/usr/bin/env bash</span>
 <span class="text-primary">gga</span> review --staged \
-  --provider <span class="text-secondary">gentle-ai-core</span> \
+  --provider <span class="text-secondary">&lt;configured-provider&gt;</span> \
   --rules <span class="text-secondary">AGENTS.md</span></pre>
 							</TerminalWindow>
 							<div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
-								{['Gentle-AI Core', 'Gentle-AI Fast', 'Local Runtime', 'Team Runtime', 'Private Runtime', 'Offline Runtime'].map(p => (
-									<div class="border border-outline-variant bg-surface-container-lowest px-3 py-2 font-mono text-[11px] text-on-surface-variant">{p}</div>
+								{[
+									{ en: 'Configured provider', es: 'Proveedor configurado' },
+									{ en: 'Model-specific profiles', es: 'Perfiles por modelo' },
+									{ en: 'Repo-level rules', es: 'Reglas a nivel repositorio' },
+									{ en: 'Pre-commit hook', es: 'Hook pre-commit' },
+									{ en: 'Staged diff review', es: 'Revisión de diff staged' },
+									{ en: 'CI mode', es: 'Modo CI' },
+								].map(p => (
+									<div class="border border-outline-variant bg-surface-container-lowest px-3 py-2 font-mono text-[11px] text-on-surface-variant" data-label-en={p.en} data-label-es={p.es}>{p.en}</div>
 								))}
 							</div>
 						</section>
@@ -289,25 +308,25 @@ go run ./cmd/gentle-ai <span class="text-secondary">install</span></pre>
 						<section id="sec-loadable-skills" class="docs-section max-w-3xl">
 							<div class="mb-2 font-mono text-xs uppercase tracking-widest text-secondary">07</div>
 							<h1 class="mb-4 text-5xl font-extrabold uppercase leading-none tracking-tighter text-on-surface"
-								data-label-en="Loadable Skills" data-label-es="Skills Cargables">Loadable Skills</h1>
+								data-label-en="Loadable Skills" data-label-es="Habilidades cargables">Loadable Skills</h1>
 							<p class="mb-8 text-lg leading-relaxed text-on-surface-variant"
 								data-label-en="Expert knowledge modules injected directly into agent context. Skills are auto-detected from your project and contain curated guidelines, patterns, and anti-patterns for each technology."
-								data-label-es="Módulos de conocimiento experto inyectados directamente en el contexto del agente. Las skills son auto-detectadas de tu proyecto y contienen guías curadas, patrones y anti-patrones para cada tecnología.">
+								data-label-es="Módulos de conocimiento experto inyectados directamente en el contexto del agente. Las habilidades se detectan automáticamente en tu proyecto y contienen guías curadas, patrones y anti-patrones por tecnología.">
 								Expert knowledge modules injected directly into agent context. Skills are auto-detected from your project and contain curated guidelines, patterns, and anti-patterns for each technology.
 							</p>
 							
 							<div class="mb-4 font-mono text-[10px] uppercase tracking-widest text-secondary"
-								data-label-en="Framework Skills" data-label-es="Skills de Frameworks">Framework Skills</div>
+								data-label-en="Included Skills" data-label-es="Skills incluidos">Included Skills</div>
 							<div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
-								{['React 19', 'Next.js 15', 'TypeScript', 'Tailwind 4', 'Zod 4', 'Playwright', 'Go testing', 'Vercel AI SDK', 'Drizzle ORM', 'tRPC', 'Prisma', 'Supabase', 'shadcn/ui', 'Bubbletea', 'Templ', 'branch-pr', 'issue-creation', 'judgment-day', 'skill-creator', 'skill-registry'].map(skill => (
+								{['sdd-init', 'sdd-explore', 'sdd-propose', 'sdd-spec', 'sdd-design', 'sdd-tasks', 'sdd-apply', 'sdd-verify', 'sdd-archive', 'sdd-onboard', 'judgment-day', 'go-testing', 'skill-creator', 'branch-pr', 'issue-creation', 'skill-registry'].map(skill => (
 									<div class="border border-outline-variant bg-surface-container-lowest px-3 py-2 font-mono text-[10px] uppercase text-on-surface-variant hover:border-primary hover:text-primary transition-colors">{skill}</div>
 								))}
 							</div>
 
 							<p class="mt-4 font-mono text-[10px] text-on-surface-variant"
-								data-label-en="+ more being added continuously. Contributions welcome."
-								data-label-es="+ más se añaden continuamente. Se aceptan contribuciones.">
-								+ more being added continuously. Contributions welcome.
+								data-label-en="Framework-specific coding skills are maintained separately in Gentleman-Skills and can be installed on top."
+								data-label-es="Los skills específicos de frameworks se mantienen por separado en Gentleman-Skills y se pueden instalar aparte.">
+								Framework-specific coding skills are maintained separately in Gentleman-Skills and can be installed on top.
 							</p>
 						</section>
 
@@ -318,17 +337,19 @@ go run ./cmd/gentle-ai <span class="text-secondary">install</span></pre>
 								data-label-en="CLI Reference" data-label-es="Referencia CLI">CLI Reference</h1>
 							<p class="mb-8 text-lg leading-relaxed text-on-surface-variant"
 								data-label-en="All commands available in the gentle-ai CLI. The interactive TUI covers the most common workflows; flags are for CI/CD pipelines and automation."
-								data-label-es="Todos los comandos disponibles en la CLI de gentle-ai. La TUI interactiva cubre los flujos de trabajo más comunes; los flags son para pipelines de CI/CD y automatización.">
+								data-label-es="Todos los comandos disponibles en la CLI de gentle-ai. La TUI interactiva cubre los flujos más comunes; las banderas se usan para pipelines de CI/CD y automatización.">
 								All commands available in the gentle-ai CLI. The interactive TUI covers the most common workflows; flags are for CI/CD pipelines and automation.
 							</p>
 							<div class="space-y-2">
 								{[
 									{ cmd: 'gentle-ai install', desc: 'Full ecosystem setup — launches interactive TUI', descEs: 'Configuración completa — lanza TUI interactiva' },
 									{ cmd: 'gentle-ai sync', desc: 'Sync all configs to latest ecosystem version', descEs: 'Sincroniza todas las configs a la última versión' },
+									{ cmd: 'gentle-ai update', desc: 'Check if newer versions are available', descEs: 'Verifica si hay versiones nuevas disponibles' },
 									{ cmd: 'gentle-ai upgrade', desc: 'Upgrade tool versions non-destructively', descEs: 'Actualiza versiones de herramientas sin destruir' },
+									{ cmd: 'gentle-ai restore', desc: 'Restore a previous backup snapshot', descEs: 'Restaura un snapshot de backup anterior' },
 									{ cmd: 'gentle-ai version', desc: 'Print current version', descEs: 'Muestra la versión actual' },
 									{ cmd: '--preset full-gentleman', desc: 'Install full Gentleman preset (non-interactive)', descEs: 'Instala el preset Gentleman completo (no interactivo)' },
-									{ cmd: '--agent core', desc: 'Target specific capability tier', descEs: 'Apunta a una capacidad específica' },
+									{ cmd: '--agent <agent-id>[,<agent-id>...]', desc: 'Example pattern: target specific installed agents', descEs: 'Patrón de ejemplo: apunta a agentes instalados específicos' },
 									{ cmd: '--persona gentleman', desc: 'Apply persona configuration', descEs: 'Aplica configuración de persona' },
 									{ cmd: '--dry-run', desc: 'Preview changes without applying', descEs: 'Previsualiza cambios sin aplicar' },
 								].map(item => (
@@ -341,13 +362,14 @@ go run ./cmd/gentle-ai <span class="text-secondary">install</span></pre>
 								))}
 							</div>
 						</section>
+						</div>
 
 					</div></main>
 				</div>
 
 				<!-- Bottom breadcrumb / section label -->
 				<div class="border-t border-outline-variant bg-background px-6 py-3 flex items-center justify-between">
-					<span id="docs-section-label" class="font-mono text-[10px] uppercase tracking-widest text-on-surface-variant">System Overview</span>
+					<span id="docs-section-label" class="font-mono text-[10px] uppercase tracking-widest text-on-surface-variant">System Manual</span>
 					<a
 						href="/features"
 						class="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors"
@@ -378,6 +400,13 @@ go run ./cmd/gentle-ai <span class="text-secondary">install</span></pre>
 	var animating = false;
 
 	function updateChrome(idx) {
+		var lang = document.documentElement.dataset.lang === 'es' ? 'es' : 'en';
+
+		document.querySelectorAll('[data-aria-label-en][data-aria-label-es]').forEach(function(el) {
+			var ariaLabel = lang === 'es' ? (el.dataset.ariaLabelEs || '') : (el.dataset.ariaLabelEn || '');
+			if (ariaLabel) el.setAttribute('aria-label', ariaLabel);
+		});
+
 		// Nav sidebar highlight
 		var newBtn = document.querySelector('.docs-nav-btn[data-index="' + idx + '"]');
 		document.querySelectorAll('.docs-nav-btn').forEach(function(b) {
@@ -401,7 +430,11 @@ go run ./cmd/gentle-ai <span class="text-secondary">install</span></pre>
 
 		// Section label bottom bar
 		var label = document.getElementById('docs-section-label');
-		if (label && newBtn) label.textContent = newBtn.textContent.trim();
+		if (label && newBtn) {
+			label.textContent = lang === 'es'
+				? (newBtn.dataset.labelEs || newBtn.textContent || '').trim()
+				: (newBtn.dataset.labelEn || newBtn.textContent || '').trim();
+		}
 
 		// Arrow state
 		var prev = document.getElementById('docs-prev');
@@ -420,28 +453,29 @@ go run ./cmd/gentle-ai <span class="text-secondary">install</span></pre>
 		var oldEl = document.getElementById('sec-' + sections[current]);
 		var newEl = document.getElementById('sec-' + sections[idx]);
 		if (!oldEl || !newEl) return;
+		if (oldEl === newEl) return;
 
 		animating = true;
 
-		// Hide old immediately — the new one slides in over the blank
-		oldEl.classList.remove('active', 'dir-next', 'dir-prev');
+		oldEl.classList.remove('dir-next', 'dir-prev', 'exiting-next', 'exiting-prev');
+		newEl.classList.remove('dir-next', 'dir-prev', 'exiting-next', 'exiting-prev');
+		oldEl.classList.remove('active');
 
 		current = idx;
 		updateChrome(current);
 
-		// Show new with slide
-		newEl.classList.remove('dir-next', 'dir-prev');
+		// Show only the target section to avoid any overlap/flicker.
 		newEl.classList.add('active', dirClass);
 
 		// Scroll wrapper to top
 		var scroll = document.getElementById('docs-scroll');
 		if (scroll) scroll.scrollTop = 0;
 
-		// Release lock after animation
+		// Release lock once directional animation ends.
 		setTimeout(function() {
 			newEl.classList.remove(dirClass);
 			animating = false;
-		}, 380);
+		}, 400);
 	}
 
 	function cleanupListeners() {
@@ -461,7 +495,7 @@ go run ./cmd/gentle-ai <span class="text-secondary">install</span></pre>
 
 		// Remove any stale active states
 		document.querySelectorAll('.docs-section').forEach(function(s) {
-			s.classList.remove('active', 'dir-next', 'dir-prev');
+			s.classList.remove('active', 'dir-next', 'dir-prev', 'exiting-next', 'exiting-prev');
 		});
 
 		// Nav buttons
@@ -483,6 +517,10 @@ go run ./cmd/gentle-ai <span class="text-secondary">install</span></pre>
 		document.addEventListener('keydown', function(e) {
 			if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1, 'next');
 			if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(current - 1, 'prev');
+		}, { signal: signal });
+
+		document.addEventListener('gl:lang-change', function() {
+			updateChrome(current);
 		}, { signal: signal });
 
 		// Show first section directly (no animation on initial load)

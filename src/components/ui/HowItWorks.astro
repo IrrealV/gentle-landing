@@ -1,12 +1,12 @@
 <section id="process" data-home-section="process" class="overflow-hidden border-t border-outline-variant bg-surface-container-lowest py-24">
 	<div class="mx-auto max-w-[1200px] px-6">
-		<div data-animate="fade-up" class="mb-8 flex items-center gap-4">
+		<div data-animate="fade-up" class="will-animate mb-8 flex items-center gap-4">
 			<h2 class="mono text-2xl font-bold uppercase tracking-widest"
 				data-label-en="Installation Pipeline"
 				data-label-es="Pipeline de Instalación">Installation Pipeline</h2>
 			<div class="h-px flex-grow bg-outline-variant"></div>
 		</div>
-		<p data-animate="fade-up" class="mono mb-20 max-w-2xl text-sm text-on-surface-variant"
+		<p data-animate="fade-up" class="will-animate mono mb-20 max-w-2xl text-sm text-on-surface-variant"
 			data-label-en="From a clean machine to a fully-configured AI environment in minutes. The installer handles every dependency, detects your existing setup, and applies the ecosystem non-destructively."
 			data-label-es="De una máquina limpia a un entorno de IA completamente configurado en minutos. El instalador gestiona cada dependencia, detecta tu configuración existente y aplica el ecosistema de forma no destructiva.">
 			From a clean machine to a fully-configured AI environment in minutes. The installer handles every dependency, detects your existing setup, and applies the ecosystem non-destructively.
@@ -21,7 +21,7 @@
 			<div class="absolute top-8 left-0 right-0 hidden h-px border-t border-dashed border-outline-variant md:block" style="z-index: 0;"></div>
 
 			<!-- Phase cards — grid 5 cols, stagger just these 5 -->
-			<div class="relative grid grid-cols-1 gap-8 md:grid-cols-5" data-animate-stagger style="z-index: 1;">
+			<div class="will-animate relative grid grid-cols-1 gap-8 md:grid-cols-5" data-animate-stagger style="z-index: 1;">
 				<!-- Phase 1 -->
 				<div class="flex flex-col items-center text-center">
 					<div class="mono mb-6 flex h-16 w-16 items-center justify-center border border-primary bg-background text-xl font-bold transition-all duration-300 hover:bg-primary hover:text-on-primary">01</div>
@@ -51,8 +51,8 @@
 						data-label-en="Install Deps"
 						data-label-es="Instalar Deps">Install Deps</h4>
 					<p class="text-[10px] uppercase text-on-surface-variant"
-						data-label-en="Homebrew · Node 20+ · Git"
-						data-label-es="Homebrew · Node 20+ · Git">Homebrew · Node 20+ · Git</p>
+						data-label-en="Homebrew · Node.js · Git"
+						data-label-es="Homebrew · Node.js · Git">Homebrew · Node.js · Git</p>
 				</div>
 
 				<!-- Phase 4 -->
@@ -80,7 +80,7 @@
 		</div>
 
 		<!-- Persona selection — interactive -->
-		<div data-animate="fade-up" class="mt-20 border border-outline-variant bg-surface-container-low p-8">
+		<div data-animate="fade-up" class="will-animate mt-20 border border-outline-variant bg-surface-container-low p-8">
 			<div class="mono mb-6 text-[10px] uppercase tracking-widest text-on-surface-variant"
 				data-label-en="PERSONA SELECTION — Step 2b of Install Flow"
 				data-label-es="SELECCIÓN DE PERSONA — Paso 2b del Flujo de Instalación">PERSONA SELECTION — Step 2b of Install Flow</div>
@@ -92,9 +92,9 @@
 					data-selected="true"
 				>
 					<div class="mono mb-2 flex items-center gap-2 text-sm font-bold text-secondary">
-						<span class="persona-icon">★</span> Your own Gentleman!
+						<span class="persona-icon">★</span> <span data-label-en="Your own Gentleman!" data-label-es="Tu propio Gentleman!">Your own Gentleman!</span>
 					</div>
-					<p class="text-xs text-on-surface-variant">Senior Architect mentor that teaches, challenges, and pushes you to understand concepts before code. Rioplatense Spanish for Spanish input.</p>
+					<p class="text-xs text-on-surface-variant" data-label-en="Senior Architect mentor that teaches, challenges, and pushes you to understand concepts before code. Neutral Spanish for Spanish input." data-label-es="Mentor de arquitectura senior que enseña, desafía y te impulsa a entender conceptos antes de programar. Español neutral para entradas en español.">Senior Architect mentor that teaches, challenges, and pushes you to understand concepts before code. Neutral Spanish for Spanish input.</p>
 				</button>
 
 				<button
@@ -104,9 +104,9 @@
 					data-selected="false"
 				>
 					<div class="mono mb-2 flex items-center gap-2 text-sm text-on-surface-variant">
-						<span class="persona-icon">○</span> Neutral
+						<span class="persona-icon">○</span> <span data-label-en="Neutral" data-label-es="Neutral">Neutral</span>
 					</div>
-					<p class="text-xs text-on-surface-variant">Professional, helpful, no personality overlay. Default agent behavior with security-first permissions.</p>
+					<p class="text-xs text-on-surface-variant" data-label-en="Professional, helpful, no personality overlay. Default agent behavior with security-first permissions." data-label-es="Profesional, útil y sin capa de personalidad. Comportamiento por defecto del agente con permisos orientados a seguridad.">Professional, helpful, no personality overlay. Default agent behavior with security-first permissions.</p>
 				</button>
 
 				<button
@@ -116,9 +116,9 @@
 					data-selected="false"
 				>
 					<div class="mono mb-2 flex items-center gap-2 text-sm text-on-surface-variant">
-						<span class="persona-icon">○</span> Custom
+						<span class="persona-icon">○</span> <span data-label-en="Custom" data-label-es="Personalizado">Custom</span>
 					</div>
-					<p class="text-xs text-on-surface-variant">Bring your own persona text or select from community presets. Injected into agent global instructions.</p>
+					<p class="text-xs text-on-surface-variant" data-label-en="Bring your own persona text or select from community presets. Injected into agent global instructions." data-label-es="Aporta tu propio texto de persona o selecciona presets de la comunidad. Se inyecta en las instrucciones globales del agente.">Bring your own persona text or select from community presets. Injected into agent global instructions.</p>
 				</button>
 			</div>
 		</div>

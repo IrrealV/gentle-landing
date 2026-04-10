@@ -1,18 +1,28 @@
 ---
 interface Props {
 	title: string;
+	titleEs?: string;
 	summary: string;
+	summaryEs?: string;
 	icon?: string;
 	category?: string;
+	categoryEs?: string;
+	linkLabel?: string;
+	linkLabelEs?: string;
 	href?: string;
 	class?: string;
 }
 
 const {
 	title,
+	titleEs = title,
 	summary,
+	summaryEs = summary,
 	icon = 'architecture',
 	category = 'Technical Module',
+	categoryEs = 'Módulo técnico',
+	linkLabel = 'Open module',
+	linkLabelEs = 'Abrir módulo',
 	href,
 	class: className = '',
 } = Astro.props;
@@ -27,15 +37,15 @@ if (href && !href.startsWith('/') && !href.startsWith('#')) {
 		<span class="material-symbols-outlined text-3xl text-primary" aria-hidden="true">{icon}</span>
 	</div>
 
-	<h3 class="mb-4 font-headline text-2xl font-bold tracking-tight text-on-surface">{title}</h3>
-	<p class="mb-6 text-sm leading-relaxed text-on-surface-variant">{summary}</p>
+	<h3 class="mb-4 font-headline text-2xl font-bold tracking-tight text-on-surface" data-label-en={title} data-label-es={titleEs}>{title}</h3>
+	<p class="mb-6 text-sm leading-relaxed text-on-surface-variant" data-label-en={summary} data-label-es={summaryEs}>{summary}</p>
 
-	<div class="font-mono text-xs uppercase tracking-widest text-secondary">{category}</div>
+	<div class="font-mono text-xs uppercase tracking-widest text-secondary" data-label-en={category} data-label-es={categoryEs}>{category}</div>
 
 	{
 		href && (
-			<a href={href} class="mt-6 inline-flex font-mono text-xs uppercase tracking-widest text-primary hover:text-primary-fixed">
-				Open module
+			<a href={href} class="mt-6 inline-flex font-mono text-xs uppercase tracking-widest text-primary hover:text-primary-fixed" data-label-en={linkLabel} data-label-es={linkLabelEs}>
+				{linkLabel}
 			</a>
 		)
 	}

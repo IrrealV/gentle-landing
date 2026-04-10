@@ -1,0 +1,1773 @@
+---
+// InteractiveTUI.astro
+// Faithful browser reconstruction of the gentle-ai Bubbletea welcome flow.
+---
+
+<div
+	id="tui-root"
+	data-initialized="false"
+	tabindex="0"
+	role="region"
+	aria-label="Interactive Gentle-AI terminal demo (browser reconstruction)"
+	class="tui-shell"
+>
+	<div class="tui-titlebar">
+		<span class="tui-dot tui-dot-red" aria-hidden="true"></span>
+		<span class="tui-dot tui-dot-gold" aria-hidden="true"></span>
+		<span class="tui-dot tui-dot-green" aria-hidden="true"></span>
+		<span class="tui-title" data-label-en="gentle-ai — zsh" data-label-es="gentle-ai — zsh">gentle-ai — zsh</span>
+	</div>
+
+	<div id="tui-body" class="tui-body">
+		<div id="tui-phase-prompt" class="tui-phase">
+			<div class="tui-history">$ brew tap Gentleman-Programming/homebrew-tap</div>
+			<div class="tui-history">$ brew install gentle-ai</div>
+			<div class="tui-prompt-line">
+				<span class="tui-prompt-arrow">➜</span>
+				<span class="tui-prompt-home"> ~ </span>
+				<span id="tui-typed" class="tui-text"></span>
+				<span id="tui-cursor" class="tui-cursor">█</span>
+			</div>
+		</div>
+
+		<div id="tui-phase-menu" class="tui-phase" hidden>
+			<div id="tui-logo" class="tui-logo" aria-hidden="true"></div>
+			<div id="tui-tagline" class="tui-tagline"></div>
+			<div class="tui-disclaimer" data-label-en="Faithful browser reconstruction · representative states" data-label-es="Reconstrucción fiel en navegador · estados representativos">Faithful browser reconstruction · representative states</div>
+			<h2 class="tui-heading" data-label-en="Menu" data-label-es="Menú">Menu</h2>
+			<div id="tui-options" class="tui-options" role="listbox" aria-label="Gentle-AI menu options"></div>
+			<div class="tui-help"><span class="tui-help-desktop" data-label-en="j/k: navigate • enter: select • q: quit" data-label-es="j/k: navegar • enter: seleccionar • q: salir">j/k: navigate • enter: select • q: quit</span><span class="tui-help-mobile" data-label-en="tap an option to continue" data-label-es="toca una opción para continuar">tap an option to continue</span></div>
+		</div>
+
+		<div id="tui-phase-screen" class="tui-phase" hidden>
+			<div id="tui-screen" class="tui-screen" aria-live="polite"></div>
+			<div id="tui-restart-hint" class="tui-restart-hint" hidden data-i18n-en="press <span>r</span> to restart demo" data-i18n-es="pulsa <span>r</span> para reiniciar la demo">press <span>r</span> to restart demo</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.tui-shell {
+		font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+		background: #191724;
+		border: 1px solid #26233a;
+		overflow: hidden;
+		opacity: 0;
+		transition: opacity 0.35s ease;
+		max-width: 760px;
+		margin: 0 auto;
+		box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+		color: #e0def4;
+	}
+
+	.tui-titlebar {
+		background: #1f1d2e;
+		border-bottom: 1px solid #26233a;
+		padding: 10px 16px;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.tui-dot {
+		width: 12px;
+		height: 12px;
+		display: inline-block;
+	}
+
+	.tui-dot-red { background: #eb6f92; }
+	.tui-dot-gold { background: #f6c177; }
+	.tui-dot-green { background: #9ccfd8; }
+
+	.tui-title {
+		margin-left: 12px;
+		font-size: 12px;
+		color: #6e6a86;
+		letter-spacing: 0.08em;
+	}
+
+	.tui-body {
+		padding: 24px 28px;
+		min-height: 420px;
+	}
+
+	.tui-phase[hidden] { display: none; }
+
+	.tui-history {
+		color: #908caa;
+		font-size: 12px;
+		line-height: 1.6;
+	}
+
+	.tui-history + .tui-history { margin-bottom: 12px; }
+
+	.tui-prompt-line {
+		display: flex;
+		align-items: center;
+		font-size: 14px;
+	}
+
+	.tui-prompt-arrow { color: #9ccfd8; }
+	.tui-prompt-home { color: #c4a7e7; }
+	.tui-cursor {
+		animation: tui-blink 1s step-end infinite;
+	}
+
+	.tui-logo {
+		margin-bottom: 16px;
+		font-size: 9px;
+		line-height: 1.25;
+		white-space: pre;
+	}
+
+	.tui-logo-line {
+		display: block;
+	}
+
+	.tui-tagline {
+		color: #908caa;
+		font-size: 12px;
+		margin-bottom: 8px;
+		letter-spacing: 0.04em;
+	}
+
+	.tui-disclaimer {
+		color: #6e6a86;
+		font-size: 10px;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		margin-bottom: 14px;
+	}
+
+	.tui-heading {
+		margin: 0 0 12px 0;
+		color: #c4a7e7;
+		font-size: 13px;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+	}
+
+	.tui-options,
+	.tui-screen-options {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.tui-option,
+	.tui-line-option {
+		border: 0;
+		background: transparent;
+		padding: 0;
+		margin: 0;
+		font: inherit;
+		color: #e0def4;
+		text-align: left;
+		cursor: pointer;
+		white-space: pre-wrap;
+	}
+
+	.tui-option-active,
+	.tui-line-option-active {
+		color: #c4a7e7;
+		font-weight: 700;
+	}
+
+	.tui-help,
+	.tui-subhelp,
+	.tui-restart-hint {
+		color: #6e6a86;
+		font-size: 11px;
+		letter-spacing: 0.04em;
+	}
+
+	.tui-help,
+	.tui-restart-hint {
+		border-top: 1px solid #26233a;
+		padding-top: 12px;
+		margin-top: 16px;
+	}
+
+	.tui-help-mobile {
+		display: none;
+	}
+
+	@media (max-width: 767px) {
+		.tui-help-desktop {
+			display: none;
+		}
+		.tui-help-mobile {
+			display: inline;
+		}
+	}
+
+
+	.tui-restart-hint span {
+		color: #c4a7e7;
+	}
+
+	.tui-screen-title {
+		color: #c4a7e7;
+		font-size: 14px;
+		font-weight: 700;
+		margin-bottom: 16px;
+	}
+
+	.tui-screen-copy,
+	.tui-screen-meta,
+	.tui-screen-block,
+	.tui-screen-list,
+	.tui-screen-list div,
+	.tui-screen-pane,
+	.tui-preview-body,
+	.tui-progress-log {
+		font-size: 12px;
+		line-height: 1.7;
+	}
+
+	.tui-muted { color: #908caa; }
+	.tui-overlay { color: #6e6a86; }
+	.tui-success { color: #9ccfd8; }
+	.tui-warning { color: #f1ca93; }
+	.tui-danger { color: #eb6f92; }
+	.tui-lavender { color: #c4a7e7; }
+	.tui-mauve { color: #ebbcba; }
+
+	.tui-frame {
+		border: 3px double #c4a7e7;
+		padding: 16px 18px;
+	}
+
+	.tui-panel {
+		border: 1px solid #6e6a86;
+		padding: 0 10px;
+		background: #1f1d2e;
+	}
+
+	.tui-columns {
+		display: grid;
+		gap: 18px;
+	}
+
+	.tui-preview-body,
+	.tui-screen-pane {
+		border: 1px solid #6e6a86;
+		background: #1f1d2e;
+		padding: 12px;
+		max-height: 220px;
+		overflow: auto;
+		white-space: pre-wrap;
+	}
+
+	.tui-textarea,
+	.tui-input {
+		width: 100%;
+		border: 1px solid #6e6a86;
+		background: #1f1d2e;
+		color: #e0def4;
+		font: inherit;
+		padding: 10px 12px;
+		outline: none;
+		resize: none;
+	}
+
+	.tui-textarea:focus,
+	.tui-input:focus,
+	.tui-shell:focus {
+		box-shadow: inset 0 0 0 1px #c4a7e7;
+	}
+
+	.tui-progress-bar {
+		display: flex;
+		margin-bottom: 8px;
+	}
+
+	.tui-progress-filled { color: #9ccfd8; }
+	.tui-progress-empty { color: #6e6a86; }
+
+	.tui-screen-list { margin: 14px 0; }
+
+	.tui-action-options {
+		margin-top: 14px;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.tui-screen-list div,
+	.tui-screen-copy p,
+	.tui-screen-copy ul,
+	.tui-screen-copy li,
+	.tui-screen-copy pre {
+		margin: 0;
+	}
+
+	.tui-screen-copy ul {
+		padding-left: 18px;
+	}
+
+	.tui-selection-block {
+		margin-bottom: 12px;
+	}
+
+	@keyframes tui-blink {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0; }
+	}
+</style>
+
+<script>
+	(() => {
+		const VERSION = 'v1.18.3';
+		const CURSOR = '▸ ';
+		const COLORS = {
+			base: '#191724',
+			surface: '#1f1d2e',
+			overlay: '#6e6a86',
+			text: '#e0def4',
+			subtext: '#908caa',
+			lavender: '#c4a7e7',
+			green: '#9ccfd8',
+			peach: '#f6c177',
+			red: '#eb6f92',
+			blue: '#31748f',
+			mauve: '#ebbcba',
+			yellow: '#f1ca93',
+			teal: '#9ccfd8'
+		};
+
+		const LOGO_LINES = [
+			'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
+			'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣾⣿⡽⠟⠛⠻⣶⣄⠀⢀⣐⣒⣒⣶⣴⣾⡿⢷⣶⣽⡢⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
+			'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡾⣿⣿⢿⠋⠀⠀⠀⠀⠀⠉⠛⠓⠒⠛⠚⠛⠉⣿⠀⠀⣧⡏⠻⣷⣽⡦⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
+			'⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣻⡾⠋⣇⢸⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠉⠀⠀⢸⠙⠻⣿⣷⣶⣄⡀⠀⠀⠀⠀⠀⠀⠀',
+			'⠀⠀⠀⠀⠀⠀⠀⣠⣶⣿⠋⠈⠀⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⠈⡿⣷⣽⣇⠀⠀⠀⠀⠀⠀⠀',
+			'⠀⠀⠀⠀⠀⢀⣞⡿⠟⣟⠀⠀⠀⠀⠀⠀⠀⠀⠸⡆⠀⠀⠀⣆⠀⠀⡀⢸⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠈⠻⣯⡳⣄⠀⠀⠀⠀⠀',
+			'⠀⠀⠀⠀⢀⣽⠟⠁⠀⠘⠃⠀⠀⠀⠀⢰⡀⠀⠀⢹⡀⠀⠀⢸⡄⢀⣇⡾⣠⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢻⣾⣅⠀⠀⠀⠀',
+			'⣀⣀⣠⡴⠿⣅⠐⢦⡀⠀⠀⠀⠲⣄⠀⠀⣙⣦⣶⣾⣻⣶⣶⠾⠿⠾⢿⣿⣿⣻⢷⣢⢤⣀⠀⠀⠀⠀⠀⠀⠀⡀⠀⣴⠛⣿⣷⣄⡀⠀',
+			'⠹⠿⢿⣷⣦⣼⣷⣤⣻⣶⣤⣀⣀⣬⣷⡯⠷⠾⢿⣿⣭⣄⣀⣀⣀⣀⣀⣤⣭⡿⠿⢾⣿⣿⣿⣦⣤⣤⣤⣶⢾⡷⣿⣷⣾⣷⣿⡿⠿⠟',
+			'⠀⠀⠘⣿⡝⣿⡿⢻⣿⡿⢩⡞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠰⡄⠀⠀⠀⠀⠘⢦⠹⣮⢷⠹⣷⣿⠀⠀⠀',
+			'⠀⠀⠀⠙⣷⣿⠁⡞⣾⠀⡞⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⡇⠀⠀⠀⠀⠀⢸⡆⢸⢸⣦⡟⠁⠀⠀⠀',
+			'⠀⠀⠀⠀⠈⢻⣄⡏⣿⠀⡇⠀⠀⠀⠀⠀⢰⠀⠀⠀⠀⠀⠀⠀⢐⣧⠀⠀⠀⠀⠀⠀⠀⠈⠁⠀⠀⠀⠀⠀⣼⡇⠘⣼⠏⠀⠀⠀⠀⠀',
+			'⠀⠀⠀⠀⠀⠀⠙⠻⣧⣧⢣⠀⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠸⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⢹⣠⡾⠃⠀⠀⠀⠀⠀⠀',
+			'⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⢿⣧⡘⣆⠀⠀⠘⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠀⠀⣴⣷⣿⡋⠀⠀⠀⠀⠀⠀⠀⠀',
+			'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⠷⣤⣀⣹⣄⠀⠀⠀⠀⠀⠀⡇⠀⠀⢀⠀⡆⠀⠀⣀⣴⣧⣴⣟⠯⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀',
+			'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠽⠿⠿⠷⠶⢤⣤⣴⣿⣦⣶⣾⣿⣷⣾⣻⣿⠝⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
+			'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠛⠛⠛⠛⠛⠊⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'
+		];
+
+		const LOGO_BANDS = [COLORS.mauve, COLORS.lavender, COLORS.blue, COLORS.teal, COLORS.green];
+		const SPINNER = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+
+		const MAIN_OPTIONS = [
+			{ id: 'install', label: 'Start installation' },
+			{ id: 'upgrade', label: 'Upgrade tools ★' },
+			{ id: 'sync', label: 'Sync configs' },
+			{ id: 'upgrade-sync', label: 'Upgrade + Sync' },
+			{ id: 'models', label: 'Configure models' },
+			{ id: 'builder', label: 'Create your own Agent' },
+			{ id: 'backups', label: 'Manage backups' },
+			{ id: 'quit', label: 'Quit' }
+		];
+
+		const INSTALL_AGENTS = ['claude-code', 'opencode', 'gemini-cli', 'cursor', 'vscode-copilot', 'codex', 'antigravity', 'windsurf'];
+		const PERSONAS = [
+			{ id: 'gentleman', label: 'gentleman', desc: 'Your own Gentleman! teaches before it solves.' },
+			{ id: 'neutral', label: 'neutral', desc: 'Direct answers with minimal stylistic guidance.' },
+			{ id: 'custom', label: 'custom', desc: 'Bring your own prompt personality.' }
+		];
+		const PRESETS = [
+			{ id: 'full-gentleman', label: 'full-gentleman', desc: 'Everything: memory, SDD, skills, docs, persona & security' },
+			{ id: 'ecosystem-only', label: 'ecosystem-only', desc: 'Core tools only: memory, SDD, skills & docs (no persona/security)' },
+			{ id: 'minimal', label: 'minimal', desc: 'Engram + core SDD skills only' },
+			{ id: 'custom', label: 'custom', desc: 'Pick individual components yourself' }
+		];
+		const INSTALL_COMPONENTS = [
+			['engram', 'included'],
+			['sdd', 'included'],
+			['skills', 'included'],
+			['context7', 'auto-dependency'],
+			['persona', 'included'],
+			['permissions', 'included']
+		];
+		const CLAUDE_PRESETS = [
+			['balanced', 'Smart defaults: opus for architecture, sonnet for most phases, haiku for archiving'],
+			['performance', 'Maximum quality: opus for architecture, planning & verification phases'],
+			['economy', 'Cost-optimised: sonnet for all phases, haiku for archiving'],
+			['custom', 'Pick the model alias for each SDD phase individually'],
+			['Back', '']
+		];
+		const CLAUDE_PHASES = ['orchestrator', 'sdd-explore', 'sdd-propose', 'sdd-spec', 'sdd-design', 'sdd-tasks', 'sdd-apply', 'sdd-verify', 'sdd-archive', 'default', 'Confirm', 'Back'];
+		const OPENCODE_PHASES = ['sdd-orchestrator', 'Set all phases', 'explore', 'propose', 'spec', 'design', 'tasks', 'apply', 'verify', 'archive', 'Continue', 'Back'];
+		const PROVIDERS = ['Anthropic', 'OpenRouter', 'OpenAI Compatible', 'Back'];
+		const MODELS = ['claude-opus-4', 'claude-sonnet-4-5', 'claude-haiku-3-5', 'Back'];
+		const BACKUPS = [
+			{ id: 'bk-2026-04-08-1', label: 'install — 2026-04-08 09:10 (5 files)', pinned: true, description: 'pre-upgrade snapshot' },
+			{ id: 'bk-2026-04-07-2', label: 'sync — 2026-04-07 20:31 (3 files)', pinned: false, description: 'nightly sync' },
+			{ id: 'bk-2026-04-06-3', label: 'restore — 2026-04-06 14:02 (4 files)', pinned: false, description: 'manual checkpoint' }
+		];
+
+		function sanitizeLang(value) {
+			return value === 'es' ? 'es' : 'en';
+		}
+
+		let currentLang = sanitizeLang(document.documentElement?.dataset?.lang);
+
+		const LABELS_ES = {
+			'Start installation': 'Iniciar instalación',
+			'Upgrade tools ★': 'Actualizar herramientas ★',
+			'Sync configs': 'Sincronizar configs',
+			'Upgrade + Sync': 'Actualizar + Sincronizar',
+			'Configure models': 'Configurar modelos',
+			'Create your own Agent': 'Crear tu propio agente',
+			'Manage backups': 'Gestionar backups',
+			'Quit': 'Salir',
+			'System Detection': 'Detección del sistema',
+			'Select AI Agents': 'Seleccionar agentes de IA',
+			'Choose your Persona': 'Elegí tu persona',
+			'Select Ecosystem Preset': 'Seleccionar preset del ecosistema',
+			'Claude Model Assignments': 'Asignaciones de modelos Claude',
+			'Select SDD Mode': 'Seleccionar modo SDD',
+			'STRICT TDD MODE': 'MODO TDD ESTRICTO',
+			'Select Components': 'Seleccionar componentes',
+			'Install Plan': 'Plan de instalación',
+			'Review and Confirm': 'Revisar y confirmar',
+			'Installing': 'Instalando',
+			'Done! Your AI agents are ready.': '¡Listo! Tus agentes de IA están preparados.',
+			'Upgrade Tools': 'Actualizar herramientas',
+			'Sync Configurations': 'Sincronizar configuraciones',
+			'Model Configuration': 'Configuración de modelos',
+			'Model Picker': 'Selector de modelos',
+			'Choose Your AI Engine': 'Elegí tu motor de IA',
+			'Describe Your Agent': 'Describí tu agente',
+			'SDD Integration': 'Integración SDD',
+			'Select SDD Phase': 'Seleccionar fase SDD',
+			'Generating Your Agent...': 'Generando tu agente...',
+			'Installing Agent': 'Instalando agente',
+			'Agent Installed': 'Agente instalado',
+			'Backup Management': 'Gestión de backups',
+			'Restore Backup': 'Restaurar backup',
+			'Restore Result': 'Resultado de restauración',
+			'Delete Backup': 'Eliminar backup',
+			'Delete Result': 'Resultado de eliminación',
+			'Rename Backup': 'Renombrar backup',
+			'Continue': 'Continuar',
+			'Back': 'Volver',
+			'Enable': 'Activar',
+			'Disable': 'Desactivar',
+			'Install': 'Instalar',
+			'Regenerate': 'Regenerar',
+			'Restore': 'Restaurar',
+			'Cancel': 'Cancelar',
+			'Delete': 'Eliminar',
+			'Confirm': 'Confirmar',
+			'Set all phases': 'Definir todas las fases',
+			'j/k: navigate • enter: select • esc: back': 'j/k: navegar • enter: seleccionar • esc: volver',
+			'j/k: navigate • enter: cycle/confirm • esc: back': 'j/k: navegar • enter: alternar/confirmar • esc: volver',
+			'space: toggle • enter: confirm • esc: back': 'espacio: alternar • enter: confirmar • esc: volver',
+			'enter: install • esc: back': 'enter: instalar • esc: volver',
+			'enter: return • r: restart': 'enter: volver • r: reiniciar',
+			'please wait...': 'por favor esperá...',
+			'enter: confirm • esc: back • q: quit': 'enter: confirmar • esc: volver • q: salir',
+			'enter: upgrade • esc: back • q: quit': 'enter: actualizar • esc: volver • q: salir',
+			'enter: return • esc: back • q: quit': 'enter: volver • esc: volver • q: salir',
+			'enter: back to backups • esc: back': 'enter: volver a backups • esc: volver',
+			'j/k: navigate • enter: restore • r: rename • d: delete • p: pin/unpin • esc: back': 'j/k: navegar • enter: restaurar • r: renombrar • d: eliminar • p: fijar/desfijar • esc: volver'
+		};
+
+		const HTML_ES_REPLACEMENTS = [
+			['One command. Any agent. Any OS.', 'Un comando. Cualquier agente. Cualquier SO.'],
+			['Use j/k to move, space to toggle, enter to continue.', 'Usá j/k para moverte, espacio para alternar y enter para continuar.'],
+			['Choose how Claude models are assigned to each SDD phase:', 'Elegí cómo se asignan los modelos Claude a cada fase SDD:'],
+			['Pick the model alias for each SDD phase individually:', 'Elegí el alias de modelo para cada fase SDD de forma individual:'],
+			['How should the SDD orchestrator be configured for OpenCode?', '¿Cómo se debería configurar el orquestador SDD para OpenCode?'],
+			['Should agents follow Strict TDD (RED → GREEN → REFACTOR) for every task?', '¿Los agentes deberían seguir TDD Estricto (RED → GREEN → REFACTOR) para cada tarea?'],
+			['When enabled, the sdd-apply agent writes tests first, confirms failure,', 'Cuando está activo, el agente sdd-apply escribe tests primero, confirma el fallo,'],
+			['then implements the minimum code to pass before refactoring.', 'y después implementa el código mínimo para pasar antes de refactorizar.'],
+			['Press enter to sync', 'Presioná enter para sincronizar'],
+			['Press enter to begin', 'Presioná enter para comenzar'],
+			['Press enter to upgrade all', 'Presioná enter para actualizar todo'],
+			['Checking for updates...', 'Buscando actualizaciones...'],
+			['Fetching latest version info...', 'Obteniendo información de la última versión...'],
+			['Upgrading tools...', 'Actualizando herramientas...'],
+			['Syncing configurations...', 'Sincronizando configuraciones...'],
+			['This will perform two operations in sequence:', 'Esto va a ejecutar dos operaciones en secuencia:'],
+			['Upgrade tools', 'Actualizar herramientas'],
+			['Sync configurations', 'Sincronizar configuraciones'],
+			['Summary:', 'Resumen:'],
+			['Your own Gentleman! teaches before it solves.', '¡Tu propio Gentleman! enseña antes de resolver.'],
+			['Everything: memory, SDD, skills, docs, persona & security', 'Todo: memoria, SDD, skills, docs, persona y seguridad'],
+			['Core tools only: memory, SDD, skills & docs (no persona/security)', 'Solo herramientas base: memoria, SDD, skills y docs (sin persona/seguridad)'],
+			['Engram + core SDD skills only', 'Solo Engram + skills SDD base'],
+			['Pick individual components yourself', 'Elegí componentes individuales'],
+			['Smart defaults: opus for architecture, sonnet for most phases, haiku for archiving', 'Valores equilibrados: opus para arquitectura, sonnet para la mayoría de fases y haiku para archivado'],
+			['Maximum quality: opus for architecture, planning & verification phases', 'Calidad máxima: opus para arquitectura, planificación y verificación'],
+			['Cost-optimised: sonnet for all phases, haiku for archiving', 'Optimizado en costo: sonnet para todas las fases y haiku para archivado'],
+			['Pick the model alias for each SDD phase individually', 'Elegí el alias de modelo para cada fase SDD de forma individual'],
+			['Tools', 'Herramientas'],
+			['Detected Configs', 'Configs detectadas'],
+			['not found', 'no detectado'],
+			['found', 'detectado'],
+			['present', 'presente'],
+			['Single orchestrator — one agent handles all SDD phases', 'Orquestador único — un agente maneja todas las fases SDD'],
+			['Multi-agent — dedicated sub-agent per SDD phase (10 hidden agents)', 'Multiagente — subagente dedicado por fase SDD (10 agentes ocultos)'],
+			['Configured agents', 'Agentes configurados'],
+			['Installed components', 'Componentes instalados'],
+			['Next steps', 'Próximos pasos'],
+			['Set your API keys', 'Configurá tus API keys'],
+			['Run your selected agent', 'Ejecutá tu agente seleccionado'],
+			['Ask your agent to "use sdd" on your next feature', 'Pedile a tu agente que "use sdd" en tu próxima feature'],
+			['Current:', 'Actual:'],
+			['Upgrade Results', 'Resultados de actualización'],
+			['Sync Results', 'Resultados de sincronización'],
+			['Sync will re-apply your dotfile configurations', 'La sincronización volverá a aplicar tus configuraciones de dotfiles'],
+			['to all detected AI agents on this machine.', 'a todos los agentes de IA detectados en esta máquina.'],
+			['This operation:', 'Esta operación:'],
+			['Reads your current agent selections', 'Lee tus selecciones actuales de agentes'],
+			['Re-writes agent config files from templates', 'Reescribe archivos de configuración de agentes desde templates'],
+			['Does not modify your global dotfiles', 'No modifica tus dotfiles globales'],
+			['Sync complete', 'Sincronización completada'],
+			['synchronized', 'sincronizados'],
+			['Choose which AI model to configure:', 'Elegí qué modelo de IA configurar:'],
+			['Configure Claude models', 'Configurar modelos Claude'],
+			['Configure OpenCode models', 'Configurar modelos OpenCode'],
+			['Assign provider/model pairs to the orchestrator and SDD phases:', 'Asigná pares proveedor/modelo al orquestador y a las fases SDD:'],
+			['Choose provider for', 'Elegí proveedor para'],
+			['Choose model from', 'Elegí modelo de'],
+			['Sync will re-apply model assignments to the selected agents.', 'La sincronización volverá a aplicar asignaciones de modelo a los agentes seleccionados.'],
+			['Which installed agent should help you build your sub-agent?', '¿Qué agente instalado debería ayudarte a crear tu subagente?'],
+			['What should your custom agent do? Some ideas:', '¿Qué debería hacer tu agente personalizado? Algunas ideas:'],
+			['Describe what you want your agent to do...', 'Describí lo que querés que haga tu agente...'],
+			['How should your agent integrate with the SDD workflow?', '¿Cómo debería integrarse tu agente con el flujo SDD?'],
+			['Standalone — no SDD integration', 'Standalone — sin integración SDD'],
+			['New SDD Phase — add a new phase to the SDD graph', 'Nueva fase SDD — agrega una fase nueva al grafo SDD'],
+			['Phase Support — enhance an existing SDD phase', 'Soporte de fase — mejora una fase SDD existente'],
+			['Insert after which phase? (your new phase will follow it)', '¿Insertar después de qué fase? (tu nueva fase irá luego de esa)'],
+			['Support which phase? (your agent will enhance this phase)', '¿Dar soporte a qué fase? (tu agente va a mejorar esa fase)'],
+			['Insert after:', 'Insertar después de:'],
+			['Support phase:', 'Fase a soportar:'],
+			['Composing prompt and calling generation engine. This may take a moment.', 'Componiendo prompt y llamando al motor de generación. Esto puede tardar un momento.'],
+			['Will be installed to:', 'Se instalará en:'],
+			['Write agent files', 'Escribir archivos del agente'],
+			['Register metadata', 'Registrar metadata'],
+			['Restore complete', 'Restauración completa'],
+			['Backup deleted', 'Backup eliminado'],
+			['Done! Your custom agent is ready.', '¡Listo! Tu agente personalizado está preparado.'],
+			['New description:', 'Nueva descripción:'],
+			['This action cannot be undone.', 'Esta acción no se puede deshacer.'],
+			['Are you sure you want to permanently delete this backup?', '¿Seguro que querés eliminar este backup de forma permanente?'],
+			['This will overwrite your current configuration.', 'Esto va a sobrescribir tu configuración actual.']
+		];
+
+		function tx(value) {
+			if (!value || currentLang !== 'es') return value;
+			return LABELS_ES[value] || value;
+		}
+
+		function txHtml(value) {
+			if (!value || currentLang !== 'es') return value;
+			return HTML_ES_REPLACEMENTS.reduce((acc, [en, es]) => acc.replaceAll(en, es), value);
+		}
+
+		const GLOBAL_KEY = '__gentleLandingInteractiveTui';
+		const CLAUDE_ASSIGNMENT_ALIASES = ['opus', 'sonnet', 'haiku'];
+
+		function escapeHtml(value) {
+			return String(value)
+				.replaceAll('&', '&amp;')
+				.replaceAll('<', '&lt;')
+				.replaceAll('>', '&gt;')
+				.replaceAll('"', '&quot;');
+		}
+
+		function logoColor(index) {
+			const band = Math.floor((index * LOGO_BANDS.length) / LOGO_LINES.length);
+			return LOGO_BANDS[Math.min(band, LOGO_BANDS.length - 1)];
+		}
+
+		function renderLogoHtml() {
+			return LOGO_LINES.map((line, index) => `<span class="tui-logo-line" style="color:${logoColor(index)}">${escapeHtml(line)}</span>`).join('');
+		}
+
+		function optionRow(label, active) {
+			const localizedLabel = tx(label);
+			return `<div class="${active ? 'tui-option tui-option-active' : 'tui-option'}">${escapeHtml(active ? CURSOR + localizedLabel : '  ' + localizedLabel)}</div>`;
+		}
+
+		function checkboxRow(label, checked, active) {
+			const prefix = checked ? '[x]' : '[ ]';
+			return optionRow(`${prefix} ${label}`, active);
+		}
+
+		function radioRow(label, checked, active) {
+			const prefix = checked ? '(•)' : '( )';
+			return optionRow(`${prefix} ${label}`, active);
+		}
+
+		function nextAlias(current) {
+			const index = CLAUDE_ASSIGNMENT_ALIASES.indexOf(current);
+			return CLAUDE_ASSIGNMENT_ALIASES[(index + 1) % CLAUDE_ASSIGNMENT_ALIASES.length] || 'sonnet';
+		}
+
+		function panel(content) {
+			return `<div class="tui-panel">${content}</div>`;
+		}
+
+		function progressBar(percent) {
+			const filled = Math.max(0, Math.min(30, Math.floor((percent * 30) / 100)));
+			return `<div class="tui-progress-bar"><span class="tui-progress-filled">${'█'.repeat(filled)}</span><span class="tui-progress-empty">${'░'.repeat(30 - filled)}</span></div>`;
+		}
+
+		function createState() {
+			return {
+				phase: 'prompt',
+				mainCursor: 0,
+				detail: null,
+				spinner: 0
+			};
+		}
+
+		function cloneBackups() {
+			return BACKUPS.map((item) => ({ ...item }));
+		}
+
+		function initialDetail(flow) {
+			switch (flow) {
+				case 'install':
+					return { flow, step: 'detection', cursor: 0, selectedAgents: new Set(['claude-code', 'opencode']), persona: 'gentleman', preset: 'full-gentleman', sddMode: 'multi', strictTdd: false, claudePreset: 'balanced', percent: 0, logs: [] };
+				case 'upgrade':
+					return { flow, step: 'checking', cursor: 0, percent: 0 };
+				case 'sync':
+					return { flow, step: 'confirm', cursor: 0 };
+				case 'upgrade-sync':
+					return { flow, step: 'confirm', cursor: 0 };
+				case 'models':
+					return { flow, step: 'entry', cursor: 0, claudePreset: 'balanced', claudeAssignments: Object.fromEntries(CLAUDE_PHASES.slice(0, 10).map((phase) => [phase, 'sonnet'])), selectedPhase: 'Set all phases', selectedProvider: 'Anthropic', selectedModel: 'claude-sonnet-4-5', modelAssignments: {}, allPhasesModel: null };
+				case 'builder':
+					return { flow, step: 'engine', cursor: 0, engine: 'claude-code', prompt: '', sddMode: 'standalone', sddPhase: 'explore' };
+				case 'backups':
+					return { flow, step: 'list', cursor: 0, backups: cloneBackups(), renameValue: '', renameTarget: null, selected: null };
+				case 'quit':
+					return { flow, step: 'silent' };
+				default:
+					return null;
+			}
+		}
+
+		function currentTextInput() {
+			return document.getElementById('tui-builder-textarea') || document.getElementById('tui-backup-rename-input');
+		}
+
+		function setupAutoStep(ctx, delay, nextStep, mutate) {
+			stopSpinner();
+			startSpinner();
+			scheduleTimeout(() => {
+				if (!state.detail || state.detail !== ctx) return;
+				stopSpinner();
+				if (typeof mutate === 'function') mutate(ctx);
+				ctx.step = nextStep;
+				render();
+				if (ctx.flow === 'install' && nextStep === 'complete') {
+					showRestartHint();
+				}
+			}, delay);
+		}
+
+		function installAutoScreens(ctx) {
+			if (ctx.step === 'installing') {
+				ctx.percent = 10;
+				ctx.logs = ['Preparing install pipeline…'];
+				const checkpoints = [
+					{ at: 220, percent: 22, line: 'Writing agent configs from templates…' },
+					{ at: 520, percent: 41, line: 'Injecting SDD orchestrator and phase prompts…' },
+					{ at: 820, percent: 68, line: 'Registering MCP servers and memory hooks…' },
+					{ at: 1120, percent: 86, line: 'Merging skills and verifying permissions…' },
+					{ at: 1500, percent: 100, line: 'Finalizing ecosystem install…' }
+				];
+				startSpinner();
+				checkpoints.forEach((point) => {
+					scheduleTimeout(() => {
+						if (!state.detail || state.detail !== ctx || ctx.step !== 'installing') return;
+						ctx.percent = point.percent;
+						ctx.logs = [...ctx.logs, point.line];
+						render();
+					}, point.at);
+				});
+				scheduleTimeout(() => {
+					if (!state.detail || state.detail !== ctx || ctx.step !== 'installing') return;
+					stopSpinner();
+					ctx.step = 'complete';
+					render();
+					showRestartHint();
+				}, 1800);
+			}
+		}
+
+		function startSpinner() {
+			if (window[GLOBAL_KEY].spinnerInterval) return;
+			window[GLOBAL_KEY].spinnerInterval = window.setInterval(() => {
+				state.spinner = (state.spinner + 1) % SPINNER.length;
+				render();
+			}, 120);
+		}
+
+		function stopSpinner() {
+			if (window[GLOBAL_KEY].spinnerInterval) {
+				clearInterval(window[GLOBAL_KEY].spinnerInterval);
+				window[GLOBAL_KEY].spinnerInterval = null;
+			}
+		}
+
+		function scheduleTimeout(fn, ms) {
+			const id = window.setTimeout(() => {
+				window[GLOBAL_KEY].timers = window[GLOBAL_KEY].timers.filter((timer) => timer !== id);
+				fn();
+			}, ms);
+			window[GLOBAL_KEY].timers.push(id);
+		}
+
+		function clearScheduled() {
+			(window[GLOBAL_KEY].timers || []).forEach((id) => clearTimeout(id));
+			window[GLOBAL_KEY].timers = [];
+			stopSpinner();
+		}
+
+		function showRestartHint() {
+			restartHint.hidden = false;
+		}
+
+		function hideRestartHint() {
+			restartHint.hidden = true;
+		}
+
+		function renderMenu() {
+			phasePrompt.hidden = true;
+			phaseScreen.hidden = true;
+			phaseMenu.hidden = false;
+			logoEl.innerHTML = renderLogoHtml();
+			taglineEl.textContent = txHtml(`AI Gentle Stack ${VERSION} — One command. Any agent. Any OS.`);
+			optionsEl.innerHTML = MAIN_OPTIONS.map((option, index) => optionRow(option.label, index === state.mainCursor)).join('');
+			Array.from(optionsEl.children).forEach((child, index) => {
+				child.dataset.menuIndex = String(index);
+			});
+			root.focus();
+		}
+
+		function renderInstallScreen(ctx) {
+			switch (ctx.step) {
+				case 'detection':
+					return {
+						title: 'System Detection',
+						body: `
+							<div class="tui-screen-meta">  <span class="tui-mauve">OS</span>  <span>macOS (arm64)</span></div>
+							<div class="tui-screen-meta">  <span class="tui-mauve">Shell</span>  <span>zsh</span></div>
+							<div class="tui-screen-meta">  <span class="tui-mauve">Supported</span>  <span class="tui-success">Yes</span></div>
+							<div class="tui-screen-list">
+								<div class="tui-mauve">Tools</div>
+								<div>  gentle-ai: <span class="tui-success">found</span></div>
+								<div>  claude-code: <span class="tui-success">found</span></div>
+								<div>  opencode: <span class="tui-success">found</span></div>
+								<div>  gemini-cli: <span class="tui-overlay">not found</span></div>
+							</div>
+							<div class="tui-screen-list">
+								<div class="tui-mauve">Detected Configs</div>
+								<div>  claude-code: <span class="tui-success">present</span></div>
+								<div>  opencode: <span class="tui-success">present</span></div>
+							</div>
+						`,
+						options: ['Continue', 'Back'],
+						help: 'j/k: navigate • enter: select • esc: back'
+					};
+				case 'agents': {
+					const items = INSTALL_AGENTS.map((agent, index) => checkboxRow(agent, ctx.selectedAgents.has(agent), ctx.cursor === index)).join('');
+					const offset = INSTALL_AGENTS.length;
+					return {
+						title: 'Select AI Agents',
+						body: `<div class="tui-muted">Use j/k to move, space to toggle, enter to continue.</div><div class="tui-screen-list">${items}</div>`,
+						options: ['Continue', 'Back'],
+						optionCursor: ctx.cursor - offset,
+						listLength: offset,
+						help: 'space: toggle • enter: confirm • esc: back'
+					};
+				}
+				case 'persona':
+					return {
+						title: 'Choose your Persona',
+						body: `<div class="tui-muted">Your own Gentleman! teaches before it solves.</div><div class="tui-screen-list">${PERSONAS.map((item, index) => `${radioRow(item.label, ctx.persona === item.id, ctx.cursor === index)}<div class="tui-overlay">    ${escapeHtml(item.desc)}</div>`).join('')}</div>`,
+						options: ['Back'],
+						optionCursor: ctx.cursor - PERSONAS.length,
+						listLength: PERSONAS.length,
+						help: 'j/k: navigate • enter: select • esc: back'
+					};
+				case 'preset':
+					return {
+						title: 'Select Ecosystem Preset',
+						body: `<div class="tui-screen-list">${PRESETS.map((item, index) => `${radioRow(item.label, ctx.preset === item.id, ctx.cursor === index)}<div class="tui-overlay">    ${escapeHtml(item.desc)}</div>`).join('')}</div>`,
+						options: ['Back'],
+						optionCursor: ctx.cursor - PRESETS.length,
+						listLength: PRESETS.length,
+						help: 'j/k: navigate • enter: select • esc: back'
+					};
+				case 'claude-models':
+					return {
+						title: 'Claude Model Assignments',
+						body: `<div class="tui-muted">Choose how Claude models are assigned to each SDD phase:</div><div class="tui-screen-list">${CLAUDE_PRESETS.map(([name, desc], index) => `${index < CLAUDE_PRESETS.length - 1 ? radioRow(name, ctx.claudePreset === name, ctx.cursor === index) : optionRow(name, ctx.cursor === index)}${desc ? `<div class="tui-overlay">    ${escapeHtml(desc)}</div>` : ''}`).join('')}</div>`,
+						help: 'j/k: navigate • enter: select • esc: back'
+					};
+				case 'claude-custom':
+					return {
+						title: 'Claude Model Assignments',
+						body: `<div class="tui-muted">Pick the model alias for each SDD phase individually:</div><div class="tui-screen-list">${CLAUDE_PHASES.map((phase, index) => {
+							if (phase === 'Confirm' || phase === 'Back') return optionRow(phase, ctx.cursor === index);
+							const alias = ctx.claudeAssignments?.[phase] || 'sonnet';
+							return optionRow(`${phase}  →  ${alias}`, ctx.cursor === index);
+						}).join('')}</div>`,
+						help: 'j/k: navigate • enter: cycle/confirm • esc: back'
+					};
+				case 'sdd-mode':
+					return {
+						title: 'Select SDD Mode',
+						body: `<div class="tui-muted">How should the SDD orchestrator be configured for OpenCode?</div><div class="tui-screen-list">${[
+							{ id: 'single', desc: 'Single orchestrator — one agent handles all SDD phases' },
+							{ id: 'multi', desc: 'Multi-agent — dedicated sub-agent per SDD phase (10 hidden agents)' }
+						].map((item, index) => `${radioRow(item.id, ctx.sddMode === item.id, ctx.cursor === index)}<div class="tui-overlay">    ${escapeHtml(item.desc)}</div>`).join('')}</div>`,
+						options: ['Back'],
+						optionCursor: ctx.cursor - 2,
+						help: 'j/k: navigate • enter: select • esc: back'
+					};
+				case 'strict-tdd':
+					return {
+						title: 'STRICT TDD MODE',
+						body: `<div class="tui-muted">Should agents follow Strict TDD (RED → GREEN → REFACTOR) for every task?</div><div class="tui-overlay">When enabled, the sdd-apply agent writes tests first, confirms failure,</div><div class="tui-overlay">then implements the minimum code to pass before refactoring.</div><div class="tui-screen-list">${['Enable', 'Disable'].map((item, index) => radioRow(item, (ctx.strictTdd && index === 0) || (!ctx.strictTdd && index === 1), ctx.cursor === index)).join('')}</div>`,
+						options: ['Back'],
+						optionCursor: ctx.cursor - 2,
+						help: 'j/k: navigate • enter: select • esc: back'
+					};
+				case 'dependency':
+					return {
+						title: ctx.preset === 'custom' ? 'Select Components' : 'Install Plan',
+						body: `<div class="tui-screen-list">${INSTALL_COMPONENTS.map((item, index) => `<div>${ctx.preset === 'custom' ? checkboxRow(item[0], true, ctx.cursor === index) : `  <span class="tui-overlay">${index + 1}.</span> ${item[0]} <span class="${item[1] === 'auto-dependency' ? 'tui-warning' : 'tui-success'}">${item[1]}</span>`}</div>`).join('')}</div>`,
+						options: ['Continue', 'Back'],
+						optionCursor: ctx.preset === 'custom' ? ctx.cursor - INSTALL_COMPONENTS.length : ctx.cursor,
+						help: 'j/k: navigate • enter: select • esc: back'
+					};
+				case 'review':
+					return {
+						title: 'Review and Confirm',
+						body: `
+							<div class="tui-screen-meta">  <span class="tui-mauve">Agents</span>  <span>${Array.from(ctx.selectedAgents).join(', ')}</span></div>
+							<div class="tui-screen-meta">  <span class="tui-mauve">Persona</span>  <span>${ctx.persona}</span></div>
+							<div class="tui-screen-meta">  <span class="tui-mauve">Preset</span>  <span>${ctx.preset}</span></div>
+							${ctx.selectedAgents.has('claude-code') && ctx.preset !== 'minimal' ? `<div class="tui-screen-meta">  <span class="tui-mauve">Claude preset</span>  <span>${ctx.claudePreset}</span></div>` : ''}
+							${ctx.selectedAgents.has('opencode') && ctx.preset !== 'minimal' ? `<div class="tui-screen-meta">  <span class="tui-mauve">SDD mode</span>  <span>${ctx.sddMode}</span></div>` : ''}
+							${ctx.preset !== 'minimal' ? `<div class="tui-screen-meta">  <span class="tui-mauve">Strict TDD</span>  <span>${ctx.strictTdd ? 'Enabled' : 'Disabled'}</span></div>` : ''}
+							<div class="tui-screen-list">
+								<div class="tui-mauve">Components</div>
+								<div>  engram <span class="tui-overlay">selected</span></div>
+								<div>  sdd <span class="tui-overlay">selected</span></div>
+								<div>  skills <span class="tui-overlay">selected</span></div>
+								<div>  strict tdd <span class="tui-overlay">disabled</span></div>
+							</div>
+						`,
+						options: ['Install', 'Back'],
+						help: 'enter: install • esc: back'
+					};
+				case 'installing':
+					return {
+						title: 'Installing',
+						body: `${progressBar(ctx.percent)}<div class="tui-mauve">${ctx.percent}%</div><div class="tui-muted">Current: ${ctx.logs[ctx.logs.length - 1] || 'Preparing install pipeline…'}</div><div class="tui-screen-list">${['Detect installed agents', 'Write configs', 'Inject SDD prompts', 'Register MCP', 'Finalize install'].map((item, index) => {
+							const status = ctx.percent >= (index + 1) * 20 ? '<span class="tui-success">✓</span>' : index === Math.floor(ctx.percent / 20) ? `<span class="tui-warning">${SPINNER[state.spinner]}</span>` : '<span class="tui-overlay">·</span>';
+							return `<div>  ${status} ${item}</div>`;
+						}).join('')}</div>${ctx.logs.length ? `<div class="tui-progress-log"><div class="tui-mauve">Logs</div>${ctx.logs.slice(-5).map((line) => `<div class="tui-overlay">  ${escapeHtml(line)}</div>`).join('')}</div>` : ''}`,
+						help: 'please wait...'
+					};
+				case 'complete':
+					return {
+						title: 'Done! Your AI agents are ready.',
+						body: `
+							<div class="tui-screen-meta">  <span class="tui-mauve">Configured agents</span>  <span class="tui-success">${ctx.selectedAgents.size}</span></div>
+							<div class="tui-screen-meta">  <span class="tui-mauve">Installed components</span>  <span class="tui-success">6</span></div>
+							<div class="tui-screen-list">
+								<div class="tui-mauve">Next steps</div>
+								<div>  1. Set your API keys</div>
+								<div>  2. Run your selected agent</div>
+								<div>  3. Ask your agent to "use sdd" on your next feature</div>
+							</div>
+						`,
+						help: 'enter: return • r: restart'
+					};
+				default:
+					return { title: 'Start installation', body: '', help: '' };
+			}
+		}
+
+		function renderUpgradeScreen(ctx) {
+			if (ctx.step === 'checking') {
+				return { title: 'Upgrade Tools', body: `<div class="tui-warning">${SPINNER[state.spinner]}  Checking for updates...</div><div class="tui-subhelp">Fetching latest version info...</div>`, help: 'please wait...' };
+			}
+			if (ctx.step === 'ready') {
+				return {
+					title: 'Upgrade Tools',
+					body: `<div>  <span class="tui-warning">↑</span> gentle-ai  <span class="tui-overlay">v1.18.2</span> → <span class="tui-success">v1.18.3</span></div><div>  <span class="tui-success">✓</span> engram  <span class="tui-success">up to date</span>  <span class="tui-overlay">v1.1.0</span></div><div>  <span class="tui-success">✓</span> gga  <span class="tui-success">up to date</span>  <span class="tui-overlay">v0.5.2</span></div><div class="tui-selection-block"></div><div class="tui-mauve">Press enter to upgrade all</div>`,
+					help: 'enter: upgrade • esc: back • q: quit'
+				};
+			}
+			if (ctx.step === 'running') {
+				return { title: 'Upgrade Tools', body: `<div class="tui-warning">${SPINNER[state.spinner]}  Upgrading tools...</div><div class="tui-subhelp">Please wait...</div>`, help: 'please wait...' };
+			}
+			return { title: 'Upgrade Tools', body: `<div>  <span class="tui-success">✓</span> gentle-ai  <span class="tui-overlay">v1.18.2</span> → <span class="tui-success">v1.18.3</span></div><div>  <span class="tui-overlay">-</span> engram  <span class="tui-overlay">(skipped)</span></div><div class="tui-selection-block"></div><div class="tui-mauve">Summary:</div><div><span class="tui-success">1 upgraded</span>  <span class="tui-overlay">1 skipped</span></div>`, help: 'enter: return • esc: back • q: quit' };
+		}
+
+		function renderSyncScreen(ctx) {
+			if (ctx.step === 'confirm') {
+				return { title: 'Sync Configurations', body: `<div class="tui-screen-copy"><p>Sync will re-apply your dotfile configurations</p><p>to all detected AI agents on this machine.</p><br /><p class="tui-muted">This operation:</p><ul><li>Reads your current agent selections</li><li>Re-writes agent config files from templates</li><li>Does not modify your global dotfiles</li></ul><br /><p class="tui-mauve">Press enter to sync</p></div>`, help: 'enter: confirm • esc: back • q: quit' };
+			}
+			if (ctx.step === 'running') {
+				return { title: 'Sync Configurations', body: `<div class="tui-warning">${SPINNER[state.spinner]}  Syncing configurations...</div><div class="tui-subhelp">Please wait...</div>`, help: 'please wait...' };
+			}
+			return { title: 'Sync Configurations', body: `<div class="tui-success">✓ Sync complete</div><div class="tui-selection-block"></div><div><span class="tui-mauve">3 file(s)</span> synchronized</div>`, help: 'enter: return • esc: back • q: quit' };
+		}
+
+		function renderUpgradeSyncScreen(ctx) {
+			if (ctx.step === 'confirm') {
+				return { title: 'Upgrade + Sync', body: `<div class="tui-screen-copy"><p>This will perform two operations in sequence:</p><br /><p>  <span class="tui-warning">1.</span> <span class="tui-mauve">Upgrade tools</span></p><p class="tui-overlay">     Updates gentle-ai, engram, and gga to latest versions</p><br /><p>  <span class="tui-warning">2.</span> <span class="tui-mauve">Sync configurations</span></p><p class="tui-overlay">     Re-applies dotfile configs to all detected agents</p><br /><p class="tui-warning">Updates available — tools will be upgraded</p><br /><p class="tui-mauve">Press enter to begin</p></div>`, help: 'enter: confirm • esc: back • q: quit' };
+			}
+			if (ctx.step === 'upgrading') {
+				return { title: 'Upgrade + Sync', body: `<div class="tui-warning">${SPINNER[state.spinner]}  Upgrading tools...</div><div class="tui-subhelp">Please wait...</div>`, help: 'please wait...' };
+			}
+			if (ctx.step === 'syncing') {
+				return { title: 'Upgrade + Sync', body: `<div class="tui-success">✓ Upgrade complete</div><br /><div class="tui-warning">${SPINNER[state.spinner]}  Syncing configurations...</div><div class="tui-subhelp">Please wait...</div>`, help: 'please wait...' };
+			}
+			return { title: 'Upgrade + Sync', body: `<div class="tui-mauve">Upgrade Results</div><br /><div>  <span class="tui-success">✓</span> gentle-ai  <span class="tui-overlay">v1.18.2</span> → <span class="tui-success">v1.18.3</span></div><div>  <span class="tui-overlay">-</span> gga <span class="tui-overlay">(skipped)</span></div><br /><div class="tui-mauve">Sync Results</div><br /><div>  <span class="tui-success">✓</span> <span class="tui-mauve">3 file(s)</span> synchronized</div>`, help: 'enter: return • esc: back • q: quit' };
+		}
+
+		function renderModelsScreen(ctx) {
+			if (ctx.step === 'entry') {
+				return { title: 'Model Configuration', framed: true, body: `<div class="tui-muted">Choose which AI model to configure:</div><div class="tui-screen-list">${['Configure Claude models', 'Configure OpenCode models', 'Back'].map((item, index) => optionRow(item, ctx.cursor === index)).join('')}</div>`, help: 'j/k: navigate • enter: select • esc: back • q: quit' };
+			}
+			if (ctx.step === 'claude-presets') {
+				return { title: 'Claude Model Assignments', body: `<div class="tui-muted">Choose how Claude models are assigned to each SDD phase:</div><div class="tui-screen-list">${CLAUDE_PRESETS.map(([name, desc], index) => `${index < CLAUDE_PRESETS.length - 1 ? radioRow(name, ctx.claudePreset === name, ctx.cursor === index) : optionRow(name, ctx.cursor === index)}${desc ? `<div class="tui-overlay">    ${escapeHtml(desc)}</div>` : ''}`).join('')}</div>`, help: 'j/k: navigate • enter: select • esc: back • q: quit' };
+			}
+			if (ctx.step === 'claude-custom') {
+				return { title: 'Claude Model Assignments', body: `<div class="tui-muted">Pick the model alias for each SDD phase individually:</div><div class="tui-screen-list">${CLAUDE_PHASES.map((phase, index) => {
+					if (phase === 'Confirm' || phase === 'Back') return optionRow(phase, ctx.cursor === index);
+					const alias = ctx.claudeAssignments?.[phase] || 'sonnet';
+					return optionRow(`${phase}  →  ${alias}`, ctx.cursor === index);
+				}).join('')}</div>`, help: 'j/k: navigate • enter: cycle/confirm • esc: back' };
+			}
+			if (ctx.step === 'opencode-phases') {
+				return { title: 'Model Picker', body: `<div class="tui-muted">Assign provider/model pairs to the orchestrator and SDD phases:</div><div class="tui-screen-list">${OPENCODE_PHASES.map((phase, index) => {
+					if (phase === 'Continue' || phase === 'Back') return optionRow(phase, ctx.cursor === index);
+					if (phase === 'Set all phases') {
+						const allLabel = ctx.allPhasesModel ? `${ctx.allPhasesModel.provider} / ${ctx.allPhasesModel.model}` : 'not set';
+						return optionRow(`${phase}  →  ${allLabel}`, ctx.cursor === index);
+					}
+					const assigned = ctx.modelAssignments?.[phase];
+					const suffix = assigned ? `${assigned.provider} / ${assigned.model}` : 'not set';
+					return optionRow(`${phase}  →  ${suffix}`, ctx.cursor === index);
+				}).join('')}</div>`, help: 'j/k: navigate • enter: select • esc: back' };
+			}
+			if (ctx.step === 'provider-select') {
+				return { title: 'Model Picker', body: `<div class="tui-muted">Choose provider for ${escapeHtml(ctx.selectedPhase)}:</div><div class="tui-screen-list">${PROVIDERS.map((provider, index) => optionRow(provider, ctx.cursor === index)).join('')}</div>`, help: 'j/k: navigate • enter: select • esc: back' };
+			}
+			if (ctx.step === 'model-select') {
+				return { title: 'Model Picker', body: `<div class="tui-muted">Choose model from ${escapeHtml(ctx.selectedProvider)}:</div><div class="tui-screen-list">${MODELS.map((model, index) => optionRow(model, ctx.cursor === index)).join('')}</div>`, help: 'j/k: navigate • enter: select • esc: back' };
+			}
+			if (ctx.step === 'sync-confirm') {
+				return { title: 'Sync Configurations', body: `<div class="tui-muted">Sync will re-apply model assignments to the selected agents.</div><br /><div class="tui-mauve">Press enter to sync</div>`, help: 'enter: confirm • esc: back • q: quit' };
+			}
+			if (ctx.step === 'sync-running') {
+				return { title: 'Sync Configurations', body: `<div class="tui-warning">${SPINNER[state.spinner]}  Syncing configurations...</div><div class="tui-subhelp">Please wait...</div>`, help: 'please wait...' };
+			}
+			return { title: 'Sync Configurations', body: `<div class="tui-success">✓ Sync complete</div><br /><div><span class="tui-mauve">2 file(s)</span> synchronized</div>`, help: 'enter: return • esc: back • q: quit' };
+		}
+
+		function renderBuilderScreen(ctx) {
+			if (ctx.step === 'engine') {
+				return { title: 'Choose Your AI Engine', body: `<div class="tui-muted">Which installed agent should help you build your sub-agent?</div><div class="tui-screen-list">${['claude-code', 'opencode', 'gemini-cli', 'codex', 'Back'].map((item, index) => optionRow(item, ctx.cursor === index)).join('')}</div>`, help: 'j/k: navigate • enter: select • esc: back' };
+			}
+			if (ctx.step === 'prompt') {
+				return { title: 'Describe Your Agent', body: `<div class="tui-muted">What should your custom agent do? Some ideas:</div><div class="tui-overlay">  • Review CSS for a11y issues</div><div class="tui-overlay">  • Generate API docs from code</div><div class="tui-overlay">  • Validate DB migrations</div><br /><textarea id="tui-builder-textarea" class="tui-textarea" rows="6" placeholder="Describe what you want your agent to do...">${escapeHtml(ctx.prompt)}</textarea><br /><div class="tui-subhelp">type your description • ctrl+enter or tab to continue • esc: back</div>`, help: '' };
+			}
+			if (ctx.step === 'sdd') {
+				return { title: 'SDD Integration', body: `<div class="tui-muted">How should your agent integrate with the SDD workflow?</div><div class="tui-screen-list">${['Standalone — no SDD integration', 'New SDD Phase — add a new phase to the SDD graph', 'Phase Support — enhance an existing SDD phase', 'Back'].map((item, index) => optionRow(item, ctx.cursor === index)).join('')}</div>`, help: 'j/k: navigate • enter: select • esc: back' };
+			}
+			if (ctx.step === 'sdd-phase') {
+				return { title: 'Select SDD Phase', body: `<div class="tui-muted">${ctx.sddMode === 'new-phase' ? 'Insert after which phase? (your new phase will follow it)' : 'Support which phase? (your agent will enhance this phase)'}</div><div class="tui-screen-list">${['explore', 'propose', 'spec', 'design', 'tasks', 'apply', 'verify', 'archive', 'Back'].map((item, index) => optionRow(item === 'Back' ? item : `${ctx.sddMode === 'new-phase' ? 'Insert after: ' : 'Support phase: '}${item}`, ctx.cursor === index)).join('')}</div>`, help: 'j/k: navigate • enter: select • esc: back' };
+			}
+			if (ctx.step === 'generating') {
+				return { title: 'Generating Your Agent...', body: `<div class="tui-warning">${SPINNER[state.spinner]}  Running ${escapeHtml(ctx.engine)}...</div><br /><div class="tui-muted">Composing prompt and calling generation engine. This may take a moment.</div>`, help: 'esc: cancel' };
+			}
+			if (ctx.step === 'preview') {
+				return { title: 'Preview: audit-css-agent', body: `<div class="tui-screen-meta"><span class="tui-mauve">Name:</span> audit-css-agent</div><div class="tui-screen-meta"><span class="tui-mauve">Description:</span> Review CSS for a11y and visual regressions</div><div class="tui-screen-meta"><span class="tui-mauve">Trigger:</span> audit css, check ui, review styles</div><div class="tui-screen-meta"><span class="tui-mauve">SDD:</span> ${escapeHtml(ctx.sddMode)}</div><br /><div class="tui-mauve">SKILL.md content:</div><div class="tui-preview-body"># audit-css-agent\n\nTrigger: audit css\n\n- Review CSS for accessibility issues\n- Validate color contrast\n- Flag layout regressions\n- Suggest deterministic fixes</div><br /><div class="tui-mauve">Will be installed to:</div><div class="tui-overlay">  ~/.config/gentle-ai/agents/audit-css-agent</div><div class="tui-screen-list">${['Install', 'Regenerate', 'Back'].map((item, index) => optionRow(item, ctx.cursor === index)).join('')}</div>`, help: '↑/↓: scroll content • j/k: navigate actions • enter: select • esc: back' };
+			}
+			if (ctx.step === 'installing') {
+				return { title: 'Installing Agent', body: `${progressBar(100)}<div class="tui-mauve">100%</div><div class="tui-screen-list"><div>  <span class="tui-success">✓</span> Write agent files</div><div>  <span class="tui-success">✓</span> Register metadata</div><div>  <span class="tui-success">✓</span> Sync configs</div></div>`, help: 'please wait...' };
+			}
+			return { title: 'Agent Installed', body: `<div class="tui-success">Done! Your custom agent is ready.</div><br /><div class="tui-overlay">Install target: ~/.config/gentle-ai/agents/audit-css-agent</div>`, help: 'enter: return • r: restart' };
+		}
+
+		function renderBackupsScreen(ctx) {
+			if (ctx.step === 'list') {
+				const items = ctx.backups.map((item, index) => {
+					const label = `${item.id}  (${item.label}${item.description ? `  — ${item.description}` : ''})${item.pinned ? '  [pinned]' : ''}`;
+					return optionRow(label, ctx.cursor === index);
+				}).join('');
+				return { title: 'Backup Management', body: `<div class="tui-screen-list">${items}${optionRow('Back', ctx.cursor === ctx.backups.length)}</div>`, help: 'j/k: navigate • enter: restore • r: rename • d: delete • p: pin/unpin • esc: back' };
+			}
+			if (ctx.step === 'restore-confirm') {
+				return { title: 'Restore Backup', body: `<div><span class="tui-mauve">Backup:</span> <span class="tui-lavender">${escapeHtml(ctx.selected.id)}</span></div><div class="tui-overlay">${escapeHtml(ctx.selected.label)}</div><br /><div class="tui-warning">This will overwrite your current configuration.</div><div class="tui-screen-list">${['Restore', 'Cancel'].map((item, index) => optionRow(item, ctx.cursor === index)).join('')}</div>`, help: 'j/k: navigate • enter: select • esc: back' };
+			}
+			if (ctx.step === 'restore-result') {
+				return { title: 'Restore Result', body: `<div class="tui-success">✓ Restore complete</div><br /><div class="tui-overlay">Restored: ${escapeHtml(ctx.selected.id)}</div><div class="tui-overlay">${escapeHtml(ctx.selected.label)}</div>`, help: 'enter: back to backups • esc: back' };
+			}
+			if (ctx.step === 'delete-confirm') {
+				return { title: 'Delete Backup', body: `<div><span class="tui-mauve">Backup:</span> <span class="tui-lavender">${escapeHtml(ctx.selected.id)}</span></div><div class="tui-overlay">${escapeHtml(ctx.selected.label)}</div><br /><div class="tui-warning">Are you sure you want to permanently delete this backup?</div><div class="tui-warning">This action cannot be undone.</div><div class="tui-screen-list">${['Delete', 'Cancel'].map((item, index) => optionRow(item, ctx.cursor === index)).join('')}</div>`, help: 'j/k: navigate • enter: select • esc: back' };
+			}
+			if (ctx.step === 'delete-result') {
+				return { title: 'Delete Result', body: `<div class="tui-success">✓ Backup deleted</div><br /><div class="tui-overlay">Deleted: ${escapeHtml(ctx.selected.id)}</div>`, help: 'enter: back to backups • esc: back' };
+			}
+			return { title: 'Rename Backup', body: `<div><span class="tui-mauve">Backup:</span> <span class="tui-lavender">${escapeHtml(ctx.renameTarget.id)}</span></div><div class="tui-overlay">${escapeHtml(ctx.renameTarget.label)}</div><br /><label class="tui-mauve" for="tui-backup-rename-input">New description:</label><input id="tui-backup-rename-input" class="tui-input" value="${escapeHtml(ctx.renameValue)}" /><div class="tui-subhelp">enter: save • esc: cancel</div>`, help: '' };
+		}
+
+		function renderQuitScreen() {
+			return { title: '', body: '', help: '' };
+		}
+
+		function renderDetail() {
+			phasePrompt.hidden = true;
+			phaseMenu.hidden = true;
+			phaseScreen.hidden = false;
+
+			const ctx = state.detail;
+			if (!ctx) return;
+
+			let screen;
+			switch (ctx.flow) {
+				case 'install': screen = renderInstallScreen(ctx); break;
+				case 'upgrade': screen = renderUpgradeScreen(ctx); break;
+				case 'sync': screen = renderSyncScreen(ctx); break;
+				case 'upgrade-sync': screen = renderUpgradeSyncScreen(ctx); break;
+				case 'models': screen = renderModelsScreen(ctx); break;
+				case 'builder': screen = renderBuilderScreen(ctx); break;
+				case 'backups': screen = renderBackupsScreen(ctx); break;
+				case 'quit': screen = renderQuitScreen(ctx); break;
+				default: screen = { title: '', body: '', help: '' };
+			}
+
+			const wrapperClass = screen.framed ? 'tui-frame' : '';
+			const actionOptions = Array.isArray(screen.options) && screen.options.length
+				? `<div class="tui-action-options">${screen.options.map((option, index) => {
+					const optionCursor = Number.isInteger(screen.optionCursor) ? screen.optionCursor : (Number.isInteger(ctx.cursor) ? ctx.cursor : -1);
+					return optionRow(tx(option), optionCursor === index);
+				}).join('')}</div>`
+				: '';
+			const localizedTitle = screen.title ? tx(screen.title) : '';
+			const localizedBody = txHtml(screen.body || '');
+			const localizedHelp = screen.help ? tx(screen.help) : '';
+			screenEl.innerHTML = `<div class="${wrapperClass}">${localizedTitle ? `<div class="tui-screen-title">${escapeHtml(localizedTitle)}</div>` : ''}${localizedBody}${actionOptions}${localizedHelp ? `<div class="tui-help">${escapeHtml(localizedHelp)}</div>` : ''}</div>`;
+			if (ctx.flow === 'quit') {
+				showRestartHint();
+			} else if (ctx.step === 'complete' || ctx.step === 'result' || ctx.step?.endsWith('result')) {
+				showRestartHint();
+			} else {
+				hideRestartHint();
+			}
+			bindTransientInputs();
+			if (!currentTextInput()) {
+				root.focus();
+			}
+		}
+
+		function bindTransientInputs() {
+			const textarea = document.getElementById('tui-builder-textarea');
+			if (textarea) {
+				textarea.addEventListener('input', (event) => {
+					if (state.detail?.flow === 'builder' && state.detail.step === 'prompt') {
+						state.detail.prompt = event.currentTarget.value;
+					}
+				}, { signal: active.signal });
+				scheduleTimeout(() => textarea.focus(), 0);
+			}
+			const renameInput = document.getElementById('tui-backup-rename-input');
+			if (renameInput) {
+				renameInput.addEventListener('input', (event) => {
+					if (state.detail?.flow === 'backups' && state.detail.step === 'rename') {
+						state.detail.renameValue = event.currentTarget.value;
+					}
+				}, { signal: active.signal });
+				scheduleTimeout(() => renameInput.focus(), 0);
+			}
+		}
+
+		function beginFlow(optionId) {
+			clearScheduled();
+			state.phase = 'detail';
+			state.detail = initialDetail(optionId);
+			renderDetail();
+			const ctx = state.detail;
+			if (!ctx) return;
+			if (ctx.flow === 'upgrade' && ctx.step === 'checking') {
+				setupAutoStep(ctx, 900, 'ready');
+			}
+		}
+
+		function backToMenu() {
+			clearScheduled();
+			state.phase = 'menu';
+			state.detail = null;
+			renderMenu();
+		}
+
+		function restartDemo() {
+			clearScheduled();
+			hideRestartHint();
+			state.phase = 'prompt';
+			state.mainCursor = 0;
+			state.detail = null;
+			phaseScreen.hidden = true;
+			phaseMenu.hidden = true;
+			phasePrompt.hidden = false;
+			typedEl.textContent = '';
+			cursorEl.style.display = '';
+			startObserver();
+		}
+
+		function handleMenuKey(event) {
+			if (event.key === 'ArrowDown' || event.key === 'j') {
+				event.preventDefault();
+				state.mainCursor = (state.mainCursor + 1) % MAIN_OPTIONS.length;
+				renderMenu();
+				return;
+			}
+			if (event.key === 'ArrowUp' || event.key === 'k') {
+				event.preventDefault();
+				state.mainCursor = (state.mainCursor - 1 + MAIN_OPTIONS.length) % MAIN_OPTIONS.length;
+				renderMenu();
+				return;
+			}
+			if (event.key === 'Enter') {
+				event.preventDefault();
+				beginFlow(MAIN_OPTIONS[state.mainCursor].id);
+				return;
+			}
+			if (event.key === 'q') {
+				event.preventDefault();
+				beginFlow('quit');
+			}
+		}
+
+		function handleInstall(event, ctx) {
+			switch (ctx.step) {
+				case 'detection': {
+					const options = ['Continue', 'Back'];
+					if (['ArrowDown', 'j'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor + 1) % options.length; renderDetail(); }
+					else if (['ArrowUp', 'k'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor - 1 + options.length) % options.length; renderDetail(); }
+					else if (event.key === 'Enter') { event.preventDefault(); if (ctx.cursor === 0) { ctx.step = 'agents'; ctx.cursor = 0; renderDetail(); } else { backToMenu(); } }
+					else if (event.key === 'Escape') { event.preventDefault(); backToMenu(); }
+					break;
+				}
+				case 'agents': {
+					const total = INSTALL_AGENTS.length + 2;
+					if (['ArrowDown', 'j'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor + 1) % total; renderDetail(); }
+					else if (['ArrowUp', 'k'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor - 1 + total) % total; renderDetail(); }
+					else if (event.key === ' ' && ctx.cursor < INSTALL_AGENTS.length) { event.preventDefault(); const id = INSTALL_AGENTS[ctx.cursor]; ctx.selectedAgents.has(id) ? ctx.selectedAgents.delete(id) : ctx.selectedAgents.add(id); renderDetail(); }
+					else if (event.key === 'Enter') {
+						event.preventDefault();
+						if (ctx.cursor < INSTALL_AGENTS.length) {
+							const id = INSTALL_AGENTS[ctx.cursor];
+							ctx.selectedAgents.has(id) ? ctx.selectedAgents.delete(id) : ctx.selectedAgents.add(id);
+							renderDetail();
+						} else if (ctx.cursor === INSTALL_AGENTS.length && ctx.selectedAgents.size > 0) {
+							ctx.step = 'persona';
+							ctx.cursor = 0;
+							renderDetail();
+						} else if (ctx.cursor === INSTALL_AGENTS.length + 1) {
+							ctx.step = 'detection';
+							ctx.cursor = 0;
+							renderDetail();
+						}
+					}
+					else if (event.key === 'Escape') { event.preventDefault(); ctx.step = 'detection'; ctx.cursor = 0; renderDetail(); }
+					break;
+				}
+				case 'persona': {
+					const total = PERSONAS.length + 1;
+					if (['ArrowDown', 'j'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor + 1) % total; renderDetail(); }
+					else if (['ArrowUp', 'k'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor - 1 + total) % total; renderDetail(); }
+					else if (event.key === 'Enter') {
+						event.preventDefault();
+						if (ctx.cursor < PERSONAS.length) { ctx.persona = PERSONAS[ctx.cursor].id; ctx.step = 'preset'; ctx.cursor = 0; renderDetail(); }
+						else { ctx.step = 'agents'; ctx.cursor = 0; renderDetail(); }
+					}
+					else if (event.key === 'Escape') { event.preventDefault(); ctx.step = 'agents'; ctx.cursor = 0; renderDetail(); }
+					break;
+				}
+				case 'preset': {
+					const total = PRESETS.length + 1;
+					if (['ArrowDown', 'j'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor + 1) % total; renderDetail(); }
+					else if (['ArrowUp', 'k'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor - 1 + total) % total; renderDetail(); }
+					else if (event.key === 'Enter') {
+						event.preventDefault();
+						if (ctx.cursor < PRESETS.length) {
+							ctx.preset = PRESETS[ctx.cursor].id;
+							if (ctx.selectedAgents.has('claude-code') && ctx.preset !== 'minimal') {
+								ctx.step = 'claude-models';
+								ctx.cursor = 0;
+							} else if (ctx.selectedAgents.has('opencode') && ctx.preset !== 'minimal') {
+								ctx.step = 'sdd-mode';
+								ctx.cursor = 0;
+							} else if (ctx.preset !== 'minimal') {
+								ctx.step = 'strict-tdd';
+								ctx.cursor = 0;
+							} else {
+								ctx.step = 'dependency';
+								ctx.cursor = 0;
+							}
+							renderDetail();
+						}
+						else { ctx.step = 'persona'; ctx.cursor = 0; renderDetail(); }
+					}
+					else if (event.key === 'Escape') { event.preventDefault(); ctx.step = 'persona'; ctx.cursor = 0; renderDetail(); }
+					break;
+				}
+				case 'claude-models': {
+					const total = CLAUDE_PRESETS.length;
+					if (['ArrowDown', 'j'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor + 1) % total; renderDetail(); }
+					else if (['ArrowUp', 'k'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor - 1 + total) % total; renderDetail(); }
+					else if (event.key === 'Enter') {
+						event.preventDefault();
+						const choice = CLAUDE_PRESETS[ctx.cursor][0];
+						if (choice === 'Back') { ctx.step = 'preset'; ctx.cursor = 0; }
+						else if (choice === 'custom') {
+							ctx.claudeAssignments = Object.fromEntries(CLAUDE_PHASES.slice(0, 10).map((phase) => [phase, 'sonnet']));
+							ctx.step = 'claude-custom';
+							ctx.cursor = 0;
+						} else {
+							ctx.claudePreset = choice;
+							ctx.step = ctx.selectedAgents.has('opencode') ? 'sdd-mode' : 'strict-tdd';
+							ctx.cursor = 0;
+						}
+						renderDetail();
+					}
+					else if (event.key === 'Escape') { event.preventDefault(); ctx.step = 'preset'; ctx.cursor = 0; renderDetail(); }
+					break;
+				}
+				case 'claude-custom': {
+					const total = CLAUDE_PHASES.length;
+					if (['ArrowDown', 'j'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor + 1) % total; renderDetail(); }
+					else if (['ArrowUp', 'k'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor - 1 + total) % total; renderDetail(); }
+					else if (event.key === 'Enter') {
+						event.preventDefault();
+						const choice = CLAUDE_PHASES[ctx.cursor];
+						if (choice === 'Back') { ctx.step = 'claude-models'; ctx.cursor = 0; }
+						else if (choice === 'Confirm') { ctx.step = ctx.selectedAgents.has('opencode') ? 'sdd-mode' : 'strict-tdd'; ctx.cursor = 0; }
+						else {
+							ctx.claudeAssignments ??= Object.fromEntries(CLAUDE_PHASES.slice(0, 10).map((phase) => [phase, 'sonnet']));
+							ctx.claudeAssignments[choice] = nextAlias(ctx.claudeAssignments[choice] || 'sonnet');
+						}
+						renderDetail();
+					}
+					else if (event.key === 'Escape') { event.preventDefault(); ctx.step = 'claude-models'; ctx.cursor = 0; renderDetail(); }
+					break;
+				}
+				case 'sdd-mode': {
+					const total = 3;
+					if (['ArrowDown', 'j'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor + 1) % total; renderDetail(); }
+					else if (['ArrowUp', 'k'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor - 1 + total) % total; renderDetail(); }
+					else if (event.key === 'Enter') {
+						event.preventDefault();
+						if (ctx.cursor === 0) { ctx.sddMode = 'single'; ctx.step = 'strict-tdd'; ctx.cursor = 0; }
+						else if (ctx.cursor === 1) { ctx.sddMode = 'multi'; ctx.step = 'strict-tdd'; ctx.cursor = 0; }
+						else { ctx.step = ctx.selectedAgents.has('claude-code') ? 'claude-models' : 'preset'; ctx.cursor = 0; }
+						renderDetail();
+					}
+					else if (event.key === 'Escape') { event.preventDefault(); ctx.step = ctx.selectedAgents.has('claude-code') ? 'claude-models' : 'preset'; ctx.cursor = 0; renderDetail(); }
+					break;
+				}
+				case 'strict-tdd': {
+					const total = 3;
+					if (['ArrowDown', 'j'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor + 1) % total; renderDetail(); }
+					else if (['ArrowUp', 'k'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor - 1 + total) % total; renderDetail(); }
+					else if (event.key === 'Enter') {
+						event.preventDefault();
+						if (ctx.cursor === 0) { ctx.strictTdd = true; ctx.step = 'dependency'; ctx.cursor = 0; }
+						else if (ctx.cursor === 1) { ctx.strictTdd = false; ctx.step = 'dependency'; ctx.cursor = 0; }
+						else { ctx.step = ctx.selectedAgents.has('opencode') ? 'sdd-mode' : (ctx.selectedAgents.has('claude-code') ? 'claude-models' : 'preset'); ctx.cursor = 0; }
+						renderDetail();
+					}
+					else if (event.key === 'Escape') { event.preventDefault(); ctx.step = ctx.selectedAgents.has('opencode') ? 'sdd-mode' : (ctx.selectedAgents.has('claude-code') ? 'claude-models' : 'preset'); ctx.cursor = 0; renderDetail(); }
+					break;
+				}
+				case 'dependency': {
+					const actionStart = ctx.preset === 'custom' ? INSTALL_COMPONENTS.length : 0;
+					const total = actionStart + 2;
+					if (['ArrowDown', 'j'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor + 1) % total; renderDetail(); }
+					else if (['ArrowUp', 'k'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor - 1 + total) % total; renderDetail(); }
+					else if ((event.key === ' ' || event.key === 'Enter') && ctx.preset === 'custom' && ctx.cursor < INSTALL_COMPONENTS.length) { event.preventDefault(); renderDetail(); }
+					else if (event.key === 'Enter') { event.preventDefault(); if (ctx.cursor === actionStart) { ctx.step = 'review'; ctx.cursor = 0; renderDetail(); } else if (ctx.cursor === actionStart + 1) { ctx.step = ctx.preset !== 'minimal' ? 'strict-tdd' : 'preset'; ctx.cursor = 0; renderDetail(); } }
+					else if (event.key === 'Escape') { event.preventDefault(); ctx.step = ctx.preset !== 'minimal' ? 'strict-tdd' : 'preset'; ctx.cursor = 0; renderDetail(); }
+					break;
+				}
+				case 'review': {
+					const options = ['Install', 'Back'];
+					if (['ArrowDown', 'j'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor + 1) % options.length; renderDetail(); }
+					else if (['ArrowUp', 'k'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor - 1 + options.length) % options.length; renderDetail(); }
+					else if (event.key === 'Enter') {
+						event.preventDefault();
+						if (ctx.cursor === 0) { ctx.step = 'installing'; installAutoScreens(ctx); renderDetail(); }
+						else { ctx.step = 'dependency'; ctx.cursor = 0; renderDetail(); }
+					}
+					else if (event.key === 'Escape') { event.preventDefault(); ctx.step = 'dependency'; ctx.cursor = 0; renderDetail(); }
+					break;
+				}
+				case 'complete':
+					if (event.key === 'Enter' || event.key === 'Escape') { event.preventDefault(); backToMenu(); }
+					break;
+			}
+		}
+
+		function handleUpgrade(event, ctx) {
+			if (ctx.step === 'ready' && event.key === 'Enter') { event.preventDefault(); ctx.step = 'running'; renderDetail(); setupAutoStep(ctx, 1400, 'result'); }
+			else if (ctx.step === 'result' && (event.key === 'Enter' || event.key === 'Escape')) { event.preventDefault(); backToMenu(); }
+			else if (['checking', 'running'].includes(ctx.step) && event.key === 'Escape') { event.preventDefault(); backToMenu(); }
+			else if (event.key === 'Escape' && ctx.step === 'ready') { event.preventDefault(); backToMenu(); }
+		}
+
+		function handleSync(event, ctx) {
+			if (ctx.step === 'confirm' && event.key === 'Enter') { event.preventDefault(); ctx.step = 'running'; renderDetail(); setupAutoStep(ctx, 1200, 'result'); }
+			else if (ctx.step === 'result' && (event.key === 'Enter' || event.key === 'Escape')) { event.preventDefault(); backToMenu(); }
+			else if (ctx.step === 'confirm' && event.key === 'Escape') { event.preventDefault(); backToMenu(); }
+		}
+
+		function handleUpgradeSync(event, ctx) {
+			if (ctx.step === 'confirm' && event.key === 'Enter') {
+				event.preventDefault();
+				ctx.step = 'upgrading';
+				renderDetail();
+				startSpinner();
+				scheduleTimeout(() => {
+					if (!state.detail || state.detail !== ctx || ctx.step !== 'upgrading') return;
+					ctx.step = 'syncing';
+					renderDetail();
+				}, 1200);
+				scheduleTimeout(() => {
+					if (!state.detail || state.detail !== ctx || ctx.step !== 'syncing') return;
+					stopSpinner();
+					ctx.step = 'result';
+					renderDetail();
+				}, 2400);
+			} else if (ctx.step === 'result' && (event.key === 'Enter' || event.key === 'Escape')) {
+				event.preventDefault();
+				backToMenu();
+			} else if (ctx.step === 'confirm' && event.key === 'Escape') {
+				event.preventDefault();
+				backToMenu();
+			}
+		}
+
+		function handleModels(event, ctx) {
+			const max = (step) => {
+				switch (step) {
+					case 'entry': return 3;
+					case 'claude-presets': return CLAUDE_PRESETS.length;
+					case 'claude-custom': return CLAUDE_PHASES.length;
+					case 'opencode-phases': return OPENCODE_PHASES.length;
+					case 'provider-select': return PROVIDERS.length;
+					case 'model-select': return MODELS.length;
+					default: return 0;
+				}
+			};
+			if (['entry','claude-presets','claude-custom','opencode-phases','provider-select','model-select'].includes(ctx.step)) {
+				if (['ArrowDown','j'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor + 1) % max(ctx.step); renderDetail(); return; }
+				if (['ArrowUp','k'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor - 1 + max(ctx.step)) % max(ctx.step); renderDetail(); return; }
+			}
+			if (ctx.step === 'entry' && event.key === 'Enter') {
+				event.preventDefault();
+				if (ctx.cursor === 0) { ctx.step = 'claude-presets'; ctx.cursor = 0; }
+				else if (ctx.cursor === 1) { ctx.step = 'opencode-phases'; ctx.cursor = 0; }
+				else { backToMenu(); return; }
+				renderDetail();
+				return;
+			}
+			if (ctx.step === 'claude-presets' && event.key === 'Enter') {
+				event.preventDefault();
+				const choice = CLAUDE_PRESETS[ctx.cursor][0];
+				if (choice === 'Back') { ctx.step = 'entry'; ctx.cursor = 0; }
+				else if (choice === 'custom') { ctx.step = 'claude-custom'; ctx.cursor = 0; }
+				else { ctx.claudePreset = choice; ctx.step = 'sync-confirm'; ctx.cursor = 0; }
+				renderDetail();
+				return;
+			}
+			if (ctx.step === 'claude-custom' && event.key === 'Enter') {
+				event.preventDefault();
+				const choice = CLAUDE_PHASES[ctx.cursor];
+				if (choice === 'Back') { ctx.step = 'claude-presets'; ctx.cursor = 0; }
+				else if (choice === 'Confirm') { ctx.step = 'sync-confirm'; ctx.cursor = 0; }
+				else { ctx.claudeAssignments[choice] = nextAlias(ctx.claudeAssignments?.[choice] || 'sonnet'); }
+				renderDetail();
+				return;
+			}
+			if (ctx.step === 'opencode-phases' && event.key === 'Enter') {
+				event.preventDefault();
+				const choice = OPENCODE_PHASES[ctx.cursor];
+				if (choice === 'Back') { ctx.step = 'entry'; ctx.cursor = 0; }
+				else if (choice === 'Continue') { ctx.step = 'sync-confirm'; ctx.cursor = 0; }
+				else { ctx.selectedPhase = choice; ctx.step = 'provider-select'; ctx.cursor = 0; }
+				renderDetail();
+				return;
+			}
+			if (ctx.step === 'provider-select' && event.key === 'Enter') {
+				event.preventDefault();
+				const choice = PROVIDERS[ctx.cursor];
+				if (choice === 'Back') { ctx.step = 'opencode-phases'; ctx.cursor = 0; }
+				else { ctx.selectedProvider = choice; ctx.step = 'model-select'; ctx.cursor = 0; }
+				renderDetail();
+				return;
+			}
+			if (ctx.step === 'model-select' && event.key === 'Enter') {
+				event.preventDefault();
+				const choice = MODELS[ctx.cursor];
+				if (choice === 'Back') { ctx.step = 'provider-select'; ctx.cursor = 0; }
+				else {
+					ctx.selectedModel = choice;
+					const assignment = { provider: ctx.selectedProvider, model: choice };
+					if (ctx.selectedPhase === 'Set all phases') {
+						ctx.allPhasesModel = assignment;
+						['explore', 'propose', 'spec', 'design', 'tasks', 'apply', 'verify', 'archive'].forEach((phase) => {
+							ctx.modelAssignments[phase] = assignment;
+						});
+					} else {
+						ctx.modelAssignments[ctx.selectedPhase] = assignment;
+					}
+					ctx.step = 'opencode-phases';
+					ctx.cursor = 0;
+				}
+				renderDetail();
+				return;
+			}
+			if (ctx.step === 'sync-confirm' && event.key === 'Enter') {
+				event.preventDefault();
+				ctx.step = 'sync-running';
+				renderDetail();
+				setupAutoStep(ctx, 1100, 'sync-result');
+				return;
+			}
+			if (ctx.step === 'sync-result' && (event.key === 'Enter' || event.key === 'Escape')) { event.preventDefault(); backToMenu(); return; }
+			if (event.key === 'Escape') {
+				event.preventDefault();
+				if (ctx.step === 'entry') backToMenu();
+				else if (ctx.step === 'claude-presets') { ctx.step = 'entry'; ctx.cursor = 0; renderDetail(); }
+				else if (ctx.step === 'claude-custom') { ctx.step = 'claude-presets'; ctx.cursor = 0; renderDetail(); }
+				else if (ctx.step === 'opencode-phases') { ctx.step = 'entry'; ctx.cursor = 0; renderDetail(); }
+				else if (ctx.step === 'provider-select') { ctx.step = 'opencode-phases'; ctx.cursor = 0; renderDetail(); }
+				else if (ctx.step === 'model-select') { ctx.step = 'provider-select'; ctx.cursor = 0; renderDetail(); }
+				else if (ctx.step === 'sync-confirm') { ctx.step = 'entry'; ctx.cursor = 0; renderDetail(); }
+			}
+		}
+
+		function handleBuilder(event, ctx) {
+			const engineOptions = ['claude-code', 'opencode', 'gemini-cli', 'codex', 'Back'];
+			if (ctx.step === 'engine') {
+				if (['ArrowDown','j'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor + 1) % engineOptions.length; renderDetail(); }
+				else if (['ArrowUp','k'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor - 1 + engineOptions.length) % engineOptions.length; renderDetail(); }
+				else if (event.key === 'Enter') { event.preventDefault(); const choice = engineOptions[ctx.cursor]; if (choice === 'Back') backToMenu(); else { ctx.engine = choice; ctx.step = 'prompt'; renderDetail(); } }
+				else if (event.key === 'Escape') { event.preventDefault(); backToMenu(); }
+				return;
+			}
+			if (ctx.step === 'prompt') {
+				const activeInput = document.getElementById('tui-builder-textarea');
+				if (event.key === 'Escape') { event.preventDefault(); ctx.step = 'engine'; ctx.cursor = 0; renderDetail(); return; }
+				if ((event.key === 'Tab' || (event.key === 'Enter' && event.ctrlKey)) && activeInput && activeInput.value.trim()) {
+					event.preventDefault();
+					ctx.prompt = activeInput.value.trim();
+					ctx.step = 'sdd';
+					ctx.cursor = 0;
+					renderDetail();
+				}
+				return;
+			}
+			if (ctx.step === 'sdd') {
+				const sddOptions = ['Standalone — no SDD integration', 'New SDD Phase — add a new phase to the SDD graph', 'Phase Support — enhance an existing SDD phase', 'Back'];
+				if (['ArrowDown','j'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor + 1) % sddOptions.length; renderDetail(); }
+				else if (['ArrowUp','k'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor - 1 + sddOptions.length) % sddOptions.length; renderDetail(); }
+				else if (event.key === 'Enter') {
+					event.preventDefault();
+					if (ctx.cursor === 0) { ctx.sddMode = 'standalone'; ctx.step = 'generating'; renderDetail(); setupAutoStep(ctx, 1300, 'preview'); }
+					else if (ctx.cursor === 1) { ctx.sddMode = 'new-phase'; ctx.step = 'sdd-phase'; ctx.cursor = 0; renderDetail(); }
+					else if (ctx.cursor === 2) { ctx.sddMode = 'phase-support'; ctx.step = 'sdd-phase'; ctx.cursor = 0; renderDetail(); }
+					else { ctx.step = 'prompt'; renderDetail(); }
+				}
+				else if (event.key === 'Escape') { event.preventDefault(); ctx.step = 'prompt'; renderDetail(); }
+				return;
+			}
+			if (ctx.step === 'sdd-phase') {
+				const phases = ['explore', 'propose', 'spec', 'design', 'tasks', 'apply', 'verify', 'archive', 'Back'];
+				if (['ArrowDown','j'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor + 1) % phases.length; renderDetail(); }
+				else if (['ArrowUp','k'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor - 1 + phases.length) % phases.length; renderDetail(); }
+				else if (event.key === 'Enter') {
+					event.preventDefault();
+					if (phases[ctx.cursor] === 'Back') { ctx.step = 'sdd'; ctx.cursor = 0; renderDetail(); }
+					else { ctx.sddPhase = phases[ctx.cursor]; ctx.step = 'generating'; renderDetail(); setupAutoStep(ctx, 1300, 'preview'); }
+				}
+				else if (event.key === 'Escape') { event.preventDefault(); ctx.step = 'sdd'; ctx.cursor = 0; renderDetail(); }
+				return;
+			}
+			if (ctx.step === 'generating') {
+				if (event.key === 'Escape') { event.preventDefault(); clearScheduled(); ctx.step = 'prompt'; renderDetail(); }
+				return;
+			}
+			if (ctx.step === 'preview') {
+				const actions = ['Install', 'Regenerate', 'Back'];
+				if (['ArrowDown','j'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor + 1) % actions.length; renderDetail(); }
+				else if (['ArrowUp','k'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor - 1 + actions.length) % actions.length; renderDetail(); }
+				else if (event.key === 'Enter') {
+					event.preventDefault();
+					if (ctx.cursor === 0) { ctx.step = 'installing'; renderDetail(); setupAutoStep(ctx, 1200, 'complete'); }
+					else if (ctx.cursor === 1) { ctx.step = 'generating'; ctx.cursor = 0; renderDetail(); setupAutoStep(ctx, 1000, 'preview'); }
+					else { ctx.step = 'prompt'; ctx.cursor = 0; renderDetail(); }
+				}
+				else if (event.key === 'Escape') { event.preventDefault(); ctx.step = 'prompt'; ctx.cursor = 0; renderDetail(); }
+				return;
+			}
+			if (ctx.step === 'complete' && (event.key === 'Enter' || event.key === 'Escape')) {
+				event.preventDefault();
+				backToMenu();
+			}
+		}
+
+		function handleBackups(event, ctx) {
+			const total = ctx.backups.length + 1;
+			if (ctx.step === 'list') {
+				if (['ArrowDown','j'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor + 1) % total; renderDetail(); }
+				else if (['ArrowUp','k'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor - 1 + total) % total; renderDetail(); }
+				else if (event.key === 'p' && ctx.cursor < ctx.backups.length) { event.preventDefault(); ctx.backups[ctx.cursor].pinned = !ctx.backups[ctx.cursor].pinned; renderDetail(); }
+				else if (event.key === 'd' && ctx.cursor < ctx.backups.length) { event.preventDefault(); ctx.selected = ctx.backups[ctx.cursor]; ctx.step = 'delete-confirm'; ctx.cursor = 0; renderDetail(); }
+				else if (event.key === 'r' && ctx.cursor < ctx.backups.length) { event.preventDefault(); ctx.renameTarget = ctx.backups[ctx.cursor]; ctx.renameValue = ctx.renameTarget.description || ''; ctx.step = 'rename'; renderDetail(); }
+				else if (event.key === 'Enter') {
+					event.preventDefault();
+					if (ctx.cursor < ctx.backups.length) { ctx.selected = ctx.backups[ctx.cursor]; ctx.step = 'restore-confirm'; ctx.cursor = 0; renderDetail(); }
+					else { backToMenu(); }
+				}
+				else if (event.key === 'Escape') { event.preventDefault(); backToMenu(); }
+				return;
+			}
+			if (ctx.step === 'restore-confirm' || ctx.step === 'delete-confirm') {
+				const actions = ctx.step === 'restore-confirm' ? ['Restore', 'Cancel'] : ['Delete', 'Cancel'];
+				if (['ArrowDown','j'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor + 1) % actions.length; renderDetail(); }
+				else if (['ArrowUp','k'].includes(event.key)) { event.preventDefault(); ctx.cursor = (ctx.cursor - 1 + actions.length) % actions.length; renderDetail(); }
+				else if (event.key === 'Enter') {
+					event.preventDefault();
+					if (ctx.cursor === 0) {
+						if (ctx.step === 'restore-confirm') ctx.step = 'restore-result';
+						else {
+							ctx.backups = ctx.backups.filter((item) => item.id !== ctx.selected.id);
+							ctx.step = 'delete-result';
+						}
+						renderDetail();
+					} else { ctx.step = 'list'; ctx.cursor = 0; renderDetail(); }
+				}
+				else if (event.key === 'Escape') { event.preventDefault(); ctx.step = 'list'; ctx.cursor = 0; renderDetail(); }
+				return;
+			}
+			if (ctx.step === 'rename') {
+				const input = document.getElementById('tui-backup-rename-input');
+				if (event.key === 'Escape') { event.preventDefault(); ctx.step = 'list'; ctx.cursor = 0; renderDetail(); }
+				else if (event.key === 'Enter' && input) {
+					event.preventDefault();
+					ctx.renameTarget.description = input.value.trim() || 'renamed snapshot';
+					ctx.step = 'list';
+					ctx.cursor = 0;
+					renderDetail();
+				}
+				return;
+			}
+			if (['restore-result','delete-result'].includes(ctx.step) && (event.key === 'Enter' || event.key === 'Escape')) {
+				event.preventDefault();
+				ctx.step = 'list';
+				ctx.cursor = 0;
+				renderDetail();
+			}
+		}
+
+		function handleDetailKey(event) {
+			const ctx = state.detail;
+			if (!ctx) return;
+
+			if (event.key === 'q') {
+				event.preventDefault();
+				state.detail = initialDetail('quit');
+				renderDetail();
+				return;
+			}
+
+			if (event.key === 'r' || event.key === 'R') {
+				event.preventDefault();
+				restartDemo();
+				return;
+			}
+
+			switch (ctx.flow) {
+				case 'install': handleInstall(event, ctx); break;
+				case 'upgrade': handleUpgrade(event, ctx); break;
+				case 'sync': handleSync(event, ctx); break;
+				case 'upgrade-sync': handleUpgradeSync(event, ctx); break;
+				case 'models': handleModels(event, ctx); break;
+				case 'builder': handleBuilder(event, ctx); break;
+				case 'backups': handleBackups(event, ctx); break;
+				case 'quit': if (event.key === 'Enter' || event.key === 'Escape') { event.preventDefault(); restartDemo(); } break;
+			}
+		}
+
+		function render() {
+			if (state.phase === 'menu') renderMenu();
+			if (state.phase === 'detail') renderDetail();
+		}
+
+		function typewrite(el, text) {
+			let index = 0;
+			function step() {
+				if (active.signal.aborted) return;
+				el.textContent += text[index] || '';
+				index += 1;
+				if (index < text.length) {
+					scheduleTimeout(step, Math.max(30, 70 + (Math.random() * 40 - 20)));
+				}
+			}
+			step();
+		}
+
+		function startPrompt() {
+			typedEl.textContent = '';
+			cursorEl.style.display = '';
+			typewrite(typedEl, 'gentle-ai');
+			scheduleTimeout(() => { cursorEl.style.display = 'none'; }, 1150);
+			scheduleTimeout(() => {
+				state.phase = 'menu';
+				renderMenu();
+			}, 1500);
+		}
+
+		function startObserver() {
+			observer?.disconnect();
+			observer = new IntersectionObserver((entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						observer.disconnect();
+						root.style.opacity = '1';
+						scheduleTimeout(startPrompt, 350);
+					}
+				});
+			}, { threshold: 0.35 });
+			observer.observe(root);
+		}
+
+		function clickHandler(event) {
+			root.focus();
+			if (state.phase === 'menu') {
+				const target = event.target.closest('[data-menu-index]');
+				if (!target) return;
+				state.mainCursor = Number(target.dataset.menuIndex);
+				beginFlow(MAIN_OPTIONS[state.mainCursor].id);
+			}
+		}
+
+		let root = null;
+		let phasePrompt = null;
+		let phaseMenu = null;
+		let phaseScreen = null;
+		let typedEl = null;
+		let cursorEl = null;
+		let logoEl = null;
+		let taglineEl = null;
+		let optionsEl = null;
+		let screenEl = null;
+		let restartHint = null;
+
+		function bindElements() {
+			root = document.getElementById('tui-root');
+			phasePrompt = document.getElementById('tui-phase-prompt');
+			phaseMenu = document.getElementById('tui-phase-menu');
+			phaseScreen = document.getElementById('tui-phase-screen');
+			typedEl = document.getElementById('tui-typed');
+			cursorEl = document.getElementById('tui-cursor');
+			logoEl = document.getElementById('tui-logo');
+			taglineEl = document.getElementById('tui-tagline');
+			optionsEl = document.getElementById('tui-options');
+			screenEl = document.getElementById('tui-screen');
+			restartHint = document.getElementById('tui-restart-hint');
+
+			return Boolean(root && phasePrompt && phaseMenu && phaseScreen && typedEl && cursorEl && logoEl && taglineEl && optionsEl && screenEl && restartHint);
+		}
+
+		window[GLOBAL_KEY] ??= { cleanup: null, timers: [], spinnerInterval: null };
+
+		let observer = null;
+		let active = null;
+		let state = createState();
+
+		function cleanup() {
+			clearScheduled();
+			observer?.disconnect();
+			observer = null;
+			active?.abort();
+			active = null;
+			if (root) {
+				root.dataset.initialized = 'false';
+			}
+			window[GLOBAL_KEY].cleanup = null;
+		}
+
+		function init() {
+			const currentRoot = document.getElementById('tui-root');
+			if (!currentRoot) return;
+
+			if (root !== currentRoot && typeof window[GLOBAL_KEY].cleanup === 'function') {
+				window[GLOBAL_KEY].cleanup();
+			}
+
+			if (!bindElements()) return;
+			if (root.dataset.initialized === 'true') return;
+
+			state = createState();
+			active = new AbortController();
+			root.dataset.initialized = 'true';
+			window[GLOBAL_KEY].cleanup = cleanup;
+
+			root.addEventListener('keydown', (event) => {
+				const activeInput = currentTextInput();
+				if (activeInput && document.activeElement === activeInput) {
+					if (!(event.key === 'Escape' || event.key === 'Tab' || (event.key === 'Enter' && event.ctrlKey))) {
+						return;
+					}
+				}
+				if (state.phase === 'menu') handleMenuKey(event);
+				if (state.phase === 'detail') handleDetailKey(event);
+			}, { signal: active.signal });
+
+			root.addEventListener('click', clickHandler, { signal: active.signal });
+			document.addEventListener('gl:lang-change', (event) => {
+				const nextLang = sanitizeLang(event?.detail?.lang || document.documentElement?.dataset?.lang);
+				if (nextLang === currentLang) return;
+				currentLang = nextLang;
+				render();
+			}, { signal: active.signal });
+			document.addEventListener('astro:before-swap', cleanup, { signal: active.signal });
+			document.addEventListener('astro:page-unload', cleanup, { signal: active.signal });
+			startObserver();
+		}
+
+		function tryInit() {
+			if (!document.getElementById('tui-root')) return;
+			init();
+		}
+
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', tryInit, { once: true });
+		} else {
+			tryInit();
+		}
+
+		document.addEventListener('astro:page-load', tryInit);
+	})();
+</script>

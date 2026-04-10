@@ -7,15 +7,14 @@ const srcBase = new URL('../src/', import.meta.url);
 const readSrc = (relativePath) => readFileSync(new URL(relativePath, srcBase), 'utf8');
 
 const walkFiles = [
-	'components/Navbar.astro',
-	'components/Footer.astro',
+	'components/ui/Navbar.astro',
+	'components/ui/Footer.astro',
 	'layouts/Layout.astro',
 	'pages/index.astro',
 	'pages/features.astro',
 	'pages/docs.astro',
 	'pages/how-it-works.astro',
-	'pages/configurator.astro',
-	'data/configuratorData.ts',
+	'pages/demo.astro',
 ];
 
 test('phase 6.1: prohibited brand terms are absent in src', () => {
@@ -29,36 +28,44 @@ test('phase 6.1: prohibited brand terms are absent in src', () => {
 
 test('phase 6.2: navigation links remain internal-only', () => {
 	const astroFiles = [
-		'components/Navbar.astro',
-		'components/Footer.astro',
+		'components/ui/Navbar.astro',
+		'components/ui/Footer.astro',
 		'pages/index.astro',
 		'pages/features.astro',
 		'pages/docs.astro',
 		'pages/how-it-works.astro',
-		'pages/configurator.astro',
+		'pages/demo.astro',
 	];
 
 	const internal = (href) => href.startsWith('/') || href.startsWith('#');
+	const allowedCommunityExternal = new Set([
+		'https://github.com/Gentleman-Programming/gentle-ai',
+		'https://discord.gg/gentlemanprogramming',
+	]);
 
 	for (const file of astroFiles) {
 		const source = readSrc(file);
 
 		for (const match of source.matchAll(/<a\b[^>]*\bhref\s*=\s*"([^"]+)"/g)) {
-			assert.equal(internal(match[1]), true, `Non-internal <a href> in ${file}: ${match[1]}`);
+			const href = match[1];
+			const isAllowedExternal = file === 'components/ui/Footer.astro' && allowedCommunityExternal.has(href);
+			assert.equal(internal(href) || isAllowedExternal, true, `Non-approved href in ${file}: ${href}`);
 		}
 
 		for (const match of source.matchAll(/href:\s*'([^']+)'/g)) {
-			assert.equal(internal(match[1]), true, `Non-internal data href in ${file}: ${match[1]}`);
+			const href = match[1];
+			const isAllowedExternal = file === 'components/ui/Footer.astro' && allowedCommunityExternal.has(href);
+			assert.equal(internal(href) || isAllowedExternal, true, `Non-approved data href in ${file}: ${href}`);
 		}
 	}
 });
 
-test('phase 6.3: shared shell and view transitions are wired across all pages', () => {
+test('phase 6.3: shared shell is wired across all pages without ClientRouter', () => {
 	const layoutSource = readSrc('layouts/Layout.astro');
-	assert.match(layoutSource, /import\s+\{\s*ViewTransitions\s*\}\s+from\s+'astro:transitions'/);
-	assert.match(layoutSource, /<ViewTransitions\s*\/>/);
+	assert.doesNotMatch(layoutSource, /import\s+\{\s*ClientRouter\s*\}\s+from\s+'astro:transitions'/);
+	assert.doesNotMatch(layoutSource, /<ClientRouter\s*\/>/);
 
-	const routes = ['index', 'features', 'docs', 'how-it-works', 'configurator'];
+	const routes = ['index', 'features', 'docs', 'how-it-works', 'demo'];
 
 	for (const route of routes) {
 		const pageSource = readSrc(`pages/${route}.astro`);
@@ -68,18 +75,12 @@ test('phase 6.3: shared shell and view transitions are wired across all pages', 
 	}
 });
 
-test('phase 6.4: configurator has local interactive state with realistic fixtures', () => {
-	const pageSource = readSrc('pages/configurator.astro');
-	const dataSource = readSrc('data/configuratorData.ts');
+test('phase 6.4: configurator route is fully removed from app shell', () => {
+	const navbarSource = readSrc('components/ui/Navbar.astro');
+	const footerSource = readSrc('components/ui/Footer.astro');
 
-	assert.match(pageSource, /data-memory-toggle=/);
-	assert.match(pageSource, /addEventListener\('click'/);
-	assert.match(pageSource, /data-preset-summary/);
-	assert.match(pageSource, /syncPresetSummary/);
-
-	assert.match(dataSource, /export const agentProfiles:\s*AgentProfile\[]\s*=\s*\[/);
-	assert.match(dataSource, /export const skillProfiles:\s*SkillProfile\[]\s*=\s*\[/);
-	assert.match(dataSource, /key:\s*'projectPersistence'/);
-	assert.match(dataSource, /key:\s*'sessionPersistence'/);
-	assert.match(dataSource, /export const configPresets:\s*ConfigPreset\[]\s*=\s*\[/);
+	assert.doesNotMatch(navbarSource, /href:\s*'\/configurator'/);
+	assert.doesNotMatch(footerSource, /\/configurator/);
+	assert.match(footerSource, /https:\/\/github\.com\/Gentleman-Programming\/gentle-ai/);
+	assert.match(footerSource, /https:\/\/discord\.gg\/gentlemanprogramming/);
 });
