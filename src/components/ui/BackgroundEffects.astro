@@ -13,27 +13,43 @@
 	(function () {
 		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-		var COLS = 26;
-		var ROWS = 16;
+		var DESKTOP_COLS = 26;
+		var DESKTOP_ROWS = 16;
+		var MOBILE_COLS = 16;
+		var MOBILE_ROWS = 10;
 		var state =
 			window.__glBgCanvasState ||
 			(window.__glBgCanvasState = {
 				dots: [],
+				cols: DESKTOP_COLS,
+				rows: DESKTOP_ROWS,
+				isMobileStatic: false,
 				mouseX: -9999,
 				mouseY: -9999,
 				drawLoopRunning: false,
 				lastT: 0,
 			});
 
+		function updateProfile() {
+			var isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+			var noHover = window.matchMedia('(hover: none)').matches;
+			var isNarrow = window.matchMedia('(max-width: 768px)').matches;
+			state.isMobileStatic = isCoarsePointer || noHover || isNarrow;
+			state.cols = state.isMobileStatic ? MOBILE_COLS : DESKTOP_COLS;
+			state.rows = state.isMobileStatic ? MOBILE_ROWS : DESKTOP_ROWS;
+		}
+
 		function buildGrid(canvas) {
+			var cols = state.cols;
+			var rows = state.rows;
 			state.dots = [];
-			for (var r = 0; r < ROWS; r++) {
-				for (var c = 0; c < COLS; c++) {
+			for (var r = 0; r < rows; r++) {
+				for (var c = 0; c < cols; c++) {
 					state.dots.push({
 						col: c,
 						row: r,
-						baseX: (c / (COLS - 1)) * canvas.width,
-						baseY: (r / (ROWS - 1)) * canvas.height,
+						baseX: (c / (cols - 1)) * canvas.width,
+						baseY: (r / (rows - 1)) * canvas.height,
 						x: 0,
 						y: 0,
 						phase: Math.random() * Math.PI * 2,
@@ -44,8 +60,10 @@
 		}
 
 		function getDot(c, r) {
-			if (c < 0 || c >= COLS || r < 0 || r >= ROWS) return null;
-			return state.dots[r * COLS + c];
+			var cols = state.cols;
+			var rows = state.rows;
+			if (c < 0 || c >= cols || r < 0 || r >= rows) return null;
+			return state.dots[r * cols + c];
 		}
 
 		function draw(t) {
@@ -61,12 +79,17 @@
 			state.lastT = t;
 
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			var cols = state.cols;
+			var rows = state.rows;
+			var hasInteraction = !state.isMobileStatic;
+			var mouseX = hasInteraction ? state.mouseX : -9999;
+			var mouseY = hasInteraction ? state.mouseY : -9999;
 
 			var REPEL_R = 180;
 			for (var i = 0; i < state.dots.length; i++) {
 				var d = state.dots[i];
-				var dx = d.baseX - state.mouseX;
-				var dy = d.baseY - state.mouseY;
+				var dx = d.baseX - mouseX;
+				var dy = d.baseY - mouseY;
 				var dist2 = dx * dx + dy * dy;
 				var ox = 0;
 				var oy = 0;
@@ -83,8 +106,8 @@
 				d.y = d.baseY + oy + breath;
 			}
 
-			for (var rr = 0; rr < ROWS; rr++) {
-				for (var cc = 0; cc < COLS; cc++) {
+			for (var rr = 0; rr < rows; rr++) {
+				for (var cc = 0; cc < cols; cc++) {
 					var a = getDot(cc, rr);
 					var nb = getDot(cc + 1, rr);
 					var nd = getDot(cc, rr + 1);
@@ -93,7 +116,7 @@
 						var edx = a.x - nb.x;
 						var edy = a.y - nb.y;
 						var elen = Math.sqrt(edx * edx + edy * edy);
-						var eBase = canvas.width / (COLS - 1);
+						var eBase = canvas.width / (cols - 1);
 						var stretch = Math.abs(elen - eBase) / eBase;
 						var alpha = Math.max(0, 0.3 - stretch * 0.35) * 0.4;
 						ctx.beginPath();
@@ -107,7 +130,7 @@
 						var edx2 = a.x - nd.x;
 						var edy2 = a.y - nd.y;
 						var elen2 = Math.sqrt(edx2 * edx2 + edy2 * edy2);
-						var eBase2 = canvas.height / (ROWS - 1);
+						var eBase2 = canvas.height / (rows - 1);
 						var stretch2 = Math.abs(elen2 - eBase2) / eBase2;
 						var alpha2 = Math.max(0, 0.3 - stretch2 * 0.35) * 0.4;
 						ctx.beginPath();
@@ -122,12 +145,16 @@
 
 			for (var j = 0; j < state.dots.length; j++) {
 				var d2 = state.dots[j];
-				var ddx = d2.x - state.mouseX;
-				var ddy = d2.y - state.mouseY;
+				var ddx = d2.x - mouseX;
+				var ddy = d2.y - mouseY;
 				var dDist = Math.sqrt(ddx * ddx + ddy * ddy);
 				var prox = Math.max(0, 1 - dDist / 200);
 				var dotAlpha = Math.min((0.55 + prox * 0.4) * 0.4, 1);
 				var radius = 2.6 + prox * 2.4;
+				if (state.isMobileStatic) {
+					dotAlpha *= 0.88;
+					radius *= 0.88;
+				}
 				ctx.beginPath();
 				ctx.arc(d2.x, d2.y, radius, 0, Math.PI * 2);
 				ctx.fillStyle = prox > 0.3 ? 'rgba(224,193,90,' + dotAlpha + ')' : 'rgba(127,180,202,' + dotAlpha + ')';
@@ -138,9 +165,14 @@
 		function resize() {
 			var canvas = document.getElementById('bg-canvas');
 			if (!canvas) return;
+			updateProfile();
 			canvas.width = window.innerWidth;
 			canvas.height = window.innerHeight;
 			buildGrid(canvas);
+			if (state.isMobileStatic) {
+				state.mouseX = -9999;
+				state.mouseY = -9999;
+			}
 		}
 
 		function init() {
@@ -153,6 +185,7 @@
 
 		if (!window.__glBgCanvasEventsBound) {
 			document.addEventListener('mousemove', function (e) {
+				if (state.isMobileStatic) return;
 				state.mouseX = e.clientX;
 				state.mouseY = e.clientY;
 			});
