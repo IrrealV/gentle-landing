@@ -1,4 +1,6 @@
 ---
+import CopyButton from './CopyButton.astro';
+
 interface TabStep {
 	tool: string;
 	command: string;
@@ -61,7 +63,7 @@ const {
 } = Astro.props;
 ---
 
-<div class={`overflow-hidden radius-brutal border-hairline bg-surface-container-low ${className}`} data-code-tabs>
+<div class={`overflow-hidden radius-brutal border-hairline bg-surface-container-low ${className}`} data-code-tabs data-copy-scope>
 	<div class="flex border-b-hairline" role="tablist" aria-label={ariaLabel} data-label-en={ariaLabel} data-label-es={ariaLabelEs}>
 		{
 			tabs.map((tab, index) => (
@@ -89,13 +91,12 @@ const {
 	</div>
 
 	<div class="relative bg-surface-container-lowest p-8 mono text-sm">
-		<button
-			type="button"
-			class="absolute right-8 top-8 text-on-surface-variant transition-colors hover:text-primary"
-			aria-label="Copy installation commands"
-		>
-			<span class="material-symbols-outlined" aria-hidden="true">content_copy</span>
-		</button>
+		<CopyButton
+			class="absolute right-8 top-8"
+			target="[data-panel-id][aria-hidden='false']"
+			ariaLabel="Copy installation commands"
+			ariaLabelEs="Copiar comandos de instalación"
+		/>
 		{
 			tabs.map((tab, index) => (
 				<div
@@ -106,6 +107,7 @@ const {
 					tabindex="0"
 					class:list={[index === 0 ? 'block' : 'hidden']}
 					data-panel-id={tab.id}
+					data-copy-text={tab.steps.map((step) => `${step.tool} ${step.command}`).join('\n')}
 				>
 					{
 						tab.steps.map((step, stepIndex) => (

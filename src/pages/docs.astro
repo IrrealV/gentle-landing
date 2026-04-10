@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/ui/Navbar.astro';
 import Footer from '../components/ui/Footer.astro';
 import TerminalWindow from '../components/ui/TerminalWindow.astro';
+import CopyButton from '../components/ui/CopyButton.astro';
 
 const sections = [
 	{ id: 'system-overview',     label: 'System Manual',          labelEs: 'Manual del sistema' },
@@ -151,19 +152,19 @@ const OFFICIAL_README_URL = 'https://github.com/Gentleman-Programming/gentle-ai/
 								Choose the install path that matches your platform. All methods provision the same ecosystem contracts and launch the interactive TUI flow.
 							</p>
 
-							<TerminalWindow title="brew (recommended)" titleEs="brew (recomendado)" description="macOS / Linux" descriptionEs="macOS / Linux" class="mb-4 border border-outline-variant">
-								<pre class="code-block text-[12px] text-on-surface-variant">brew tap <span class="text-primary">Gentleman-Programming/homebrew-tap</span>
+							<TerminalWindow title="brew (recommended)" titleEs="brew (recomendado)" description="macOS / Linux" descriptionEs="macOS / Linux" class="mb-4 border border-outline-variant" copyButton>
+								<pre class="code-block text-[12px] text-on-surface-variant" data-copy-source>brew tap <span class="text-primary">Gentleman-Programming/homebrew-tap</span>
 brew install <span class="text-primary">gentle-ai</span>
 <span class="text-secondary">gentle-ai</span></pre>
 							</TerminalWindow>
 
-							<TerminalWindow title="go install" titleEs="go install" description="Any OS with Go 1.24+" descriptionEs="Cualquier SO con Go 1.24+" class="mb-4 border border-outline-variant">
-								<pre class="code-block text-[12px] text-on-surface-variant">go install <span class="text-primary">github.com/gentleman-programming/gentle-ai/cmd/gentle-ai@latest</span>
+							<TerminalWindow title="go install" titleEs="go install" description="Any OS with Go 1.24+" descriptionEs="Cualquier SO con Go 1.24+" class="mb-4 border border-outline-variant" copyButton>
+								<pre class="code-block text-[12px] text-on-surface-variant" data-copy-source>go install <span class="text-primary">github.com/gentleman-programming/gentle-ai/cmd/gentle-ai@latest</span>
 <span class="text-secondary">gentle-ai</span></pre>
 							</TerminalWindow>
 
-							<TerminalWindow title="scoop (Windows)" titleEs="scoop (Windows)" description="Windows 10+" descriptionEs="Windows 10+" class="border border-outline-variant">
-								<pre class="code-block text-[12px] text-on-surface-variant">scoop bucket add <span class="text-primary">gentleman</span> https://github.com/Gentleman-Programming/scoop-bucket
+							<TerminalWindow title="scoop (Windows)" titleEs="scoop (Windows)" description="Windows 10+" descriptionEs="Windows 10+" class="border border-outline-variant" copyButton>
+								<pre class="code-block text-[12px] text-on-surface-variant" data-copy-source>scoop bucket add <span class="text-primary">gentleman</span> https://github.com/Gentleman-Programming/scoop-bucket
 scoop install <span class="text-primary">gentle-ai</span>
 <span class="text-secondary">gentle-ai</span></pre>
 							</TerminalWindow>
@@ -230,8 +231,8 @@ scoop install <span class="text-primary">gentle-ai</span>
 								data-label-es="Engram es un sistema de memoria local respaldado por SQLite que sobrevive ventanas de contexto, compactaciones y nuevas sesiones. Tu agente IA recuerda decisiones arquitectónicas, corrección de bugs y convenciones a través de cada conversación.">
 								Engram is a local SQLite-backed memory system that survives context windows, compactions, and new sessions. Your AI agent remembers architectural decisions, bug fixes, and conventions across every conversation.
 							</p>
-							<TerminalWindow title="engram_schema.sql" description="Schema reference" class="border border-outline-variant">
-								<pre class="code-block overflow-x-auto text-[11px] text-on-surface-variant"><span class="text-secondary">CREATE TABLE</span> observations (
+							<TerminalWindow title="engram_schema.sql" description="Schema reference" class="border border-outline-variant" copyButton>
+								<pre class="code-block overflow-x-auto text-[11px] text-on-surface-variant" data-copy-source><span class="text-secondary">CREATE TABLE</span> observations (
   id <span class="text-primary">INTEGER PRIMARY KEY</span>,
   type <span class="text-secondary">TEXT</span>,         -- bugfix | decision | pattern | discovery
   title <span class="text-secondary">TEXT</span>,        -- short, searchable
@@ -284,8 +285,8 @@ scoop install <span class="text-primary">gentle-ai</span>
 								data-label-es="GGA es una CLI Bash sin dependencias para revisión de código asistida por IA. Después de la instalación global, cada repositorio puede habilitar de forma explícita su hook pre-commit y validar cambios staged contra estándares del equipo.">
 								GGA is a zero-dependency Bash CLI for AI-assisted code review. After global install, each repository can explicitly enable its pre-commit hook and validate staged changes against team standards.
 							</p>
-							<TerminalWindow title=".git/hooks/pre-commit" description="Enable per repository with gga init + gga install" class="mb-6 border border-outline-variant">
-								<pre class="code-block text-[12px] text-on-surface-variant"><span class="text-secondary">#!/usr/bin/env bash</span>
+							<TerminalWindow title=".git/hooks/pre-commit" description="Enable per repository with gga init + gga install" class="mb-6 border border-outline-variant" copyButton>
+								<pre class="code-block text-[12px] text-on-surface-variant" data-copy-source><span class="text-secondary">#!/usr/bin/env bash</span>
 <span class="text-primary">gga</span> review --staged \
   --provider <span class="text-secondary">&lt;configured-provider&gt;</span> \
   --rules <span class="text-secondary">AGENTS.md</span></pre>
@@ -353,7 +354,8 @@ scoop install <span class="text-primary">gentle-ai</span>
 									{ cmd: '--persona gentleman', desc: 'Apply persona configuration', descEs: 'Aplica configuración de persona' },
 									{ cmd: '--dry-run', desc: 'Preview changes without applying', descEs: 'Previsualiza cambios sin aplicar' },
 								].map(item => (
-									<div class="border border-outline-variant bg-surface-container-lowest p-4">
+									<div class="relative border border-outline-variant bg-surface-container-lowest p-4">
+										<CopyButton class="absolute right-4 top-4 h-7 w-7" copyText={item.cmd} ariaLabel="Copy command" ariaLabelEs="Copiar comando" />
 										<code class="font-mono text-xs text-primary">{item.cmd}</code>
 										<p class="mt-1 text-xs text-on-surface-variant"
 											data-label-en={item.desc}

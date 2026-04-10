@@ -1,10 +1,13 @@
 ---
+import CopyButton from './CopyButton.astro';
+
 interface Props {
 	title?: string;
 	titleEs?: string;
 	description?: string;
 	descriptionEs?: string;
 	badge?: string;
+	copyButton?: boolean;
 	class?: string;
 	bodyClass?: string;
 	[key: string]: unknown;
@@ -16,6 +19,7 @@ const {
 	description = 'Terminal output preview',
 	descriptionEs,
 	badge,
+	copyButton = false,
 	class: className = '',
 	bodyClass = '',
 	...rest
@@ -32,6 +36,7 @@ const resolvedDescriptionEs = descriptionEs ?? description;
 	aria-label={description}
 	data-aria-label-en={description}
 	data-aria-label-es={resolvedDescriptionEs}
+	data-copy-scope
 >
 	{
 		badge && (
@@ -49,6 +54,16 @@ const resolvedDescriptionEs = descriptionEs ?? description;
 				<span class="material-symbols-outlined text-[10px] text-window-control-green opacity-80" aria-hidden="true">radio_button_checked</span>
 			</div>
 			<p class="mono ml-4 text-[10px] uppercase tracking-widest text-on-surface-variant" data-label-en={title} data-label-es={resolvedTitleEs}>{title}</p>
+			{
+				copyButton && (
+					<CopyButton
+						class="ml-auto h-7 w-7"
+						target="[data-copy-source]"
+						ariaLabel="Copy code"
+						ariaLabelEs="Copiar código"
+					/>
+				)
+			}
 		</header>
 
 		<div class={`mono bg-surface-container-lowest p-6 text-sm leading-relaxed text-on-surface ${bodyClass}`}>

@@ -1,0 +1,139 @@
+---
+interface Props {
+	class?: string;
+	copyText?: string;
+	target?: string;
+	ariaLabel?: string;
+	ariaLabelEs?: string;
+	copiedLabel?: string;
+	copiedLabelEs?: string;
+}
+
+const {
+	class: className = '',
+	copyText,
+	target,
+	ariaLabel = 'Copy to clipboard',
+	ariaLabelEs = 'Copiar al portapapeles',
+	copiedLabel = 'Copied!',
+	copiedLabelEs = '¡Copiado!',
+} = Astro.props;
+---
+
+<button
+	type="button"
+	class={`inline-flex h-8 w-8 items-center justify-center border border-outline-variant bg-surface-container-low text-on-surface-variant transition-colors duration-200 hover:border-primary hover:text-primary ${className}`}
+	aria-label={ariaLabel}
+	title={ariaLabel}
+	data-copy-button
+	data-copy-text={copyText}
+	data-copy-target={target}
+	data-copy-label-en={ariaLabel}
+	data-copy-label-es={ariaLabelEs}
+	data-copy-copied-label-en={copiedLabel}
+	data-copy-copied-label-es={copiedLabelEs}
+>
+	<span class="material-symbols-outlined text-base" data-copy-icon aria-hidden="true">content_copy</span>
+</button>
+
+<script is:inline>
+	(function () {
+		if (window.__copyButtonsInitialized) return;
+		window.__copyButtonsInitialized = true;
+
+		function getLang() {
+			return document.documentElement.dataset.lang === 'es' ? 'es' : 'en';
+		}
+
+		function resolveLabel(button, copied) {
+			var lang = getLang();
+			if (copied) {
+				return lang === 'es'
+					? button.dataset.copyCopiedLabelEs || '¡Copiado!'
+					: button.dataset.copyCopiedLabelEn || 'Copied!';
+			}
+			return lang === 'es'
+				? button.dataset.copyLabelEs || 'Copiar al portapapeles'
+				: button.dataset.copyLabelEn || 'Copy to clipboard';
+		}
+
+		function fallbackCopy(text) {
+			var textArea = document.createElement('textarea');
+			textArea.value = text;
+			textArea.setAttribute('readonly', '');
+			textArea.style.position = 'fixed';
+			textArea.style.opacity = '0';
+			document.body.appendChild(textArea);
+			textArea.select();
+			textArea.setSelectionRange(0, textArea.value.length);
+			var success = false;
+			try {
+				success = document.execCommand('copy');
+			} catch (_) {
+				success = false;
+			}
+			document.body.removeChild(textArea);
+			return success;
+		}
+
+		async function copyText(text) {
+			if (!text) return false;
+			if (navigator.clipboard && window.isSecureContext) {
+				try {
+					await navigator.clipboard.writeText(text);
+					return true;
+				} catch (_) {}
+			}
+			return fallbackCopy(text);
+		}
+
+		function getCopyText(button) {
+			if (button.dataset.copyText) return button.dataset.copyText;
+
+			var scope = button.closest('[data-copy-scope]') || document;
+			var target = null;
+			if (button.dataset.copyTarget) {
+				target = scope.querySelector(button.dataset.copyTarget) || document.querySelector(button.dataset.copyTarget);
+			}
+			if (!target) {
+				target = scope.querySelector('[data-copy-source]');
+			}
+			if (!target) return '';
+
+			var raw = target.dataset.copyText || target.innerText || '';
+			return raw.replace(/\u00A0/g, ' ').replace(/\s+$/, '');
+		}
+
+		function showFeedback(button, success) {
+			var icon = button.querySelector('[data-copy-icon]');
+			if (icon) icon.textContent = success ? 'check' : 'error';
+			button.classList.toggle('text-primary', success);
+			button.classList.toggle('text-error', !success);
+			var label = resolveLabel(button, success);
+			button.setAttribute('aria-label', label);
+			button.setAttribute('title', label);
+
+			if (button.__copyFeedbackTimer) {
+				clearTimeout(button.__copyFeedbackTimer);
+			}
+			button.__copyFeedbackTimer = window.setTimeout(function () {
+				if (icon) icon.textContent = 'content_copy';
+				button.classList.remove('text-primary', 'text-error');
+				var defaultLabel = resolveLabel(button, false);
+				button.setAttribute('aria-label', defaultLabel);
+				button.setAttribute('title', defaultLabel);
+			}, 1400);
+		}
+
+		document.addEventListener('click', async function (event) {
+			var target = event.target;
+			if (!target || !(target instanceof Element)) return;
+			var button = target.closest('[data-copy-button]');
+			if (!button) return;
+
+			var text = getCopyText(button);
+			var success = await copyText(text);
+			showFeedback(button, success);
+		});
+	})();
+</script>
