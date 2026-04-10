@@ -1,114 +1,111 @@
 <section id="metrics" data-home-section="stats" class="mx-auto max-w-[1200px] px-6 py-32">
 	<div class="grid grid-cols-1 divide-y divide-outline-variant border border-outline-variant md:grid-cols-2 md:divide-x md:divide-y-0">
 
-		<!-- Left: Efficiency gains -->
+		<!-- Left: Operational signals -->
 		<div class="p-12">
-			<h3 data-animate="fade-up" class="mono mb-8 flex items-center gap-3 text-xl font-bold">
+			<h3 data-animate="fade-up" class="will-animate mono mb-8 flex items-center gap-3 text-xl font-bold">
 				<span class="material-symbols-outlined text-secondary" aria-hidden="true">trending_up</span>
-				<span data-label-en="EFFICIENCY GAINS" data-label-es="GANANCIAS DE EFICIENCIA">EFFICIENCY GAINS</span>
+				<span data-label-en="OPERATIONAL SIGNALS" data-label-es="SEÑALES OPERATIVAS">OPERATIONAL SIGNALS</span>
 			</h3>
-			<div class="space-y-8">
-				<div data-animate="fade-up">
-					<div class="mono mb-2 flex justify-between text-[10px] uppercase">
-						<span data-label-en="Spec-First Rework Reduction" data-label-es="Reducción de Retrabajo Spec-First">Spec-First Rework Reduction</span>
-						<span class="text-secondary">-40%</span>
+			<div class="space-y-5">
+				<div data-animate="fade-up" class="will-animate">
+					<div class="mono mb-2 flex items-center justify-between gap-3 text-xs uppercase tracking-wide">
+						<span data-label-en="Spec-First Workflow" data-label-es="Flujo Spec-First">Spec-First Workflow</span>
+						<span class="border border-secondary/35 bg-secondary/10 px-2.5 py-1 text-xs text-secondary" data-label-en="Enabled" data-label-es="Activo">Enabled</span>
 					</div>
-					<div class="h-1 w-full bg-surface-container-high">
-						<div
-							class="h-full bg-secondary"
-							style="--bar-width: 40%"
-							data-progress-bar
-						></div>
-					</div>
+					<p class="mono text-xs leading-relaxed text-on-surface-variant opacity-80"
+						data-label-en="Flow starts from explicit specs before any generated code."
+						data-label-es="El flujo arranca con specs explícitas antes de generar código.">
+						Flow starts from explicit specs before any generated code.
+					</p>
 				</div>
-				<div data-animate="fade-up">
-					<div class="mono mb-2 flex justify-between text-[10px] uppercase">
-						<span data-label-en="Context Awareness (multi-session)" data-label-es="Consciencia de Contexto (multi-sesión)">Context Awareness (multi-session)</span>
-						<span class="text-primary">98%</span>
+				<div data-animate="fade-up" class="will-animate">
+					<div class="mono mb-2 flex items-center justify-between gap-3 text-xs uppercase tracking-wide">
+						<span data-label-en="Persistent Memory" data-label-es="Memoria Persistente">Persistent Memory</span>
+						<span class="border border-primary/35 bg-primary/10 px-2.5 py-1 text-xs text-primary" data-label-en="Engram" data-label-es="Engram">Engram</span>
 					</div>
-					<div class="h-1 w-full bg-surface-container-high">
-						<div
-							class="h-full bg-primary"
-							style="--bar-width: 98%"
-							data-progress-bar
-						></div>
-					</div>
+					<p class="mono text-xs leading-relaxed text-on-surface-variant opacity-80"
+						data-label-en="Session context persists through Engram when the store is configured."
+						data-label-es="El contexto de sesión persiste con Engram cuando el store está configurado.">
+						Session context persists through Engram when the store is configured.
+					</p>
 				</div>
-				<div data-animate="fade-up">
-					<div class="mono mb-2 flex justify-between text-[10px] uppercase">
-						<span data-label-en="Manual Prompt Engineering Time" data-label-es="Tiempo de Prompt Engineering Manual">Manual Prompt Engineering Time</span>
-						<span class="text-tertiary">-70%</span>
+				<div data-animate="fade-up" class="will-animate">
+					<div class="mono mb-2 flex items-center justify-between gap-3 text-xs uppercase tracking-wide">
+						<span data-label-en="Install Safety" data-label-es="Seguridad de Instalación">Install Safety</span>
+						<span class="border border-tertiary/35 bg-tertiary/10 px-2.5 py-1 text-xs text-tertiary" data-label-en="Dry-run" data-label-es="Dry-run">Dry-run</span>
 					</div>
-					<div class="h-1 w-full bg-surface-container-high">
-						<div
-							class="h-full bg-tertiary"
-							style="--bar-width: 30%"
-							data-progress-bar
-						></div>
-					</div>
+					<p class="mono text-xs leading-relaxed text-on-surface-variant opacity-80"
+						data-label-en="Dry-run mode previews installer actions before any write."
+						data-label-es="El modo dry-run previsualiza acciones del instalador antes de escribir.">
+						Dry-run mode previews installer actions before any write.
+					</p>
 				</div>
-				<div data-animate="fade-up">
-					<div class="mono mb-2 flex justify-between text-[10px] uppercase">
-						<span data-label-en="Zero-to-config Time" data-label-es="Tiempo hasta Configuración">Zero-to-config Time</span>
-						<span class="text-on-surface">&lt; 5 min</span>
+				<div data-animate="fade-up" class="will-animate">
+					<div class="mono mb-2 flex items-center justify-between gap-3 text-xs uppercase tracking-wide">
+						<span data-label-en="Rollback Support" data-label-es="Soporte de Rollback">Rollback Support</span>
+						<span class="border border-outline-variant bg-surface-container-low px-2.5 py-1 text-xs text-on-surface" data-label-en="Backups" data-label-es="Backups">Backups</span>
 					</div>
-					<div class="h-1 w-full bg-surface-container-high">
-						<div
-							class="h-full bg-on-surface"
-							style="--bar-width: 95%"
-							data-progress-bar
-						></div>
-					</div>
+					<p class="mono text-xs leading-relaxed text-on-surface-variant opacity-80"
+						data-label-en="Backup snapshots enable restore when an install needs rollback."
+						data-label-es="Snapshots de backup habilitan restore cuando una instalación requiere rollback.">
+						Backup snapshots enable restore when an install needs rollback.
+					</p>
 				</div>
 			</div>
+			<p class="mono mt-6 text-xs text-on-surface-variant opacity-65"
+				data-label-en="States are descriptive labels (capability flags), not runtime telemetry percentages."
+				data-label-es="Los estados son etiquetas descriptivas (flags de capacidad), no porcentajes de telemetría runtime.">
+				States are descriptive labels (capability flags), not runtime telemetry percentages.
+			</p>
 		</div>
 
-		<!-- Right: Gentle-AI Capability Matrix -->
+		<!-- Right: Gentle-AI matrix -->
 		<div class="bg-surface-container-low p-12">
-			<h3 data-animate="fade-up" class="mono mb-8 flex items-center gap-3 text-xl font-bold">
+			<h3 data-animate="fade-up" class="will-animate mono mb-8 flex items-center gap-3 text-xl font-bold">
 				<span class="material-symbols-outlined text-primary" aria-hidden="true">layers</span>
-				<span data-label-en="GENTLE-AI CAPABILITY TIERS" data-label-es="NIVELES DE CAPACIDADES GENTLE-AI">GENTLE-AI CAPABILITY TIERS</span>
+				<span data-label-en="GENTLE-AI FACT MATRIX" data-label-es="MATRIZ FACTUAL DE GENTLE-AI">GENTLE-AI FACT MATRIX</span>
 			</h3>
-			<ul class="space-y-4" data-animate-stagger>
-				<li class="flex items-center justify-between border-b border-outline-variant pb-4">
+			<ul class="will-animate space-y-4" data-animate-stagger>
+				<li class="group flex items-center justify-between border-b border-outline-variant pb-4 transition-colors duration-200 hover:bg-surface-container-lowest/40">
 					<div class="flex items-start gap-4">
-						<span class="mono font-bold text-primary">Tier 1 · Core Setup</span>
+						<span class="mono text-sm font-bold text-primary" data-label-en="Supported Agents" data-label-es="Agentes compatibles">Supported Agents</span>
 					</div>
-					<span class="mono text-[10px] bg-primary/20 text-primary px-2 py-1">FULL</span>
+					<span class="mono text-[11px] bg-primary/20 px-2 py-1 text-primary ring-1 ring-primary/25">8</span>
 				</li>
-				<li class="flex items-center justify-between border-b border-outline-variant pb-4">
+				<li class="group flex items-center justify-between border-b border-outline-variant pb-4 transition-colors duration-200 hover:bg-surface-container-lowest/40">
 					<div class="flex items-start gap-4">
-						<span class="mono font-bold text-primary">Tier 2 · Team Workflow</span>
+						<span class="mono text-sm font-bold text-primary" data-label-en="Built-in Skills" data-label-es="Habilidades integradas">Built-in Skills</span>
 					</div>
-					<span class="mono text-[10px] bg-primary/20 text-primary px-2 py-1">FULL</span>
+					<span class="mono text-[11px] bg-primary/20 px-2 py-1 text-primary ring-1 ring-primary/25">16</span>
 				</li>
-				<li class="flex items-center justify-between border-b border-outline-variant pb-4">
+				<li class="group flex items-center justify-between border-b border-outline-variant pb-4 transition-colors duration-200 hover:bg-surface-container-lowest/40">
 					<div class="flex items-start gap-4">
-						<span class="mono font-bold text-secondary">Tier 3 · CI Automation</span>
+						<span class="mono text-sm font-bold text-secondary" data-label-en="Install Presets" data-label-es="Presets de instalación">Install Presets</span>
 					</div>
-					<span class="mono text-[10px] bg-secondary/20 text-secondary px-2 py-1">GOOD</span>
+					<span class="mono text-[11px] bg-secondary/20 px-2 py-1 text-secondary ring-1 ring-secondary/25">4</span>
 				</li>
-				<li class="flex items-center justify-between border-b border-outline-variant pb-4">
+				<li class="group flex items-center justify-between border-b border-outline-variant pb-4 transition-colors duration-200 hover:bg-surface-container-lowest/40">
 					<div class="flex items-start gap-4">
-						<span class="mono font-bold text-secondary">Tier 4 · Extension Integrations</span>
+						<span class="mono text-sm font-bold text-secondary" data-label-en="Core Components" data-label-es="Componentes principales">Core Components</span>
 					</div>
-					<span class="mono text-[10px] bg-secondary/20 text-secondary px-2 py-1">GOOD</span>
+					<span class="mono text-[11px] bg-secondary/20 px-2 py-1 text-secondary ring-1 ring-secondary/25">8</span>
 				</li>
-				<li class="flex items-center justify-between border-b border-outline-variant pb-4">
+				<li class="group flex items-center justify-between border-b border-outline-variant pb-4 transition-colors duration-200 hover:bg-surface-container-lowest/40">
 					<div class="flex items-start gap-4">
-						<span class="mono text-on-surface-variant">Tier 5 · Local Runtime Modes</span>
+						<span class="mono text-sm text-on-surface-variant" data-label-en="Default MCP Integrations" data-label-es="Integraciones MCP por defecto">Default MCP Integrations</span>
 					</div>
-					<span class="mono text-[10px] border border-outline-variant px-2 py-1 text-on-surface-variant">PARTIAL</span>
+					<span class="mono text-[11px] border border-outline-variant px-2 py-1 text-on-surface-variant" data-label-en="Context7 + Engram" data-label-es="Context7 + Engram">Context7 + Engram</span>
 				</li>
-				<li class="flex items-center justify-between">
+				<li class="group flex items-center justify-between transition-colors duration-200 hover:bg-surface-container-lowest/40">
 					<div class="flex items-start gap-4">
-						<span class="mono text-on-surface-variant">Tier 6 · Air-Gapped Profiles</span>
+						<span class="mono text-sm text-on-surface-variant" data-label-en="Primary CLI Commands" data-label-es="Comandos principales de CLI">Primary CLI Commands</span>
 					</div>
-					<span class="mono text-[10px] border border-outline-variant px-2 py-1 text-on-surface-variant">MINIMAL</span>
+					<span class="mono text-[11px] border border-outline-variant px-2 py-1 text-on-surface-variant" data-label-en="install · sync · update · upgrade · restore · version" data-label-es="install · sync · update · upgrade · restore · version">install · sync · update · upgrade · restore · version</span>
 				</li>
 			</ul>
-			<p class="mono mt-6 text-[10px] text-on-surface-variant opacity-50">
-				OS: macOS · Ubuntu/Debian · Arch · Fedora · WSL 2 · Termux
+			<p class="mono mt-6 text-[11px] text-on-surface-variant opacity-50" data-label-en="OS: macOS · Ubuntu/Debian · Arch · Fedora/RHEL family · Windows 10/11" data-label-es="OS: macOS · Ubuntu/Debian · Arch · familia Fedora/RHEL · Windows 10/11">
+				OS: macOS · Ubuntu/Debian · Arch · Fedora/RHEL family · Windows 10/11
 			</p>
 		</div>
 	</div>

@@ -1,14 +1,14 @@
 ---
 const resources = [
-	{ label: 'Documentation', href: '/docs' },
-	{ label: 'How It Works', href: '/how-it-works' },
-	{ label: 'Features', href: '/features' },
+	{ label: 'Documentation', labelEs: 'Documentación', href: '/docs' },
+	{ label: 'How It Works', labelEs: 'Cómo funciona', href: '/how-it-works' },
+	{ label: 'Features', labelEs: 'Funciones', href: '/features' },
+	{ label: 'Demo', labelEs: 'Demo', href: '/demo' },
 ];
 
 const community = [
-	{ label: 'Community Guide', href: '/docs' },
-	{ label: 'Contribution Workflow', href: '/how-it-works' },
-	{ label: 'Configuration Center', href: '/configurator' },
+	{ label: 'GitHub', href: 'https://github.com/Gentleman-Programming/gentle-ai' },
+	{ label: 'Discord', href: 'https://discord.gg/gentlemanprogramming' },
 ];
 ---
 
@@ -23,13 +23,13 @@ const community = [
 					</span>
 					<span class="font-['Space_Grotesk'] text-xl font-bold uppercase tracking-tighter text-primary">GENTLE-AI</span>
 				</div>
-				<p class="font-mono text-xs text-on-surface-variant">© 2026 Gentle-AI Platform</p>
+				<p class="font-mono text-xs text-on-surface-variant" data-label-en="© 2026 Gentle-AI Platform" data-label-es="© 2026 Plataforma Gentle-AI">© 2026 Gentle-AI Platform</p>
 				<p class="font-mono text-[10px] uppercase tracking-widest text-on-surface-variant opacity-60"
 					data-label-en="One command. Any agent. Any OS."
 					data-label-es="Un comando. Cualquier agente. Cualquier OS.">
 					One command. Any agent. Any OS.
 				</p>
-				<p class="font-mono text-[10px] text-on-surface-variant opacity-50">Local-first · Portable setup · Issue-First Workflow</p>
+				<p class="font-mono text-[10px] text-on-surface-variant opacity-50" data-label-en="Local-first · Portable setup · Issue-First Workflow" data-label-es="Local-first · Configuración portable · Flujo issue-first">Local-first · Portable setup · Issue-First Workflow</p>
 			</div>
 
 			<!-- Resources -->
@@ -44,6 +44,8 @@ const community = [
 								<a
 									href={link.href}
 									class="font-mono text-xs text-on-surface-variant underline decoration-dotted opacity-80 transition-all duration-200 hover:text-primary hover:opacity-100"
+									data-label-en={link.label}
+									data-label-es={link.labelEs}
 								>
 									{link.label}
 								</a>
@@ -64,6 +66,8 @@ const community = [
 							<li>
 								<a
 									href={link.href}
+									target="_blank"
+									rel="noopener noreferrer"
 									class="font-mono text-xs text-on-surface-variant underline decoration-dotted opacity-80 transition-all duration-200 hover:text-primary hover:opacity-100"
 								>
 									{link.label}
@@ -77,7 +81,7 @@ const community = [
 
 		<!-- Bottom bar -->
 		<div class="flex flex-col items-center justify-between gap-4 border-t border-outline-variant pt-6 md:flex-row">
-			<span class="font-mono text-[10px] uppercase tracking-widest text-on-surface-variant opacity-50">
+			<span class="font-mono text-[10px] uppercase tracking-widest text-on-surface-variant opacity-50" data-label-en="Gentle-AI Platform · Conventional Commits · Issue-First" data-label-es="Plataforma Gentle-AI · Conventional Commits · Issue-First">
 				Gentle-AI Platform · Conventional Commits · Issue-First
 			</span>
 			<div class="flex items-center gap-4">

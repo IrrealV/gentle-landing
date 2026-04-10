@@ -1,34 +1,89 @@
 ---
 interface Props {
 	currentPath?: string;
+	variant?: 'marketing' | 'default' | 'compact' | 'interactive';
 }
 
-const { currentPath = '/' } = Astro.props;
+const { currentPath = '/', variant = 'default' } = Astro.props;
 
 const links = [
 	{ href: '/', labelEn: 'HOME', labelEs: 'INICIO' },
 	{ href: '/features', labelEn: 'FEATURES', labelEs: 'FUNCIONES' },
 	{ href: '/how-it-works', labelEn: 'HOW IT WORKS', labelEs: 'CÓMO FUNCIONA' },
 	{ href: '/docs', labelEn: 'DOCUMENTATION', labelEs: 'DOCUMENTACIÓN' },
+	{ href: '/demo', labelEn: 'DEMO', labelEs: 'DEMO' },
 ];
+
+const variantClasses = {
+	marketing: {
+		header: 'border-secondary/30 bg-gradient-to-r from-surface-container-lowest via-background to-surface-container-lowest shadow-[0_1px_0_rgba(246,193,119,0.20),0_10px_24px_rgba(0,0,0,0.12)]',
+		nav: 'px-6 py-3.5 md:px-8 md:py-4',
+		logo: 'text-xl',
+		desktopLinks: 'gap-1',
+		link: 'px-4 py-1.5 text-xs',
+		rightControls: 'gap-3',
+		lang: 'px-2.5 py-1',
+		mobileMenu: 'mt-4',
+		mobileLink: 'py-3 text-xs',
+	},
+	default: {
+		header: 'border-outline-variant bg-background shadow-[0_1px_0_rgba(255,255,255,0.04)]',
+		nav: 'px-6 py-3.5 md:px-8 md:py-4',
+		logo: 'text-xl',
+		desktopLinks: 'gap-1',
+		link: 'px-4 py-1.5 text-xs',
+		rightControls: 'gap-3',
+		lang: 'px-2.5 py-1',
+		mobileMenu: 'mt-4',
+		mobileLink: 'py-3 text-xs',
+	},
+	compact: {
+		header: 'border-outline-variant/80 bg-surface-container-lowest/95 shadow-[inset_0_-1px_0_rgba(255,255,255,0.04)]',
+		nav: 'px-6 py-3.5 md:px-8 md:py-4',
+		logo: 'text-xl',
+		desktopLinks: 'gap-1',
+		link: 'px-4 py-1.5 text-xs',
+		rightControls: 'gap-3',
+		lang: 'px-2.5 py-1',
+		mobileMenu: 'mt-4',
+		mobileLink: 'py-3 text-xs',
+	},
+	interactive: {
+		header: 'border-primary/25 bg-[#191724]/95 backdrop-blur-sm shadow-[0_0_0_1px_rgba(156,207,216,0.14),0_18px_36px_rgba(0,0,0,0.30)]',
+		nav: 'px-6 py-3.5 md:px-8 md:py-4',
+		logo: 'text-xl',
+		desktopLinks: 'gap-1',
+		link: 'px-4 py-1.5 text-xs',
+		rightControls: 'gap-3',
+		lang: 'px-2.5 py-1',
+		mobileMenu: 'mt-4',
+		mobileLink: 'py-3 text-xs',
+	},
+} as const;
+
+const classes = variantClasses[variant] ?? variantClasses.default;
 ---
 
-<header data-home-section="navbar" class="fixed top-0 z-50 w-full border-b border-outline-variant bg-background">
-	<nav class="flex w-full max-w-full items-center justify-between px-8 py-4">
+<header
+	data-home-section="navbar"
+	data-variant={variant}
+	class:list={['navbar-shell fixed top-0 z-50 w-full border-b', classes.header]}
+>
+	<nav class:list={['navbar-inner flex w-full max-w-full items-center justify-between', classes.nav]}>
 		<!-- Logo -->
-		<a href="/" class="flex items-center gap-2" aria-label="Go to home">
-			<span class="flex h-6 w-6 items-center justify-center border border-outline-variant bg-surface-container-low text-primary" aria-hidden="true">
+		<a href="/" class="navbar-logo flex items-center gap-2" aria-label="Go to home">
+			<span class="navbar-logo-mark flex h-6 w-6 items-center justify-center border border-outline-variant bg-surface-container-low text-primary" aria-hidden="true">
 				<span class="material-symbols-outlined text-sm" style="font-size: 18px;" aria-hidden="true">terminal</span>
 			</span>
-			<span class="font-['Space_Grotesk'] text-xl font-bold uppercase tracking-tighter text-primary">GENTLE-AI</span>
+			<span class:list={["navbar-logo-text font-['Space_Grotesk'] font-bold uppercase tracking-tighter text-primary", classes.logo]}>GENTLE-AI</span>
 		</a>
 
 		<!-- Desktop nav with sliding indicator -->
-		<div class="relative hidden items-center md:flex" id="nav-links-container">
+		<div class:list={['relative hidden items-center md:flex', classes.desktopLinks]} id="nav-links-container">
 			<!-- Sliding pill indicator -->
 			<div
 				id="nav-indicator"
-				class="pointer-events-none absolute bottom-0 left-0 h-[2px] bg-primary"
+				class="navbar-indicator pointer-events-none absolute bottom-0 left-0 h-[2px] bg-primary"
 				style="width: 0; opacity: 0;"
 			></div>
 
@@ -39,7 +94,8 @@ const links = [
 						<a
 							href={link.href}
 							class:list={[
-								'nav-link mono relative px-4 py-1 text-xs font-bold uppercase tracking-widest transition-colors duration-200',
+								'navbar-link nav-link mono relative font-bold uppercase tracking-widest transition-colors duration-200',
+								classes.link,
 								isActive ? 'text-primary' : 'text-on-surface-variant hover:text-secondary',
 							]}
 							data-active={isActive ? 'true' : 'false'}
@@ -55,11 +111,14 @@ const links = [
 		</div>
 
 		<!-- Right controls -->
-		<div class="flex items-center gap-3">
+		<div class:list={['navbar-controls flex items-center', classes.rightControls]}>
 			<!-- Language switcher -->
 			<button
 				id="lang-toggle"
-				class="mono flex cursor-pointer items-center gap-1 border border-outline-variant bg-surface-container-high px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:text-secondary hover:border-secondary"
+				class:list={[
+					'navbar-lang-toggle mono flex cursor-pointer items-center gap-1 border border-outline-variant bg-surface-container-high text-on-surface-variant transition-colors duration-200 hover:border-secondary hover:text-secondary',
+					classes.lang,
+				]}
 				aria-label="Switch language"
 				data-current-lang="en"
 			>
@@ -69,11 +128,11 @@ const links = [
 		</div>
 
 		<!-- Mobile hamburger -->
-		<details class="relative md:hidden">
-			<summary class="list-none cursor-pointer text-on-surface-variant" aria-label="Toggle navigation menu">
+		<details class="navbar-mobile-toggle relative md:hidden">
+			<summary class="navbar-mobile-summary list-none cursor-pointer text-on-surface-variant" aria-label="Toggle navigation menu">
 				<span class="material-symbols-outlined" style="font-size: 24px;" aria-hidden="true">menu</span>
 			</summary>
-			<div id="mobile-nav-menu" class="absolute right-0 top-full mt-4 w-64 border border-outline-variant bg-surface-container-low">
+			<div id="mobile-nav-menu" class:list={['navbar-mobile-menu absolute right-0 top-full w-64 border border-outline-variant bg-surface-container-low', classes.mobileMenu]}>
 				<div class="flex flex-col px-4 py-3">
 					{
 						links.map((link) => {
@@ -82,7 +141,8 @@ const links = [
 								<a
 									href={link.href}
 									class:list={[
-										'mono border-b border-outline-variant/40 py-3 text-xs font-bold uppercase tracking-widest transition-colors last:border-b-0',
+										'navbar-mobile-link mono border-b border-outline-variant/40 font-bold uppercase tracking-widest transition-colors last:border-b-0',
+										classes.mobileLink,
 										isActive ? 'text-primary' : 'text-on-surface-variant hover:text-secondary',
 									]}
 									data-label-en={link.labelEn}
@@ -149,41 +209,56 @@ const links = [
 		if (btn.dataset.langInit) return;
 		btn.dataset.langInit = 'true';
 
-		function applyLang(lang) {
-			btn.dataset.currentLang = lang;
-			label.textContent = lang.toUpperCase();
-			document.documentElement.lang = lang;
-			document.documentElement.dataset.lang = lang;
-			// Plain text translations
-			document.querySelectorAll('[data-label-en][data-label-es]').forEach(function(el) {
-				el.textContent = lang === 'es' ? (el.dataset.labelEs || '') : (el.dataset.labelEn || '');
-			});
-			// Rich HTML translations (for elements with nested markup)
-			document.querySelectorAll('[data-i18n-en][data-i18n-es]').forEach(function(el) {
-				el.innerHTML = lang === 'es' ? (el.dataset.i18nEs || '') : (el.dataset.i18nEn || '');
-			});
-		}
-
-		var stored = localStorage.getItem('gentle-lang') || 'en';
-		applyLang(stored);
+		var current = document.documentElement.dataset.lang === 'es' ? 'es' : 'en';
+		btn.dataset.currentLang = current;
+		label.textContent = current.toUpperCase();
 
 		btn.addEventListener('click', function() {
 			var current = btn.dataset.currentLang || 'en';
 			var next = current === 'en' ? 'es' : 'en';
-			localStorage.setItem('gentle-lang', next);
-			applyLang(next);
+			if (typeof window.__glSetLanguage === 'function') {
+				window.__glSetLanguage(next);
+			} else {
+				try {
+					localStorage.setItem('gentle-lang', next);
+				} catch (_) {}
+				document.documentElement.lang = next;
+				document.documentElement.dataset.lang = next;
+				btn.dataset.currentLang = next;
+				label.textContent = next.toUpperCase();
+			}
+
+			requestAnimationFrame(function() {
+				var container = document.getElementById('nav-links-container');
+				var indicator = document.getElementById('nav-indicator');
+				if (!container || !indicator) return;
+				var links = Array.from(container.querySelectorAll('.nav-link'));
+				var activeLink = links.find(function(l) { return l.dataset.active === 'true'; }) || null;
+				if (!activeLink) return;
+				var containerRect = container.getBoundingClientRect();
+				var elRect = activeLink.getBoundingClientRect();
+				indicator.style.width = elRect.width + 'px';
+				indicator.style.transform = 'translateX(' + (elRect.left - containerRect.left) + 'px)';
+			});
 		});
 	}
 
-	initNavIndicator();
-	initLangSwitcher();
-	document.addEventListener('astro:page-load', function() {
-		// Reset guard so reinit works after navigation
-		var container = document.getElementById('nav-links-container');
+	function rebindLangSwitcher() {
 		var btn = document.getElementById('lang-toggle');
-		if (container) delete container.dataset.navInit;
 		if (btn) delete btn.dataset.langInit;
-		initNavIndicator();
 		initLangSwitcher();
+	}
+
+	// Lang switcher: rebind after Astro swaps to keep handlers alive.
+	rebindLangSwitcher();
+
+	// Nav indicator: re-init on every navigation so the active link is correct
+	initNavIndicator();
+	document.addEventListener('astro:page-load', function() {
+		var container = document.getElementById('nav-links-container');
+		if (container) delete container.dataset.navInit;
+		initNavIndicator();
+		rebindLangSwitcher();
 	});
+
 </script>

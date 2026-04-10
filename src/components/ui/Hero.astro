@@ -4,80 +4,94 @@ interface Props {
 }
 
 const { ctaSecondaryHref } = Astro.props;
+const OFFICIAL_REPO_URL = 'https://github.com/Gentleman-Programming/gentle-ai';
 ---
+
 
 <section data-home-section="hero" class="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-12 px-6 pb-24 pt-12 lg:grid-cols-2">
 	<!-- Left column -->
-	<div data-animate="slide-left">
-		<h1 class="mono mb-4 text-4xl font-extrabold leading-[1.1] tracking-tighter text-primary md:text-6xl">
-			<span data-label-en="ONE COMMAND." data-label-es="UN COMANDO.">ONE COMMAND.</span><br />
-			<span class="text-secondary" data-label-en="ANY AGENT." data-label-es="CUALQUIER AGENTE.">ANY AGENT.</span><br />
-			<span class="text-on-surface-variant font-light" data-label-en="ANY OS." data-label-es="CUALQUIER OS.">ANY OS.</span>
+	<div class="will-animate" data-animate="slide-left">
+		<h1 class="mono mb-4 text-4xl font-extrabold leading-[1.1] tracking-tighter text-on-surface md:text-6xl">
+			<span
+				data-i18n-en="<span class='text-primary whitespace-nowrap'>CONFIGURE</span> <span class='text-secondary whitespace-nowrap'>YOUR AI CODING</span> <span class='text-tertiary whitespace-nowrap'>ECOSYSTEM.</span>"
+				data-i18n-es="<span class='text-primary whitespace-nowrap'>CONFIGURA</span> <span class='text-secondary whitespace-nowrap'>TU ECOSISTEMA</span> <span class='text-tertiary whitespace-nowrap'>DE CODING CON IA.</span>"
+			><span class="text-primary whitespace-nowrap">CONFIGURE</span> <span class="text-secondary whitespace-nowrap">YOUR AI CODING</span> <span class="text-tertiary whitespace-nowrap">ECOSYSTEM.</span></span>
 		</h1>
 
 		<p class="mb-4 max-w-xl text-base leading-relaxed text-on-surface-variant"
-			data-label-en="Gentle-AI is the Gentleman AI Ecosystem Configurator. It takes whatever AI coding agent you use and supercharges it with persistent memory, Spec-Driven Development, curated skills, MCP servers, and a persona that teaches — not just completes."
-			data-label-es="Gentle-AI es el Configurador del Ecosistema Gentleman AI. Toma cualquier agente de IA que uses y lo potencia con memoria persistente, Desarrollo Guiado por Especificaciones, skills curadas, servidores MCP, y una persona que enseña — no solo completa.">
-			Gentle-AI is the <strong class="text-on-surface">Gentleman AI Ecosystem Configurator</strong>. It takes whatever AI coding agent you use and supercharges it with persistent memory, Spec-Driven Development, curated skills, MCP servers, and a persona that teaches — not just completes.
+			data-label-en="gentle-ai is an ecosystem configurator. One command starts a workflow with memory, SDD, skills, persona guidance, and phase-aware model routing where supported."
+			data-label-es="gentle-ai es un configurador de ecosistema. Un solo comando inicia un flujo con memoria persistente, SDD, habilidades curadas, guía de persona y ruteo de modelos por fase donde está disponible.">
+			gentle-ai is an ecosystem configurator. One command starts a workflow with memory, SDD, skills, persona guidance, and phase-aware model routing where supported.
 		</p>
 
 		<p class="mono mb-8 text-xs text-on-surface-variant opacity-70"
-			data-label-en="Supports: Gentle-AI Core · Gentle-AI Team · Generic CLI · IDE Extension · Local Runtime"
-			data-label-es="Compatible: Gentle-AI Core · Gentle-AI Team · CLI Genérica · Extensión IDE · Runtime Local">
-			Supports: Gentle-AI Core · Gentle-AI Team · Generic CLI · IDE Extension · Local Runtime
+			data-label-en="Explore: Ecosystem Configurator · Workflow Docs · Interactive TUI Demo"
+			data-label-es="Explora: Configurador de Ecosistema · Documentación del flujo · Demo TUI interactiva">
+			Explore: Ecosystem Configurator · Workflow Docs · Interactive TUI Demo
 		</p>
 
-		<!-- GitHub stats — inline island (no SSR import) -->
-		<div id="github-stats" class="flex flex-wrap items-center gap-4">
+		<!-- GitHub stats rendered server-side -->
+		<div class="will-animate flex flex-wrap items-center gap-4" data-animate="fade-up">
 			<div class="flex items-center gap-2 border border-outline-variant px-3 py-1.5 transition-colors duration-200 hover:border-primary">
 				<span class="material-symbols-outlined text-secondary" style="font-size: 16px;" aria-hidden="true">star</span>
 				<span class="mono text-xs text-on-surface-variant" id="gh-stars">—</span>
-				<span class="mono text-[10px] uppercase tracking-widest text-on-surface-variant opacity-50">Stars</span>
+				<span class="mono text-[10px] uppercase tracking-widest text-on-surface-variant opacity-50" data-label-en="Stars" data-label-es="Estrellas">Stars</span>
 			</div>
 			<div class="flex items-center gap-2 border border-outline-variant px-3 py-1.5 transition-colors duration-200 hover:border-secondary">
 				<span class="material-symbols-outlined text-tertiary" style="font-size: 16px;" aria-hidden="true">fork_right</span>
 				<span class="mono text-xs text-on-surface-variant" id="gh-forks">—</span>
-				<span class="mono text-[10px] uppercase tracking-widest text-on-surface-variant opacity-50">Forks</span>
+				<span class="mono text-[10px] uppercase tracking-widest text-on-surface-variant opacity-50" data-label-en="Forks" data-label-es="Forks">Forks</span>
 			</div>
 			<div class="flex items-center gap-2 border border-outline-variant px-3 py-1.5 transition-colors duration-200 hover:border-tertiary">
 				<span class="material-symbols-outlined text-primary" style="font-size: 16px;" aria-hidden="true">new_releases</span>
 				<span class="mono text-xs text-on-surface-variant" id="gh-version">—</span>
-				<span class="mono text-[10px] uppercase tracking-widest text-on-surface-variant opacity-50">Latest</span>
+				<span class="mono text-[10px] uppercase tracking-widest text-on-surface-variant opacity-50" data-label-en="Latest" data-label-es="Última">Latest</span>
 			</div>
 		</div>
 
-		<div class="mt-8 flex flex-wrap gap-4">
+		<div class="will-animate mt-8 flex flex-wrap gap-4" data-animate="slide-right">
 			<a
 				href={ctaSecondaryHref}
 				class="mono flex items-center gap-2 border border-outline px-8 py-4 text-sm font-bold uppercase transition-colors duration-200 hover:bg-surface-container-low hover:border-primary"
-				data-label-en="Read Architecture"
-				data-label-es="Leer Arquitectura"
+				data-label-en="Workflow Docs"
+				data-label-es="Documentación del flujo"
 			>
 				<span class="material-symbols-outlined" style="font-size: 18px;" aria-hidden="true">description</span>
-				Read Architecture
+				Workflow Docs
 			</a>
 			<a
-				href="#install"
+				href={OFFICIAL_REPO_URL}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="mono flex items-center gap-2 border border-secondary/50 px-8 py-4 text-sm font-bold uppercase text-on-surface transition-colors duration-200 hover:border-secondary hover:bg-secondary/10"
+				data-label-en="GitHub Repository"
+				data-label-es="Repositorio en GitHub"
+			>
+				<span class="material-symbols-outlined" style="font-size: 18px;" aria-hidden="true">code</span>
+				GitHub Repository
+			</a>
+			<a
+				href="/demo"
 				class="mono flex items-center gap-2 border border-primary-container bg-primary-container px-8 py-4 text-sm font-bold uppercase text-on-primary transition-all duration-200 hover:bg-secondary hover:border-secondary hover:text-background active:scale-95"
-				data-label-en="Get Started"
-				data-label-es="Comenzar"
+				data-label-en="Open TUI Demo"
+				data-label-es="Abrir Demo TUI"
 			>
 				<span class="material-symbols-outlined" style="font-size: 18px;" aria-hidden="true">rocket_launch</span>
-				Get Started
+				Open TUI Demo
 			</a>
 		</div>
 	</div>
 
-	<!-- Terminal mock — matches the real gentle-ai TUI (Bubbletea) -->
-	<div data-animate="slide-right" class="rounded-lg border border-outline-variant bg-surface-container-lowest p-1">
+	<!-- Terminal mock — non-literal teaser of the gentle-ai flow -->
+	<div data-animate="slide-right" class="will-animate rounded-lg border border-outline-variant bg-surface-container-lowest p-1">
 		<div class="overflow-hidden rounded-md border border-outline-variant bg-surface-container-low">
 			<!-- Window chrome -->
 			<div class="flex items-center gap-2 border-b border-outline-variant bg-surface-container-high px-4 py-2">
 				<div class="h-2.5 w-2.5 bg-window-control-red transition-opacity hover:opacity-70"></div>
 				<div class="h-2.5 w-2.5 bg-window-control-amber transition-opacity hover:opacity-70"></div>
 				<div class="h-2.5 w-2.5 bg-window-control-green transition-opacity hover:opacity-70"></div>
-				<span class="mono ml-4 text-[10px] text-on-surface-variant opacity-50">zsh — gentle-ai</span>
-				<span class="mono ml-auto text-[10px] bg-secondary/20 text-secondary px-2 py-0.5">v1.18.3</span>
+				<span class="mono ml-4 text-[10px] text-on-surface-variant opacity-50" data-label-en="zsh — gentle-ai" data-label-es="zsh — gentle-ai">zsh — gentle-ai</span>
+				<span class="mono ml-auto text-[10px] bg-secondary/20 text-secondary px-2 py-0.5" data-label-en="v1.18.3" data-label-es="v1.18.3">v1.18.3</span>
 			</div>
 			<!-- Terminal body -->
 			<div class="mono overflow-x-auto p-5 text-sm leading-relaxed">
@@ -86,25 +100,23 @@ const { ctaSecondaryHref } = Astro.props;
 					<span class="text-tertiary">$</span> gentle-ai
 				</div>
 
-				<!-- Logo / tagline line -->
-				<div class="mb-1 text-primary font-bold">╔══ gentle-ai ══╗</div>
-				<div class="mb-3 text-on-surface-variant opacity-60 text-xs">AI Gentle Stack · v1.18.3</div>
+				<!-- Logo / teaser line -->
+				<div class="mb-1 text-primary font-bold" data-label-en="╔══ gentle-ai ══╗" data-label-es="╔══ gentle-ai ══╗">╔══ gentle-ai ══╗</div>
+				<div class="mb-3 text-on-surface-variant opacity-60 text-xs" data-label-en="Browser teaser · representative workflow states" data-label-es="Vista previa en navegador · estados representativos del flujo">Browser teaser · representative workflow states</div>
 
-				<!-- Menu -->
-				<div class="mb-1 text-secondary font-bold text-xs uppercase tracking-widest">Menu</div>
+				<!-- Teaser flow (non-literal) -->
+				<div class="mb-1 text-secondary font-bold text-xs uppercase tracking-widest" data-label-en="Workflow Preview" data-label-es="Vista previa del flujo">Workflow Preview</div>
 				<div class="mb-0.5 flex items-center gap-2">
 					<span class="text-primary">▸</span>
-					<span class="text-on-surface bg-primary/10 px-1">Start installation</span>
+					<span class="text-on-surface bg-primary/10 px-1" data-label-en="Prompt → Welcome menu → Subscreens" data-label-es="Prompt → Menú de bienvenida → Subpantallas">Prompt → Welcome menu → Subscreens</span>
 				</div>
-				<div class="mb-0.5 text-on-surface-variant opacity-60 pl-4">Upgrade tools (up to date)</div>
-				<div class="mb-0.5 text-on-surface-variant opacity-60 pl-4">Sync configs</div>
-				<div class="mb-0.5 text-on-surface-variant opacity-60 pl-4">Configure models</div>
-				<div class="mb-0.5 text-on-surface-variant opacity-60 pl-4">Create your own Agent</div>
-				<div class="mb-3 text-on-surface-variant opacity-60 pl-4">Quit</div>
+				<div class="mb-0.5 text-on-surface-variant opacity-60 pl-4" data-label-en="Install · Upgrade · Sync · Upgrade+Sync" data-label-es="Instalar · Actualizar · Sincronizar · Actualizar+Sincronizar">Install · Upgrade · Sync · Upgrade+Sync</div>
+				<div class="mb-0.5 text-on-surface-variant opacity-60 pl-4" data-label-en="Models · Agent Builder · Backups" data-label-es="Modelos · Constructor de agente · Backups">Models · Agent Builder · Backups</div>
+				<div class="mb-3 text-on-surface-variant opacity-60 pl-4" data-label-en="Keyboard loop demo · not the native runtime" data-label-es="Demo en bucle con teclado · no es el runtime nativo">Keyboard loop demo · not the native runtime</div>
 
 				<!-- Help bar -->
 				<div class="flex gap-2 border-t border-outline-variant pt-2">
-					<span class="text-on-surface-variant opacity-40 text-xs">j/k: navigate · enter: select · q: quit</span>
+					<span class="text-on-surface-variant opacity-40 text-xs" data-label-en="j/k: navigate · enter: select · q: quit" data-label-es="j/k: navegar · enter: seleccionar · q: salir">j/k: navigate · enter: select · q: quit</span>
 					<span class="animate-pulse text-on-surface ml-auto">|</span>
 				</div>
 			</div>
@@ -115,39 +127,54 @@ const { ctaSecondaryHref } = Astro.props;
 <script is:inline>
 	function fetchGithubStats() {
 		var REPO = 'Gentleman-Programming/gentle-ai';
+		var CACHE_KEY = 'gl-github-stats-v1';
+		var CACHE_TTL_MS = 15 * 60 * 1000;
 		var stars = document.getElementById('gh-stars');
 		var forks = document.getElementById('gh-forks');
 		var version = document.getElementById('gh-version');
 		if (!stars || !forks || !version) return;
 
+		try {
+			var cachedRaw = sessionStorage.getItem(CACHE_KEY);
+			if (cachedRaw) {
+				var cached = JSON.parse(cachedRaw);
+				if (cached && cached.savedAt && cached.data && Date.now() - cached.savedAt < CACHE_TTL_MS) {
+					stars.textContent = cached.data.stars || '—';
+					forks.textContent = cached.data.forks || '—';
+					version.textContent = cached.data.version || 'v0.1.0';
+				}
+			}
+		} catch (_) {}
+
 		Promise.all([
 			fetch('https://api.github.com/repos/' + REPO, { headers: { Accept: 'application/vnd.github.v3+json' } }),
 			fetch('https://api.github.com/repos/' + REPO + '/releases/latest', { headers: { Accept: 'application/vnd.github.v3+json' } })
 		]).then(function(responses) {
+			var next = { stars: stars.textContent || '—', forks: forks.textContent || '—', version: version.textContent || 'v0.1.0' };
 			if (responses[0].ok) {
 				responses[0].json().then(function(repo) {
-					var s = document.getElementById('gh-stars');
-					var f = document.getElementById('gh-forks');
-					if (s) s.textContent = repo.stargazers_count >= 1000
+					next.stars = repo.stargazers_count >= 1000
 						? (repo.stargazers_count / 1000).toFixed(1) + 'k'
 						: String(repo.stargazers_count);
-					if (f) f.textContent = String(repo.forks_count);
+					next.forks = String(repo.forks_count);
+					stars.textContent = next.stars;
+					forks.textContent = next.forks;
+					try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: Date.now(), data: next })); } catch (_) {}
 				});
 			}
 			if (responses[1].ok) {
 				responses[1].json().then(function(release) {
-					var v = document.getElementById('gh-version');
-					if (v) v.textContent = release.tag_name || 'v0.1.0';
+					next.version = release.tag_name || 'v0.1.0';
+					version.textContent = next.version;
+					try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: Date.now(), data: next })); } catch (_) {}
 				});
 			} else {
-				var v = document.getElementById('gh-version');
-				if (v) v.textContent = 'v0.1.0';
+				version.textContent = next.version || 'v0.1.0';
 			}
 		}).catch(function() {
-			['gh-stars', 'gh-forks', 'gh-version'].forEach(function(id) {
-				var el = document.getElementById(id);
-				if (el && el.textContent === '—') el.textContent = '…';
-			});
+			if (stars.textContent === '—') stars.textContent = '…';
+			if (forks.textContent === '—') forks.textContent = '…';
+			if (version.textContent === '—') version.textContent = 'v0.1.0';
 		});
 	}
 

@@ -1,5 +1,4 @@
 ---
-import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import BackgroundEffects from '../components/ui/BackgroundEffects.astro';
 
@@ -19,14 +18,28 @@ const {
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script is:inline>
+			(function() {
+				try {
+					var stored = localStorage.getItem('gentle-lang');
+					var lang = stored === 'es' ? 'es' : 'en';
+					document.documentElement.lang = lang;
+					document.documentElement.dataset.lang = lang;
+				} catch (_) {
+					document.documentElement.lang = 'en';
+					document.documentElement.dataset.lang = 'en';
+				}
+			})();
+		</script>
+		<meta name="theme-color" content="#0B1118" />
 		<link rel="preload" href="/fonts/space-grotesk-700.woff2" as="font" type="font/woff2" crossorigin />
 		<link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin />
 		<link rel="preload" href="/fonts/jetbrains-mono-400.woff2" as="font" type="font/woff2" crossorigin />
 		<link rel="preload" href="/fonts/material-symbols-outlined-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg" />
+		<link rel="shortcut icon" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
-		<ClientRouter />
 		<title>{title}</title>
 	</head>
 	<body class="bg-background font-sans text-on-background antialiased">
@@ -36,42 +49,209 @@ const {
 		</div>
 	</body>
 
-	<script>
-		// Respect prefers-reduced-motion
-		const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	<script is:inline>
+		(function() {
+			if (window.__glI18nBound) return;
+			window.__glI18nBound = true;
 
-		if (!reduced) {
-			const targets = document.querySelectorAll('[data-animate], [data-animate-stagger]');
+			var LANG_KEY = 'gentle-lang';
 
-			const observer = new IntersectionObserver(
-				(entries) => {
-					entries.forEach((entry) => {
-						if (entry.isIntersecting) {
-							entry.target.classList.add('is-visible');
-							// Progress bars inside this element
-							entry.target.querySelectorAll('[data-progress-bar]').forEach((bar) => {
-								bar.classList.add('is-visible');
-							});
-							observer.unobserve(entry.target);
-						}
+			function sanitizeLang(value) {
+				return value === 'es' ? 'es' : 'en';
+			}
+
+			function getStoredLang() {
+				try {
+					return sanitizeLang(localStorage.getItem(LANG_KEY));
+				} catch (_) {
+					return 'en';
+				}
+			}
+
+			function applyLanguage(lang) {
+				var nextLang = sanitizeLang(lang);
+				document.documentElement.lang = nextLang;
+				document.documentElement.dataset.lang = nextLang;
+
+				document.querySelectorAll('[data-label-en][data-label-es]').forEach(function(el) {
+					var nextText = nextLang === 'es' ? (el.dataset.labelEs || '') : (el.dataset.labelEn || '');
+					if (el.children.length === 0) {
+						el.textContent = nextText;
+						return;
+					}
+
+					var textNodes = Array.from(el.childNodes).filter(function(node) {
+						return node.nodeType === Node.TEXT_NODE && (node.textContent || '').trim().length > 0;
 					});
-				},
-				{ rootMargin: '0px 0px -60px 0px', threshold: 0.1 }
-			);
 
-			targets.forEach((el) => observer.observe(el));
+					if (textNodes.length > 0) {
+						textNodes[0].textContent = ' ' + nextText;
+						for (var i = 1; i < textNodes.length; i += 1) {
+							textNodes[i].textContent = '';
+						}
+						return;
+					}
 
-			// Re-run after Astro view transitions
-			document.addEventListener('astro:page-load', () => {
-				const fresh = document.querySelectorAll('[data-animate]:not(.is-visible), [data-animate-stagger]:not(.is-visible)');
-				fresh.forEach((el) => observer.observe(el));
-			});
-		} else {
-			// Reduced motion: show everything immediately
+					el.appendChild(document.createTextNode(' ' + nextText));
+				});
+
+				document.querySelectorAll('[data-i18n-en][data-i18n-es]').forEach(function(el) {
+					el.innerHTML = nextLang === 'es' ? (el.dataset.i18nEs || '') : (el.dataset.i18nEn || '');
+				});
+
+				var btn = document.getElementById('lang-toggle');
+				var label = document.getElementById('lang-label');
+				if (btn) btn.dataset.currentLang = nextLang;
+				if (label) label.textContent = nextLang.toUpperCase();
+
+				document.dispatchEvent(new CustomEvent('gl:lang-change', { detail: { lang: nextLang } }));
+			}
+
+			function setLanguage(lang) {
+				var nextLang = sanitizeLang(lang);
+				try {
+					localStorage.setItem(LANG_KEY, nextLang);
+				} catch (_) {}
+				applyLanguage(nextLang);
+			}
+
+			function initLanguage() {
+				applyLanguage(getStoredLang());
+			}
+
+			window.__glApplyLanguage = applyLanguage;
+			window.__glSetLanguage = setLanguage;
+
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', initLanguage, { once: true });
+			} else {
+				initLanguage();
+			}
+
+			document.addEventListener('astro:page-load', initLanguage);
+		})();
+	</script>
+
+	<script>
+		// NOTE: ClientRouter is intentionally omitted in this project.
+		// We keep direct init() calls so full-page navigations remain deterministic,
+		// while Astro lifecycle listeners stay as harmless no-ops unless ClientRouter
+		// is re-enabled in a dedicated change.
+		const VISITED_ROUTES_KEY = 'gl-visited-routes-v1';
+		const INIT_ROUTE_MARKER = 'data-gl-animations-init-route';
+		let observer;
+		let armFrame;
+
+		const revealElement = (el) => {
+			el.classList.add('is-visible');
+			el.querySelectorAll('[data-progress-bar]').forEach((bar) => bar.classList.add('is-visible'));
+		};
+
+		const revealAll = () => {
 			document.querySelectorAll('[data-animate], [data-animate-stagger]').forEach((el) => {
-				el.classList.add('is-visible');
-				el.querySelectorAll('[data-progress-bar]').forEach((bar) => bar.classList.add('is-visible'));
+				el.classList.remove('will-animate');
+				revealElement(el);
 			});
+		};
+
+		const getVisitedRoutes = () => {
+			try {
+				return JSON.parse(sessionStorage.getItem(VISITED_ROUTES_KEY) || '[]');
+			} catch {
+				return [];
+			}
+		};
+
+		const setVisitedRoute = (route) => {
+			const visited = new Set(getVisitedRoutes());
+			visited.add(route);
+			sessionStorage.setItem(VISITED_ROUTES_KEY, JSON.stringify([...visited]));
+		};
+
+		const isInViewport = (el) => {
+			const rect = el.getBoundingClientRect();
+			return rect.top < window.innerHeight - 60 && rect.bottom > 0;
+		};
+
+		const cleanup = () => {
+			if (armFrame) {
+				cancelAnimationFrame(armFrame);
+				armFrame = undefined;
+			}
+
+			if (observer) {
+				observer.disconnect();
+				observer = undefined;
+			}
+		};
+
+		const resetAnimatedState = (elements) => {
+			elements.forEach((el) => {
+				el.classList.remove('is-visible');
+				el.querySelectorAll('[data-progress-bar]').forEach((bar) => bar.classList.remove('is-visible'));
+			});
+		};
+
+		const initAnimations = () => {
+			cleanup();
+
+			const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			if (reduced) {
+				revealAll();
+				return;
+			}
+
+			const currentRoute = `${location.pathname}${location.search}`;
+			if (document.documentElement.getAttribute(INIT_ROUTE_MARKER) === currentRoute) {
+				return;
+			}
+
+			document.documentElement.setAttribute(INIT_ROUTE_MARKER, currentRoute);
+
+			const routeWasVisited = getVisitedRoutes().includes(currentRoute);
+			const shouldReplayAnimations = !routeWasVisited || location.pathname === '/';
+			const animatedElements = [...document.querySelectorAll('[data-animate], [data-animate-stagger]')];
+
+			if (!shouldReplayAnimations) {
+				revealAll();
+				return;
+			}
+
+			setVisitedRoute(currentRoute);
+			resetAnimatedState(animatedElements);
+
+			armFrame = requestAnimationFrame(() => {
+				armFrame = undefined;
+
+				observer = new IntersectionObserver(
+					(entries) => {
+						entries.forEach((entry) => {
+							if (!entry.isIntersecting) return;
+							revealElement(entry.target);
+							observer?.unobserve(entry.target);
+						});
+					},
+					{ rootMargin: '0px 0px -60px 0px', threshold: 0.1 }
+				);
+
+				animatedElements.forEach((el) => {
+					el.classList.add('will-animate');
+					if (isInViewport(el)) {
+						revealElement(el);
+						return;
+					}
+					observer?.observe(el);
+				});
+			});
+		};
+
+		if (!window.__glAnimationsLifecycleBound) {
+			window.__glAnimationsLifecycleBound = true;
+			document.addEventListener('astro:before-swap', cleanup);
+			document.addEventListener('astro:page-unload', cleanup);
+			document.addEventListener('astro:page-load', initAnimations);
 		}
+
+		initAnimations();
 	</script>
 </html>
