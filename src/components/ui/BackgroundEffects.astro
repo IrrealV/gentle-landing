@@ -15,8 +15,10 @@
 
 		var DESKTOP_COLS = 26;
 		var DESKTOP_ROWS = 16;
-		var MOBILE_COLS = 16;
-		var MOBILE_ROWS = 10;
+		var MOBILE_COLS = 12;
+		var MOBILE_ROWS = 7;
+		var MOBILE_RESIZE_WIDTH_TOLERANCE = 24;
+		var MOBILE_RESIZE_HEIGHT_TOLERANCE = 80;
 		var state =
 			window.__glBgCanvasState ||
 			(window.__glBgCanvasState = {
@@ -24,6 +26,8 @@
 				cols: DESKTOP_COLS,
 				rows: DESKTOP_ROWS,
 				isMobileStatic: false,
+				lastCanvasWidth: 0,
+				lastCanvasHeight: 0,
 				mouseX: -9999,
 				mouseY: -9999,
 				drawLoopRunning: false,
@@ -101,7 +105,8 @@
 						oy = (dy / dist) * force;
 					}
 				}
-				var breath = Math.sin(t * 0.0004 * d.speed + d.phase) * 2.2;
+				var breathAmp = state.isMobileStatic ? 1.4 : 2.2;
+				var breath = Math.sin(t * 0.0004 * d.speed + d.phase) * breathAmp;
 				d.x = d.baseX + ox;
 				d.y = d.baseY + oy + breath;
 			}
@@ -118,7 +123,7 @@
 						var elen = Math.sqrt(edx * edx + edy * edy);
 						var eBase = canvas.width / (cols - 1);
 						var stretch = Math.abs(elen - eBase) / eBase;
-						var alpha = Math.max(0, 0.3 - stretch * 0.35) * 0.4;
+						var alpha = Math.max(0, 0.3 - stretch * 0.35) * (state.isMobileStatic ? 0.3 : 0.4);
 						ctx.beginPath();
 						ctx.moveTo(a.x, a.y);
 						ctx.lineTo(nb.x, nb.y);
@@ -132,7 +137,7 @@
 						var elen2 = Math.sqrt(edx2 * edx2 + edy2 * edy2);
 						var eBase2 = canvas.height / (rows - 1);
 						var stretch2 = Math.abs(elen2 - eBase2) / eBase2;
-						var alpha2 = Math.max(0, 0.3 - stretch2 * 0.35) * 0.4;
+						var alpha2 = Math.max(0, 0.3 - stretch2 * 0.35) * (state.isMobileStatic ? 0.3 : 0.4);
 						ctx.beginPath();
 						ctx.moveTo(a.x, a.y);
 						ctx.lineTo(nd.x, nd.y);
@@ -166,8 +171,20 @@
 			var canvas = document.getElementById('bg-canvas');
 			if (!canvas) return;
 			updateProfile();
-			canvas.width = window.innerWidth;
-			canvas.height = window.innerHeight;
+			var nextWidth = window.innerWidth;
+			var nextHeight = window.innerHeight;
+			if (
+				state.isMobileStatic &&
+				state.lastCanvasWidth > 0 &&
+				Math.abs(nextWidth - state.lastCanvasWidth) <= MOBILE_RESIZE_WIDTH_TOLERANCE &&
+				Math.abs(nextHeight - state.lastCanvasHeight) <= MOBILE_RESIZE_HEIGHT_TOLERANCE
+			) {
+				return;
+			}
+			canvas.width = nextWidth;
+			canvas.height = nextHeight;
+			state.lastCanvasWidth = nextWidth;
+			state.lastCanvasHeight = nextHeight;
 			buildGrid(canvas);
 			if (state.isMobileStatic) {
 				state.mouseX = -9999;
