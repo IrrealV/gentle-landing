@@ -848,3 +848,42 @@ body::before {
 .docs-section.exiting-prev {
   animation: docs-exit-to-right 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+
+@media (max-width: 1023px) {
+  [data-page-animation="docs"],
+  #docs-content,
+  #docs-scroll,
+  .docs-sections-stage,
+  .docs-sections-stage > .docs-section {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  [data-page-animation="docs"] {
+    overflow-x: hidden;
+  }
+
+  #docs-scroll pre {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .docs-sections-stage {
+    display: block;
+    min-height: auto;
+  }
+
+  .docs-sections-stage > .docs-section {
+    grid-area: auto;
+    min-height: 0;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+    animation: none;
+  }
+
+  .docs-sections-stage > .docs-section + .docs-section {
+    margin-top: 4rem;
+  }
+}

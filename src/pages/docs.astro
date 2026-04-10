@@ -24,21 +24,21 @@ const OFFICIAL_README_URL = 'https://github.com/Gentleman-Programming/gentle-ai/
 	<!-- Navigation Arrows (Root-level fixed position to escape CSS transform containment bug) -->
 	<button
 		id="docs-prev"
-		class="fixed left-4 lg:left-[calc(16rem+2rem)] top-1/2 z-[100] -translate-y-1/2 flex h-12 w-12 items-center justify-center border border-outline-variant bg-surface-container-lowest/80 text-on-surface-variant transition-all duration-200 hover:border-primary hover:text-primary backdrop-blur-sm disabled:opacity-20 disabled:cursor-not-allowed"
+		class="fixed left-4 lg:left-[calc(16rem+2rem)] top-1/2 z-[100] -translate-y-1/2 hidden h-12 w-12 items-center justify-center border border-outline-variant bg-surface-container-lowest/80 text-on-surface-variant transition-all duration-200 hover:border-primary hover:text-primary backdrop-blur-sm disabled:opacity-20 disabled:cursor-not-allowed lg:flex"
 		aria-label="Previous section"
 	>
 		<span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
 	</button>
 	<button
 		id="docs-next"
-		class="fixed right-4 lg:right-8 top-1/2 z-[100] -translate-y-1/2 flex h-12 w-12 items-center justify-center border border-outline-variant bg-surface-container-lowest/80 text-on-surface-variant transition-all duration-200 hover:border-primary hover:text-primary backdrop-blur-sm disabled:opacity-20 disabled:cursor-not-allowed"
+		class="fixed right-4 lg:right-8 top-1/2 z-[100] -translate-y-1/2 hidden h-12 w-12 items-center justify-center border border-outline-variant bg-surface-container-lowest/80 text-on-surface-variant transition-all duration-200 hover:border-primary hover:text-primary backdrop-blur-sm disabled:opacity-20 disabled:cursor-not-allowed lg:flex"
 		aria-label="Next section"
 	>
 		<span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
 	</button>
 
 	<div data-page-animation="docs" class="flex min-h-screen flex-col bg-background pt-16">
-		<div class="flex flex-1 overflow-hidden" style="height: calc(100vh - 64px);">
+		<div class="flex flex-1 min-w-0 lg:h-[calc(100vh-64px)] lg:overflow-hidden">
 
 			<!-- Sidebar -->
 			<aside id="docs-sidebar" class="hidden w-64 flex-shrink-0 overflow-y-auto border-r border-outline-variant bg-surface-container-lowest lg:block">
@@ -72,18 +72,18 @@ const OFFICIAL_README_URL = 'https://github.com/Gentleman-Programming/gentle-ai/
 			</aside>
 
 			<!-- Main content area -->
-			<div class="flex flex-1 flex-col overflow-hidden min-h-0">
+			<div class="flex flex-1 min-w-0 flex-col lg:overflow-hidden lg:min-h-0">
 
 				<!-- Content + nav arrows -->
-				<div class="relative flex flex-1 overflow-hidden min-h-0">
+				<div class="relative flex flex-1 min-w-0 lg:overflow-hidden lg:min-h-0">
 
 					<!-- Arrows moved to root level above -->
 
 					<!-- Section content -->
-					<main id="docs-content" class="flex-1 overflow-hidden min-h-0"><div id="docs-scroll" class="h-full overflow-y-auto px-16 py-12 lg:px-24" style="position:relative;">
+					<main id="docs-content" class="min-w-0 flex-1 lg:overflow-hidden lg:min-h-0"><div id="docs-scroll" class="max-w-full px-5 py-8 sm:px-8 lg:h-full lg:overflow-y-auto lg:px-24 lg:py-12" style="position:relative;">
 
 						<!-- Progress bar -->
-						<div class="mb-8 flex items-center gap-3">
+						<div class="mb-8 hidden items-center gap-3 lg:flex">
 							<div id="docs-progress-bar" class="flex gap-1.5">
 								{sections.map((_, i) => (
 									<div class="docs-progress-dot h-1.5 w-6 bg-outline-variant transition-all duration-300" data-dot={i}></div>
@@ -368,7 +368,7 @@ scoop install <span class="text-primary">gentle-ai</span>
 				</div>
 
 				<!-- Bottom breadcrumb / section label -->
-				<div class="border-t border-outline-variant bg-background px-6 py-3 flex items-center justify-between">
+				<div class="hidden border-t border-outline-variant bg-background px-6 py-3 items-center justify-between lg:flex">
 					<span id="docs-section-label" class="font-mono text-[10px] uppercase tracking-widest text-on-surface-variant">System Manual</span>
 					<a
 						href="/features"
