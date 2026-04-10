@@ -1,4 +1,6 @@
 ---
+import CopyButton from './CopyButton.astro';
+
 interface Props {
 	ctaSecondaryHref: `/${string}` | `#${string}`;
 }
@@ -8,9 +10,9 @@ const OFFICIAL_REPO_URL = 'https://github.com/Gentleman-Programming/gentle-ai';
 ---
 
 
-<section data-home-section="hero" class="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-12 px-6 pb-24 pt-12 lg:grid-cols-2">
+<section data-home-section="hero" class="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-12 px-6 pb-24 pt-12 lg:grid-cols-12 lg:items-start lg:gap-10">
 	<!-- Left column -->
-	<div class="will-animate" data-animate="slide-left">
+	<div class="will-animate lg:col-span-5 lg:col-start-1" data-animate="slide-left">
 		<h1 class="mono mb-4 text-4xl font-extrabold leading-[1.1] tracking-tighter text-on-surface md:text-6xl">
 			<span
 				data-i18n-en="<span class='text-primary whitespace-nowrap'>CONFIGURE</span> <span class='text-secondary whitespace-nowrap'>YOUR AI CODING</span> <span class='text-tertiary whitespace-nowrap'>ECOSYSTEM.</span>"
@@ -49,7 +51,7 @@ const OFFICIAL_REPO_URL = 'https://github.com/Gentleman-Programming/gentle-ai';
 			</div>
 		</div>
 
-		<div class="will-animate mt-8 flex flex-wrap gap-4" data-animate="slide-right">
+		<div class="mt-8 flex flex-wrap gap-4">
 			<a
 				href={ctaSecondaryHref}
 				class="mono flex items-center gap-2 border border-outline px-8 py-4 text-sm font-bold uppercase transition-colors duration-200 hover:bg-surface-container-low hover:border-primary"
@@ -82,42 +84,122 @@ const OFFICIAL_REPO_URL = 'https://github.com/Gentleman-Programming/gentle-ai';
 		</div>
 	</div>
 
-	<!-- Terminal mock — non-literal teaser of the gentle-ai flow -->
-	<div data-animate="slide-right" class="will-animate rounded-lg border border-outline-variant bg-surface-container-lowest p-1">
-		<div class="overflow-hidden rounded-md border border-outline-variant bg-surface-container-low">
-			<!-- Window chrome -->
-			<div class="flex items-center gap-2 border-b border-outline-variant bg-surface-container-high px-4 py-2">
-				<div class="h-2.5 w-2.5 bg-window-control-red transition-opacity hover:opacity-70"></div>
-				<div class="h-2.5 w-2.5 bg-window-control-amber transition-opacity hover:opacity-70"></div>
-				<div class="h-2.5 w-2.5 bg-window-control-green transition-opacity hover:opacity-70"></div>
-				<span class="mono ml-4 text-[10px] text-on-surface-variant opacity-50" data-label-en="zsh — gentle-ai" data-label-es="zsh — gentle-ai">zsh — gentle-ai</span>
-				<span class="mono ml-auto text-[10px] bg-secondary/20 text-secondary px-2 py-0.5" data-label-en="v1.18.3" data-label-es="v1.18.3">v1.18.3</span>
-			</div>
-			<!-- Terminal body -->
-			<div class="mono overflow-x-auto p-5 text-sm leading-relaxed">
-				<!-- run command -->
-				<div class="mb-3 text-on-surface-variant">
-					<span class="text-tertiary">$</span> gentle-ai
+	<!-- Right column: platform install window -->
+	<div data-animate="slide-right" class="will-animate w-full lg:col-span-7 lg:col-start-6 lg:justify-self-end lg:max-w-[740px] xl:max-w-[780px]">
+		<div class="rounded-xl border border-primary/40 bg-surface-container-lowest p-1.5 shadow-[0_0_0_1px_rgba(245,245,245,0.06)]" data-hero-install-tabs data-copy-scope>
+			<div class="overflow-hidden rounded-md border border-outline-variant bg-surface-container-low">
+				<div class="flex flex-wrap items-center gap-2 border-b border-outline-variant bg-surface-container-high px-5 py-3">
+					<span class="mono text-[11px] uppercase tracking-widest text-primary" data-label-en="Install gentle-ai" data-label-es="Instalar gentle-ai">Install gentle-ai</span>
+					<span class="mono ml-auto bg-primary/15 px-2.5 py-1 text-[11px] text-primary" data-label-en="Platform-specific commands" data-label-es="Comandos por plataforma">Platform-specific commands</span>
 				</div>
 
-				<!-- Logo / teaser line -->
-				<div class="mb-1 text-primary font-bold" data-label-en="╔══ gentle-ai ══╗" data-label-es="╔══ gentle-ai ══╗">╔══ gentle-ai ══╗</div>
-				<div class="mb-3 text-on-surface-variant opacity-60 text-xs" data-label-en="Browser teaser · representative workflow states" data-label-es="Vista previa en navegador · estados representativos del flujo">Browser teaser · representative workflow states</div>
-
-				<!-- Teaser flow (non-literal) -->
-				<div class="mb-1 text-secondary font-bold text-xs uppercase tracking-widest" data-label-en="Workflow Preview" data-label-es="Vista previa del flujo">Workflow Preview</div>
-				<div class="mb-0.5 flex items-center gap-2">
-					<span class="text-primary">▸</span>
-					<span class="text-on-surface bg-primary/10 px-1" data-label-en="Prompt → Welcome menu → Subscreens" data-label-es="Prompt → Menú de bienvenida → Subpantallas">Prompt → Welcome menu → Subscreens</span>
+				<div class="border-b border-outline-variant bg-surface-container-lowest px-4 py-3" role="tablist" aria-label="Installation methods" data-aria-label-en="Installation methods" data-aria-label-es="Métodos de instalación">
+					<div class="flex flex-wrap gap-2">
+						<button
+							type="button"
+							class="mono border border-primary/50 bg-primary/10 px-3.5 py-2 text-[11px] uppercase tracking-wider text-primary transition-colors"
+							role="tab"
+							aria-selected="true"
+							aria-controls="hero-install-panel-brew"
+							id="hero-install-tab-brew"
+							data-install-tab="brew"
+							data-label-en="macOS / Linux (brew)"
+							data-label-es="macOS / Linux (brew)"
+							tabindex="0"
+						>
+							macOS / Linux (brew)
+						</button>
+						<button
+							type="button"
+							class="mono border border-outline-variant px-3.5 py-2 text-[11px] uppercase tracking-wider text-on-surface-variant transition-colors hover:border-primary hover:text-primary"
+							role="tab"
+							aria-selected="false"
+							aria-controls="hero-install-panel-go"
+							id="hero-install-tab-go"
+							data-install-tab="go"
+							data-label-en="Any OS (go install)"
+							data-label-es="Cualquier SO (go install)"
+							tabindex="-1"
+						>
+							Any OS (go install)
+						</button>
+						<button
+							type="button"
+							class="mono border border-outline-variant px-3.5 py-2 text-[11px] uppercase tracking-wider text-on-surface-variant transition-colors hover:border-primary hover:text-primary"
+							role="tab"
+							aria-selected="false"
+							aria-controls="hero-install-panel-scoop"
+							id="hero-install-tab-scoop"
+							data-install-tab="scoop"
+							data-label-en="Windows (scoop)"
+							data-label-es="Windows (scoop)"
+							tabindex="-1"
+						>
+							Windows (scoop)
+						</button>
+					</div>
 				</div>
-				<div class="mb-0.5 text-on-surface-variant opacity-60 pl-4" data-label-en="Install · Upgrade · Sync · Upgrade+Sync" data-label-es="Instalar · Actualizar · Sincronizar · Actualizar+Sincronizar">Install · Upgrade · Sync · Upgrade+Sync</div>
-				<div class="mb-0.5 text-on-surface-variant opacity-60 pl-4" data-label-en="Models · Agent Builder · Backups" data-label-es="Modelos · Constructor de agente · Backups">Models · Agent Builder · Backups</div>
-				<div class="mb-3 text-on-surface-variant opacity-60 pl-4" data-label-en="Keyboard loop demo · not the native runtime" data-label-es="Demo en bucle con teclado · no es el runtime nativo">Keyboard loop demo · not the native runtime</div>
 
-				<!-- Help bar -->
-				<div class="flex gap-2 border-t border-outline-variant pt-2">
-					<span class="text-on-surface-variant opacity-40 text-xs" data-label-en="j/k: navigate · enter: select · q: quit" data-label-es="j/k: navegar · enter: seleccionar · q: salir">j/k: navigate · enter: select · q: quit</span>
-					<span class="animate-pulse text-on-surface ml-auto">|</span>
+				<div class="relative min-h-[260px] bg-surface-container-lowest p-6 mono text-sm leading-loose text-on-surface-variant">
+					<CopyButton
+						class="absolute right-6 top-5 h-8 w-8"
+						target="[data-install-panel][aria-hidden='false']"
+						ariaLabel="Copy installation commands"
+						ariaLabelEs="Copiar comandos de instalación"
+					/>
+
+					<div
+						id="hero-install-panel-brew"
+						role="tabpanel"
+						aria-labelledby="hero-install-tab-brew"
+						aria-hidden="false"
+						class="block pt-10"
+						data-install-panel="brew"
+						data-copy-text="brew tap Gentleman-Programming/homebrew-tap
+brew install gentle-ai
+gentle-ai"
+					>
+						<pre class="text-[14px] md:text-[15px]">brew tap <span class="text-primary">Gentleman-Programming/homebrew-tap</span>
+brew install <span class="text-primary">gentle-ai</span>
+<span class="text-secondary">gentle-ai</span></pre>
+					</div>
+
+					<div
+						id="hero-install-panel-go"
+						role="tabpanel"
+						aria-labelledby="hero-install-tab-go"
+						aria-hidden="true"
+						class="hidden pt-10"
+						data-install-panel="go"
+						data-copy-text="go install github.com/gentleman-programming/gentle-ai/cmd/gentle-ai@latest
+gentle-ai"
+					>
+						<pre class="text-[14px] md:text-[15px]">go install <span class="text-primary">github.com/gentleman-programming/gentle-ai/cmd/gentle-ai@latest</span>
+<span class="text-secondary">gentle-ai</span></pre>
+					</div>
+
+					<div
+						id="hero-install-panel-scoop"
+						role="tabpanel"
+						aria-labelledby="hero-install-tab-scoop"
+						aria-hidden="true"
+						class="hidden pt-10"
+						data-install-panel="scoop"
+						data-copy-text="scoop bucket add gentleman https://github.com/Gentleman-Programming/scoop-bucket
+scoop install gentle-ai
+gentle-ai"
+					>
+						<pre class="text-[14px] md:text-[15px]">scoop bucket add <span class="text-primary">gentleman</span> https://github.com/Gentleman-Programming/scoop-bucket
+scoop install <span class="text-primary">gentle-ai</span>
+<span class="text-secondary">gentle-ai</span></pre>
+					</div>
+
+					<a href="#install" class="mt-5 inline-flex items-center gap-2 border border-outline px-3.5 py-2.5 text-[11px] uppercase tracking-wide transition-colors duration-200 hover:border-primary hover:bg-surface-container-low"
+						data-label-en="View full install matrix"
+						data-label-es="Ver matriz completa de instalación">
+						<span class="material-symbols-outlined" style="font-size: 16px;" aria-hidden="true">terminal</span>
+						View full install matrix
+					</a>
 				</div>
 			</div>
 		</div>
@@ -125,6 +207,107 @@ const OFFICIAL_REPO_URL = 'https://github.com/Gentleman-Programming/gentle-ai';
 </section>
 
 <script is:inline>
+	function initHeroInstallTabs() {
+		const detectInstallTab = () => {
+			if (typeof navigator === 'undefined') return 'go';
+
+			const sources = [];
+			if (navigator.userAgentData && typeof navigator.userAgentData.platform === 'string') {
+				sources.push(navigator.userAgentData.platform);
+			}
+			if (typeof navigator.platform === 'string') {
+				sources.push(navigator.platform);
+			}
+			if (typeof navigator.userAgent === 'string') {
+				sources.push(navigator.userAgent);
+			}
+
+			const fingerprint = sources.join(' ').toLowerCase();
+			if (!fingerprint) return 'go';
+
+			if (fingerprint.includes('win')) return 'scoop';
+			if (
+				fingerprint.includes('mac') ||
+				fingerprint.includes('darwin') ||
+				fingerprint.includes('linux') ||
+				fingerprint.includes('x11')
+			) {
+				return 'brew';
+			}
+
+			return 'go';
+		};
+
+		const groups = Array.from(document.querySelectorAll('[data-hero-install-tabs]'));
+
+		groups.forEach((group) => {
+			if (group.dataset.heroInstallTabsInit) return;
+			group.dataset.heroInstallTabsInit = 'true';
+
+			const tabs = Array.from(group.querySelectorAll('[data-install-tab]'));
+			const panels = Array.from(group.querySelectorAll('[data-install-panel]'));
+
+			const activate = (tabId) => {
+				tabs.forEach((tab) => {
+					const isActive = tab.dataset.installTab === tabId;
+					tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+					tab.setAttribute('tabindex', isActive ? '0' : '-1');
+					tab.classList.toggle('border-primary/50', isActive);
+					tab.classList.toggle('bg-primary/10', isActive);
+					tab.classList.toggle('text-primary', isActive);
+					tab.classList.toggle('border-outline-variant', !isActive);
+					tab.classList.toggle('text-on-surface-variant', !isActive);
+				});
+
+				panels.forEach((panel) => {
+					const isActive = panel.dataset.installPanel === tabId;
+					panel.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+					panel.classList.toggle('block', isActive);
+					panel.classList.toggle('hidden', !isActive);
+				});
+			};
+
+			const activateByIndex = (index) => {
+				const target = tabs[index];
+				if (!target?.dataset.installTab) return;
+				activate(target.dataset.installTab);
+				target.focus();
+			};
+
+			const autoSelectedTab = detectInstallTab();
+			activate(tabs.some((tab) => tab.dataset.installTab === autoSelectedTab) ? autoSelectedTab : 'go');
+
+			tabs.forEach((tab) => {
+				tab.addEventListener('click', () => {
+					if (tab.dataset.installTab) activate(tab.dataset.installTab);
+				});
+
+				tab.addEventListener('keydown', (event) => {
+					const index = tabs.indexOf(tab);
+					if (event.key === 'ArrowRight') {
+						event.preventDefault();
+						activateByIndex((index + 1) % tabs.length);
+					}
+					if (event.key === 'ArrowLeft') {
+						event.preventDefault();
+						activateByIndex((index - 1 + tabs.length) % tabs.length);
+					}
+					if (event.key === 'Home') {
+						event.preventDefault();
+						activateByIndex(0);
+					}
+					if (event.key === 'End') {
+						event.preventDefault();
+						activateByIndex(tabs.length - 1);
+					}
+				});
+			});
+		});
+	}
+
+	initHeroInstallTabs();
+	document.addEventListener('astro:page-load', initHeroInstallTabs);
+
 	function fetchGithubStats() {
 		var REPO = 'Gentleman-Programming/gentle-ai';
 		var CACHE_KEY = 'gl-github-stats-v1';
