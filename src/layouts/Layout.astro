@@ -73,6 +73,11 @@ const {
 				document.documentElement.lang = nextLang;
 				document.documentElement.dataset.lang = nextLang;
 
+				document.querySelectorAll('[data-aria-label-en][data-aria-label-es]').forEach(function(el) {
+					var ariaLabel = nextLang === 'es' ? (el.dataset.ariaLabelEs || '') : (el.dataset.ariaLabelEn || '');
+					if (ariaLabel) el.setAttribute('aria-label', ariaLabel);
+				});
+
 				document.querySelectorAll('[data-label-en][data-label-es]').forEach(function(el) {
 					var nextText = nextLang === 'es' ? (el.dataset.labelEs || '') : (el.dataset.labelEn || '');
 					if (el.children.length === 0) {

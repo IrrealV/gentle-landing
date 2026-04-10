@@ -64,7 +64,13 @@ const {
 ---
 
 <div class={`overflow-hidden radius-brutal border-hairline bg-surface-container-low ${className}`} data-code-tabs data-copy-scope>
-	<div class="flex border-b-hairline" role="tablist" aria-label={ariaLabel} data-label-en={ariaLabel} data-label-es={ariaLabelEs}>
+	<div
+		class="flex border-b-hairline"
+		role="tablist"
+		aria-label={ariaLabel}
+		data-aria-label-en={ariaLabel}
+		data-aria-label-es={ariaLabelEs}
+	>
 		{
 			tabs.map((tab, index) => (
 				<button
