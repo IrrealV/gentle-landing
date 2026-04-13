@@ -19,6 +19,7 @@ This repo powers the public landing pages for the GENTLE-AI project:
 - responsive docs and demo layouts for mobile/desktop
 - a lightweight interactive background mesh
 - localized copy with English/Spanish support
+- a project-only `.engram/` snapshot export of project decisions and context
 
 ## Stack
 
@@ -47,3 +48,4 @@ npm run preview
 - Keep public copy factual and synced with `../gentle-ai`.
 - The demo is a browser reconstruction of the real terminal flow, not the native runtime.
 - Prefer small, localized changes to preserve performance, fidelity, and responsive behavior.
+- `.engram/` only contains gentle-landing memories and project context, not the live Engram backend.
